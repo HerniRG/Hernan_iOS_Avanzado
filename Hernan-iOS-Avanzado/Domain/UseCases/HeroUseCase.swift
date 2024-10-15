@@ -47,9 +47,6 @@ class HeroUseCase: HeroUseCaseProtocol {
                     let heroes = apiHeroes.map { Hero(apiHero: $0) }
                     // Devolvemos los héroes mapeados en el closure de éxito
                     completion(.success(heroes))
-                    
-                    
-                    
                 case .failure(let error):
                     // Si la API falla, devolvemos el error en el closure de fallo
                     completion(.failure(error))

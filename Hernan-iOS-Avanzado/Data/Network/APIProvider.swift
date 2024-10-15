@@ -7,6 +7,12 @@
 
 import Foundation
 
+protocol ApiProviderProtocol {
+    func loadHeros(name: String, completion: @escaping ((Result<[ApiHero], GAError>) -> Void))
+    func loadLocations(id: String, completion: @escaping ((Result<[ApiLocation], GAError>) -> Void))
+    func loadTransformations(id: String, completion: @escaping ((Result<[ApiTransformation], GAError>) -> Void))
+}
+
 /// Clase encargada de hacer las llamadas a la Api
 class ApiProvider {
     // Sesión de red

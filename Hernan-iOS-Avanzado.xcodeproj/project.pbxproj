@@ -235,12 +235,28 @@
 		66547E142CBEA78A0084C792 /* Splash And Login */ = {
 			isa = PBXGroup;
 			children = (
+				66547E1A2CBED1960084C792 /* Splash */,
+				66547E192CBED1840084C792 /* Login */,
+			);
+			path = "Splash And Login";
+			sourceTree = "<group>";
+		};
+		66547E192CBED1840084C792 /* Login */ = {
+			isa = PBXGroup;
+			children = (
 				66547DC42CBEA00F0084C792 /* LoginViewController.swift */,
 				66547DC52CBEA00F0084C792 /* LoginViewController.xib */,
+			);
+			path = Login;
+			sourceTree = "<group>";
+		};
+		66547E1A2CBED1960084C792 /* Splash */ = {
+			isa = PBXGroup;
+			children = (
 				66547DC62CBEA00F0084C792 /* SplashViewController.swift */,
 				66547DC72CBEA00F0084C792 /* SplashViewController.xib */,
 			);
-			path = "Splash And Login";
+			path = Splash;
 			sourceTree = "<group>";
 		};
 		66D7A6E72CB9849400EAD8C8 = {
