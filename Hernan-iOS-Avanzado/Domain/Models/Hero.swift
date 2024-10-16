@@ -9,10 +9,11 @@ import Foundation
 
 ///Modelo de Domain Hero
 ///ES el que se usará en la capa de presentación
-struct Hero {
+struct Hero: Hashable {
     
     let id: String
     let name: String
+    let info: String
     let photo: String
     let favorite: Bool
     
@@ -21,6 +22,7 @@ struct Hero {
     init(moHero: MOHero) {
         self.id = moHero.id ?? ""
         self.name = moHero.name ?? ""
+        self.info = moHero.info ?? ""
         self.photo = moHero.photo ?? ""
         self.favorite = moHero.favorite
     }
@@ -29,6 +31,7 @@ struct Hero {
     init(apiHero: ApiHero) {
         self.id = apiHero.id ?? ""
         self.name = apiHero.name ?? ""
+        self.info = apiHero.description ?? ""
         self.photo = apiHero.photo ?? ""
         self.favorite = apiHero.favorite ?? false
     }

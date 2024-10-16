@@ -14,7 +14,7 @@ protocol ApiProviderProtocol {
 }
 
 /// Clase encargada de hacer las llamadas a la Api
-class ApiProvider {
+class ApiProvider: ApiProviderProtocol {
     // Sesión de red
     private let session: URLSession
     private let requestBuilder: GARequestBuilder

@@ -48,7 +48,13 @@ class SplashViewController: UIViewController {
     }
     
     private func navigateToLogin() {
-        let loginViewController = LoginViewController()
-        navigationController?.pushViewController(loginViewController, animated: true)
+        if SecureDataStore.shared.getToken() != nil {
+            let heroesViewController = HeroesViewController()
+            navigationController?.pushViewController(heroesViewController, animated: true)
+        } else {
+            let loginViewController = LoginViewController()
+            navigationController?.pushViewController(loginViewController, animated: true)
+        }
+        
     }
 }

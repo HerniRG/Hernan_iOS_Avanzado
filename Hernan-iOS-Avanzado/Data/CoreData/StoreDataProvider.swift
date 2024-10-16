@@ -7,12 +7,18 @@
 
 import CoreData
 
+enum TypePersistency {
+    case disk
+    case inMemory
+}
+
 /// Stack de Core Data
 class StoreDataProvider {
     
     static var shared: StoreDataProvider = .init()
     
     private let persistentContainer: NSPersistentContainer
+    private let persistency: TypePersistency
     
     /// MAnagedObjectContex, indicamos el tipo de merge policy deseado
     /// para los objetos con la misma clave (Constraint añadidas en Model Editor
@@ -22,8 +28,13 @@ class StoreDataProvider {
         return viewContext
     }
     
-    init() {
+    init(persistency: TypePersistency = .disk) {
+        self.persistency = persistency
         self.persistentContainer = NSPersistentContainer(name: "Model")
+        if self.persistency == .inMemory {
+            let persintentStore = persistentContainer.persistentStoreDescriptions.first
+            persintentStore?.url = URL(filePath: "/dev/null")
+        }
         self.persistentContainer.loadPersistentStores { _, error in
             if let error {
                 fatalError("Error loading BBDD \(error.localizedDescription)")
@@ -53,26 +64,30 @@ extension StoreDataProvider {
             let newHero = MOHero(context: context)
             newHero.id = hero.id
             newHero.name = hero.name
+            newHero.info = hero.description
             newHero.favorite = hero.favorite ?? false
             newHero.photo = hero.photo
         }
         save()
     }
     
+    
     ///Obtiene los heroes que podemos filtrar usando el filter
-    func fetchHeroes(filter: NSPredicate?) -> [MOHero] {
+    func fetchHeroes(filter: NSPredicate?, sortAscending: Bool = true) -> [MOHero] {
         let request = MOHero.fetchRequest()
-        request.predicate = filter
+        if let filter {
+            request.predicate = filter
+        }
+        let sortDescriptor = NSSortDescriptor(keyPath: \MOHero.name, ascending: sortAscending)
+        request.sortDescriptors = [sortDescriptor]
         
         do {
-            return try context.fetch(request)
+            let heroes = try context.fetch(request)
+            return heroes
         } catch {
             debugPrint("Error loading heroes \(error.localizedDescription)")
             return []
         }
-        // Si estuviéramos interesados solo en el número de registro
-        // usar el método count de context es mucho más efectivo.
-      //  try? context.count(for: request)
     }
     
     ///Inserta MOLocation a partir de un array de ApiLocation
@@ -107,6 +122,23 @@ extension StoreDataProvider {
                 let predicate = NSPredicate(format: "id == %@", heroId)
                 let hero = fetchHeroes(filter: predicate).first
                 newTransformation.hero = hero
+            }
+        }
+    }
+    
+    func clearBBDD() {
+        let batchDeleteHeroes = NSBatchDeleteRequest(fetchRequest: MOHero.fetchRequest())
+        let batchDeleteTransformations = NSBatchDeleteRequest(fetchRequest: MOTransformation.fetchRequest())
+        let batchDeleteLocations = NSBatchDeleteRequest(fetchRequest: MOLocation.fetchRequest())
+        
+        let batchDeleteRequests: [NSBatchDeleteRequest] = [batchDeleteHeroes, batchDeleteTransformations, batchDeleteLocations]
+        
+        for request in batchDeleteRequests {
+            do {
+                try context.execute(request)
+                context.reset()
+            } catch {
+                debugPrint("Error clearing BBDD \(error.localizedDescription)")
             }
         }
     }

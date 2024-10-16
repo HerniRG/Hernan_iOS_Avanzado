@@ -18,25 +18,27 @@
             <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
-                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Login" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="png-uO-vJ0">
-                    <rect key="frame" x="175.66666666666666" y="415.66666666666669" width="42" height="21"/>
-                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                    <nil key="textColor"/>
-                    <nil key="highlightedColor"/>
-                </label>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="gHY-rK-jHN">
+                    <rect key="frame" x="134" y="408.66666666666669" width="125" height="35"/>
+                    <state key="normal" title="Button"/>
+                    <buttonConfiguration key="configuration" style="filled" title="Go to Heroes"/>
+                    <connections>
+                        <action selector="goToHeroesTapped:" destination="-1" eventType="touchUpInside" id="NnX-MD-8TD"/>
+                    </connections>
+                </button>
             </subviews>
             <viewLayoutGuide key="safeArea" id="fnl-2z-Ty3"/>
-            <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+            <color key="backgroundColor" systemColor="systemIndigoColor"/>
             <constraints>
-                <constraint firstItem="png-uO-vJ0" firstAttribute="centerX" secondItem="i5M-Pr-FkT" secondAttribute="centerX" id="37U-m9-C4x"/>
-                <constraint firstItem="png-uO-vJ0" firstAttribute="centerY" secondItem="i5M-Pr-FkT" secondAttribute="centerY" id="nOQ-XC-2uv"/>
+                <constraint firstItem="gHY-rK-jHN" firstAttribute="centerX" secondItem="i5M-Pr-FkT" secondAttribute="centerX" id="rLE-vh-Gek"/>
+                <constraint firstItem="gHY-rK-jHN" firstAttribute="centerY" secondItem="i5M-Pr-FkT" secondAttribute="centerY" id="vEX-cJ-hHi"/>
             </constraints>
             <point key="canvasLocation" x="74" y="-11"/>
         </view>
     </objects>
     <resources>
-        <systemColor name="systemBackgroundColor">
-            <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+        <systemColor name="systemIndigoColor">
+            <color red="0.34509803919999998" green="0.33725490200000002" blue="0.83921568629999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>
     </resources>
 </document>

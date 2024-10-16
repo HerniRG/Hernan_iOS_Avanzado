@@ -7,6 +7,11 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		66509D512CBFA17B009134FF /* HeroesViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66509D502CBFA16F009134FF /* HeroesViewModel.swift */; };
+		66509D532CBFA3EF009134FF /* GAObservable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66509D522CBFA3E5009134FF /* GAObservable.swift */; };
+		66509D562CBFAF84009134FF /* HeroCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 66509D552CBFAF84009134FF /* HeroCollectionViewCell.xib */; };
+		66509D572CBFAF84009134FF /* HeroCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66509D542CBFAF84009134FF /* HeroCollectionViewCell.swift */; };
+		66509D5A2CBFDBBE009134FF /* SecureDataStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66509D592CBFDBB7009134FF /* SecureDataStore.swift */; };
 		66547DCB2CBEA00F0084C792 /* Model.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 66547DA32CBEA00F0084C792 /* Model.xcdatamodeld */; };
 		66547DDC2CBEA00F0084C792 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66547DBD2CBEA00F0084C792 /* AppDelegate.swift */; };
 		66547DDD2CBEA00F0084C792 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66547DC02CBEA00F0084C792 /* SceneDelegate.swift */; };
@@ -16,13 +21,9 @@
 		66547DE32CBEA00F0084C792 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 66547DC32CBEA00F0084C792 /* LaunchScreen.storyboard */; };
 		66547DE42CBEA00F0084C792 /* LoginViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 66547DC52CBEA00F0084C792 /* LoginViewController.xib */; };
 		66547DE52CBEA00F0084C792 /* SplashViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 66547DC72CBEA00F0084C792 /* SplashViewController.xib */; };
-		66547DEE2CBEA3040084C792 /* MOLocation+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66547DE82CBEA3040084C792 /* MOLocation+CoreDataClass.swift */; };
-		66547DEF2CBEA3040084C792 /* MOTransformation+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66547DEA2CBEA3040084C792 /* MOTransformation+CoreDataClass.swift */; };
-		66547DF12CBEA3040084C792 /* MOHero+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66547DE62CBEA3040084C792 /* MOHero+CoreDataClass.swift */; };
 		66547DF22CBEA3040084C792 /* MOHero+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66547DE62CBEA3040084C792 /* MOHero+CoreDataClass.swift */; };
 		66547DF42CBEA3040084C792 /* MOLocation+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66547DE82CBEA3040084C792 /* MOLocation+CoreDataClass.swift */; };
 		66547DF62CBEA3040084C792 /* MOTransformation+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66547DEA2CBEA3040084C792 /* MOTransformation+CoreDataClass.swift */; };
-		66547DF92CBEA3F00084C792 /* StoreDataProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66547DF82CBEA3E90084C792 /* StoreDataProvider.swift */; };
 		66547DFA2CBEA3F00084C792 /* StoreDataProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66547DF82CBEA3E90084C792 /* StoreDataProvider.swift */; };
 		66547E002CBEA45D0084C792 /* APIHero.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66547DFF2CBEA4540084C792 /* APIHero.swift */; };
 		66547E022CBEA4670084C792 /* APILocation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66547E012CBEA4610084C792 /* APILocation.swift */; };
@@ -35,6 +36,7 @@
 		66547E122CBEA7620084C792 /* HeroUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66547E112CBEA75E0084C792 /* HeroUseCase.swift */; };
 		66547E172CBEA7E30084C792 /* HeroesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66547E152CBEA7E30084C792 /* HeroesViewController.swift */; };
 		66547E182CBEA7E30084C792 /* HeroesViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 66547E162CBEA7E30084C792 /* HeroesViewController.xib */; };
+		668041752CBF09D90099338E /* KeychainSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 668041742CBF09D90099338E /* KeychainSwift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -55,6 +57,12 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		66509D502CBFA16F009134FF /* HeroesViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HeroesViewModel.swift; sourceTree = "<group>"; };
+		66509D522CBFA3E5009134FF /* GAObservable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GAObservable.swift; sourceTree = "<group>"; };
+		66509D542CBFAF84009134FF /* HeroCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HeroCollectionViewCell.swift; sourceTree = "<group>"; };
+		66509D552CBFAF84009134FF /* HeroCollectionViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = HeroCollectionViewCell.xib; sourceTree = "<group>"; };
+		66509D582CBFC8DA009134FF /* Model 2.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "Model 2.xcdatamodel"; sourceTree = "<group>"; };
+		66509D592CBFDBB7009134FF /* SecureDataStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SecureDataStore.swift; sourceTree = "<group>"; };
 		66547DBD2CBEA00F0084C792 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		66547DBE2CBEA00F0084C792 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		66547DBF2CBEA00F0084C792 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -103,6 +111,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				668041752CBF09D90099338E /* KeychainSwift in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -138,6 +147,7 @@
 		66547DB02CBEA00F0084C792 /* Data */ = {
 			isa = PBXGroup;
 			children = (
+				66509D592CBFDBB7009134FF /* SecureDataStore.swift */,
 				66547DFD2CBEA4300084C792 /* APIModel */,
 				66547DA42CBEA00F0084C792 /* CoreData */,
 				66547DFE2CBEA4370084C792 /* Network */,
@@ -173,6 +183,7 @@
 		66547DBC2CBEA00F0084C792 /* Presentation */ = {
 			isa = PBXGroup;
 			children = (
+				66509D522CBFA3E5009134FF /* GAObservable.swift */,
 				66547E142CBEA78A0084C792 /* Splash And Login */,
 				66547E132CBEA7810084C792 /* Heroes */,
 			);
@@ -226,8 +237,11 @@
 		66547E132CBEA7810084C792 /* Heroes */ = {
 			isa = PBXGroup;
 			children = (
+				66509D502CBFA16F009134FF /* HeroesViewModel.swift */,
 				66547E152CBEA7E30084C792 /* HeroesViewController.swift */,
 				66547E162CBEA7E30084C792 /* HeroesViewController.xib */,
+				66509D542CBFAF84009134FF /* HeroCollectionViewCell.swift */,
+				66509D552CBFAF84009134FF /* HeroCollectionViewCell.xib */,
 			);
 			path = Heroes;
 			sourceTree = "<group>";
@@ -296,6 +310,7 @@
 			);
 			name = "Hernan-iOS-Avanzado";
 			packageProductDependencies = (
+				668041742CBF09D90099338E /* KeychainSwift */,
 			);
 			productName = "Hernan-iOS-Avanzado";
 			productReference = 66D7A6F02CB9849400EAD8C8 /* Hernan-iOS-Avanzado.app */;
@@ -379,6 +394,9 @@
 			);
 			mainGroup = 66D7A6E72CB9849400EAD8C8;
 			minimizedProjectReferenceProxies = 1;
+			packageReferences = (
+				668041732CBF09D90099338E /* XCRemoteSwiftPackageReference "keychain-swift" */,
+			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = 66D7A6F12CB9849400EAD8C8 /* Products */;
 			projectDirPath = "";
@@ -400,6 +418,7 @@
 				66547DE32CBEA00F0084C792 /* LaunchScreen.storyboard in Resources */,
 				66547DE42CBEA00F0084C792 /* LoginViewController.xib in Resources */,
 				66547E182CBEA7E30084C792 /* HeroesViewController.xib in Resources */,
+				66509D562CBFAF84009134FF /* HeroCollectionViewCell.xib in Resources */,
 				66547DE52CBEA00F0084C792 /* SplashViewController.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -434,7 +453,11 @@
 				66547E172CBEA7E30084C792 /* HeroesViewController.swift in Sources */,
 				66547E082CBEA4CC0084C792 /* APIProvider.swift in Sources */,
 				66547E0C2CBEA5200084C792 /* GAError.swift in Sources */,
+				66509D5A2CBFDBBE009134FF /* SecureDataStore.swift in Sources */,
+				66509D532CBFA3EF009134FF /* GAObservable.swift in Sources */,
 				66547DDC2CBEA00F0084C792 /* AppDelegate.swift in Sources */,
+				66509D512CBFA17B009134FF /* HeroesViewModel.swift in Sources */,
+				66509D572CBFAF84009134FF /* HeroCollectionViewCell.swift in Sources */,
 				66547E0A2CBEA5150084C792 /* GAEndpoint.swift in Sources */,
 				66547E042CBEA4720084C792 /* APITransformation.swift in Sources */,
 				66547DDD2CBEA00F0084C792 /* SceneDelegate.swift in Sources */,
@@ -451,10 +474,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				66547DF92CBEA3F00084C792 /* StoreDataProvider.swift in Sources */,
-				66547DEE2CBEA3040084C792 /* MOLocation+CoreDataClass.swift in Sources */,
-				66547DEF2CBEA3040084C792 /* MOTransformation+CoreDataClass.swift in Sources */,
-				66547DF12CBEA3040084C792 /* MOHero+CoreDataClass.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -780,13 +799,33 @@
 		};
 /* End XCConfigurationList section */
 
+/* Begin XCRemoteSwiftPackageReference section */
+		668041732CBF09D90099338E /* XCRemoteSwiftPackageReference "keychain-swift" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/evgenyneu/keychain-swift";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 24.0.0;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		668041742CBF09D90099338E /* KeychainSwift */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 668041732CBF09D90099338E /* XCRemoteSwiftPackageReference "keychain-swift" */;
+			productName = KeychainSwift;
+		};
+/* End XCSwiftPackageProductDependency section */
+
 /* Begin XCVersionGroup section */
 		66547DA32CBEA00F0084C792 /* Model.xcdatamodeld */ = {
 			isa = XCVersionGroup;
 			children = (
+				66509D582CBFC8DA009134FF /* Model 2.xcdatamodel */,
 				66547DCA2CBEA00F0084C792 /* Model.xcdatamodel */,
 			);
-			currentVersion = 66547DCA2CBEA00F0084C792 /* Model.xcdatamodel */;
+			currentVersion = 66509D582CBFC8DA009134FF /* Model 2.xcdatamodel */;
 			path = Model.xcdatamodeld;
 			sourceTree = "<group>";
 			versionGroupType = wrapper.xcdatamodel;

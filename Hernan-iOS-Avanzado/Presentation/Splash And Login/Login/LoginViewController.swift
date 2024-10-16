@@ -9,28 +9,14 @@ import UIKit
 
 class LoginViewController: UIViewController {
     
-    private var heroUseCase: HeroUseCase?
+    private let token = "eyJraWQiOiJwcml2YXRlIiwiYWxnIjoiSFMyNTYiLCJ0eXAiOiJKV1QifQ.eyJpZGVudGlmeSI6IjdBQjhBQzRELUFEOEYtNEFDRS1BQTQ1LTIxRTg0QUU4QkJFNyIsImVtYWlsIjoiYmVqbEBrZWVwY29kaW5nLmVzIiwiZXhwaXJhdGlvbiI6NjQwOTIyMTEyMDB9.Dxxy91hTVz3RTF7w1YVTJ7O9g71odRcqgD00gspm30s"
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        // Inicializamos el caso de uso antes de usarlo
-        heroUseCase = HeroUseCase()
-        
-        // Cargamos los héroes y manejamos el resultado
-        heroUseCase?.loadHeros(filter: nil, completion: { result in
-            switch result {
-            case .success(let heroes):
-                // Imprimimos los héroes para verificar que llegan bien
-                print("Héroes cargados con éxito:")
-                heroes.forEach { hero in
-                    print("Hero: \(hero.name), Favorito: \(hero.favorite)")
-                }
-                
-            case .failure(let error):
-                // Si hay un error, lo mostramos
-                print("Error al cargar héroes: \(error)")
-            }
-        })
+    }
+    @IBAction func goToHeroesTapped(_ sender: Any) {
+        SecureDataStore.shared.setToken(token)
+        let heroesViewController = HeroesViewController()
+        navigationController?.pushViewController(heroesViewController, animated: true)
     }
 }
