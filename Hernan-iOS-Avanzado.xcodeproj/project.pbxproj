@@ -39,7 +39,6 @@
 		66547E122CBEA7620084C792 /* HeroUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66547E112CBEA75E0084C792 /* HeroUseCase.swift */; };
 		66547E172CBEA7E30084C792 /* HeroesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66547E152CBEA7E30084C792 /* HeroesViewController.swift */; };
 		66547E182CBEA7E30084C792 /* HeroesViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 66547E162CBEA7E30084C792 /* HeroesViewController.xib */; };
-		667073402CC10CE600982A5D /* APILogin.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6670733F2CC10CE100982A5D /* APILogin.swift */; };
 		667073422CC10F2A00982A5D /* LoginUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 667073412CC10F2300982A5D /* LoginUseCase.swift */; };
 		667073442CC1112300982A5D /* LoginViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 667073432CC1111700982A5D /* LoginViewModel.swift */; };
 		668041752CBF09D90099338E /* KeychainSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 668041742CBF09D90099338E /* KeychainSwift */; };
@@ -97,7 +96,6 @@
 		66547E112CBEA75E0084C792 /* HeroUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HeroUseCase.swift; sourceTree = "<group>"; };
 		66547E152CBEA7E30084C792 /* HeroesViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HeroesViewController.swift; sourceTree = "<group>"; };
 		66547E162CBEA7E30084C792 /* HeroesViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = HeroesViewController.xib; sourceTree = "<group>"; };
-		6670733F2CC10CE100982A5D /* APILogin.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APILogin.swift; sourceTree = "<group>"; };
 		667073412CC10F2300982A5D /* LoginUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginUseCase.swift; sourceTree = "<group>"; };
 		667073432CC1111700982A5D /* LoginViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewModel.swift; sourceTree = "<group>"; };
 		66D7A6F02CB9849400EAD8C8 /* Hernan-iOS-Avanzado.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Hernan-iOS-Avanzado.app"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -240,7 +238,6 @@
 		66547DFD2CBEA4300084C792 /* APIModel */ = {
 			isa = PBXGroup;
 			children = (
-				6670733F2CC10CE100982A5D /* APILogin.swift */,
 				66547E032CBEA46D0084C792 /* APITransformation.swift */,
 				66547E012CBEA4610084C792 /* APILocation.swift */,
 				66547DFF2CBEA4540084C792 /* APIHero.swift */,
@@ -494,7 +491,6 @@
 				66547DDC2CBEA00F0084C792 /* AppDelegate.swift in Sources */,
 				66509D512CBFA17B009134FF /* HeroesViewModel.swift in Sources */,
 				66509D572CBFAF84009134FF /* HeroCollectionViewCell.swift in Sources */,
-				667073402CC10CE600982A5D /* APILogin.swift in Sources */,
 				66547E0A2CBEA5150084C792 /* GAEndpoint.swift in Sources */,
 				66547E042CBEA4720084C792 /* APITransformation.swift in Sources */,
 				66547DDD2CBEA00F0084C792 /* SceneDelegate.swift in Sources */,

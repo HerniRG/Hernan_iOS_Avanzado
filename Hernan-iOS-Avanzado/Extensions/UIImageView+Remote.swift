@@ -9,6 +9,9 @@ import UIKit
 
 extension UIImageView {
     func setImage(from urlString: String) {
+        // Placeholder de imagen por defecto
+        self.image = UIImage(systemName: "photo")
+
         // Intentar convertir el string en URL
         guard let url = URL(string: urlString) else {
             print("URL inválida: \(urlString)")
@@ -28,7 +31,6 @@ extension UIImageView {
         url: URL,
         completion: @escaping (UIImage?) -> Void
     ) {
-        // No manejamos errores para simplificar el ejercicio
         URLSession.shared.dataTask(with: url) { data, _, _ in
             guard let data, let image = UIImage(data: data) else {
                 // Si no se puede desempaquetar la data o la imagen

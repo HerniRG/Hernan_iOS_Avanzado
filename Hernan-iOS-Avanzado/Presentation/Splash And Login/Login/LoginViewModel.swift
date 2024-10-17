@@ -27,12 +27,12 @@ class LoginViewModel {
     func login(username: String, password: String) {
         // Validamos si el usuario o la contraseña están vacíos
         guard !username.isEmpty else {
-            statusLogin.value = .error(msg: "El campo de email está vacío.")
+            statusLogin.value = .error(msg: "El email está vacío.")
             return
         }
         
         guard !password.isEmpty else {
-            statusLogin.value = .error(msg: "El campo de contraseña está vacío.")
+            statusLogin.value = .error(msg: "La contraseña está vacía.")
             return
         }
         
@@ -43,9 +43,9 @@ class LoginViewModel {
             switch result {
             case .success:
                 self?.statusLogin.value = .success
-            case .failure(let error):
+            case .failure:
                 // Si hay un error en el login, mostramos un mensaje de error
-                self?.statusLogin.value = .error(msg: "Error al iniciar sesión: \(error.localizedDescription)")
+                self?.statusLogin.value = .error(msg: "Fallo al iniciar sesión")
             }
         }
     }

@@ -5,13 +5,6 @@
 //  Created by Hernán Rodríguez on 15/10/24.
 //
 
-//
-//  LoginViewController.swift
-//  Hernan-iOS-Avanzado
-//
-//  Created by Hernán Rodríguez on 15/10/24.
-//
-
 import UIKit
 
 class LoginViewController: UIViewController {
@@ -38,12 +31,19 @@ class LoginViewController: UIViewController {
     private func configureUI() {
         setupLoginContainerView()
         activityIndicator.isHidden = true
+        
+        // Configuración de los UITextFields
+        usernameTextField.backgroundColor = .secondarySystemBackground
+        usernameTextField.textColor = .label
+        passwordTextField.backgroundColor = .secondarySystemBackground
+        passwordTextField.textColor = .label
     }
     
     private func setupLoginContainerView() {
         loginContainerView.layer.cornerRadius = 10
         loginContainerView.layer.borderWidth = 0.5
-        loginContainerView.layer.borderColor = UIColor.lightGray.cgColor
+        loginContainerView.layer.borderColor = UIColor.systemGray.cgColor
+        loginContainerView.backgroundColor = .secondarySystemBackground
     }
     
     // MARK: - Keyboard Handling
@@ -103,10 +103,10 @@ class LoginViewController: UIViewController {
         }
     }
     
-    // MARK: - Navegate to HeroesViewController
+    // MARK: - Navigate to HeroesViewController
     private func navigateToHeroesViewController() {
-        let heroesViewController = HeroesViewController() // Instancia de HeroesViewController
-        self.navigationController?.pushViewController(heroesViewController, animated: true) // Navegar con UINavigationController
+        let heroesViewController = HeroesViewController()
+        self.navigationController?.pushViewController(heroesViewController, animated: true)
     }
     
     // MARK: - UI Handling

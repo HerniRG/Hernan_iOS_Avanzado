@@ -11,7 +11,7 @@ protocol ApiProviderProtocol {
     func loadHeros(name: String, completion: @escaping ((Result<[ApiHero], GAError>) -> Void))
     func loadLocations(id: String, completion: @escaping ((Result<[ApiLocation], GAError>) -> Void))
     func loadTransformations(id: String, completion: @escaping ((Result<[ApiTransformation], GAError>) -> Void))
-    func login(username: String, password: String, completion: @escaping ((Result<ApiLogin, GAError>) -> Void))
+    func login(username: String, password: String, completion: @escaping ((Result<String, GAError>) -> Void))
 }
 
 class ApiProvider: ApiProviderProtocol {
@@ -47,9 +47,19 @@ class ApiProvider: ApiProviderProtocol {
         }
     }
     
-    func login(username: String, password: String, completion: @escaping ((Result<ApiLogin, GAError>) -> Void)) {
-        let params = ["username": username, "password": password]
-        if let request = requestBuilder.buildRequest(endPoint: .login, params: params, requiresToken: false) {
+    func login(username: String, password: String, completion: @escaping ((Result<String, GAError>) -> Void)) {
+        let loginString = "\(username):\(password)"
+        guard let loginData = loginString.data(using: .utf8) else {
+            completion(.failure(.authenticationFailed))
+            return
+        }
+        let base64LoginString = loginData.base64EncodedString()
+        
+        if var request = requestBuilder.buildRequest(endPoint: .login, params: [:], requiresToken: false) {
+            request.setValue("Basic \(base64LoginString)", forHTTPHeaderField: "Authorization")
+            
+            print("Login request: \(request)")
+            
             makeRequest(request: request, completion: completion)
         } else {
             completion(.failure(.authenticationFailed))
@@ -58,29 +68,62 @@ class ApiProvider: ApiProviderProtocol {
     
     private func makeRequest<T: Decodable>(request: URLRequest, completion: @escaping ((Result<T, GAError>) -> Void)) {
         session.dataTask(with: request) { data, response, error in
-            if let error {
+            if let error = error {
+                print("Error: \(error.localizedDescription)")
                 completion(.failure(.errorFromServer(error: error)))
                 return
             }
             
-            let httpResponse = response as? HTTPURLResponse
-            let statusCode = httpResponse?.statusCode
-            if !(200...299).contains(statusCode ?? -1) {
-                completion(.failure(.errorFromApi(statusCode: statusCode ?? -1)))
+            guard let httpResponse = response as? HTTPURLResponse else {
+                completion(.failure(.noDataReceived)) // Si no se recibe una respuesta HTTP válida
                 return
             }
             
-            guard let data = data, !data.isEmpty else {
-                completion(.failure(.noDataReceived))
-                return
-            }
+            print("HTTP Status: \(httpResponse.statusCode)")
             
-            do {
-                let apiInfo = try JSONDecoder().decode(T.self, from: data)
-                completion(.success(apiInfo))
-            } catch {
-                completion(.failure(.errorParsingData))
+            // Manejo del código de estado
+            switch httpResponse.statusCode {
+            case 200:
+                // Si el estado es 200, procesamos los datos
+                guard let data = data, !data.isEmpty else {
+                    completion(.failure(.noDataReceived))
+                    return
+                }
+                
+                // Verifica si el tipo esperado es un `String`
+                if T.self == String.self {
+                    if let token = String(data: data, encoding: .utf8) {
+                        print("Received token: \(token)")
+                        completion(.success(token as! T))
+                    } else {
+                        completion(.failure(.errorParsingData)) // Error al parsear el token como String
+                    }
+                    return
+                }
+                
+                do {
+                    let apiInfo = try JSONDecoder().decode(T.self, from: data)
+                    print("Received data: \(apiInfo)")
+                    completion(.success(apiInfo))
+                } catch {
+                    print("Error parsing data: \(error.localizedDescription)")
+                    completion(.failure(.errorParsingData))
+                }
+                
+            case 401:
+                // Manejo del fallo de autenticación
+                print("Authentication failed: 401 Unauthorized")
+                completion(.failure(.authenticationFailed))
+                
+            default:
+                // Manejo de otros códigos de estado
+                print("Received HTTP error: \(httpResponse.statusCode)")
+                completion(.failure(.errorFromApi(statusCode: httpResponse.statusCode)))
             }
         }.resume()
     }
+    
+    
+    
+    
 }

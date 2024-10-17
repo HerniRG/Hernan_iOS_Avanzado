@@ -48,6 +48,7 @@ class HeroesViewController: UIViewController {
     
     func configureLogoutButton() {
         let logoutButton = UIBarButtonItem(title: "Logout", style: .plain, target: self, action: #selector(logoutButtonTapped))
+        logoutButton.tintColor = .label
         navigationItem.rightBarButtonItem = logoutButton
     }
     

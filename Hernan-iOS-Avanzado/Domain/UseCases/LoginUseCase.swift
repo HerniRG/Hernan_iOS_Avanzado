@@ -38,19 +38,18 @@ class LoginUseCase: LoginUseCaseProtocol {
     ///   - completion: Closure que devuelve un `Result` con `Void` si tiene éxito, o un `GAError` en caso de fallo.
     func login(username: String, password: String, completion: @escaping (Result<Void, GAError>) -> Void) {
         guard !username.isEmpty, !password.isEmpty else {
-            completion(.failure(.errorParsingData)) 
+            completion(.failure(.errorParsingData))
             return
         }
-        
+
         apiProvider.login(username: username, password: password) { [weak self] result in
             switch result {
-            case .success(let loginResponse):
-                self?.secureDataStore.setToken(loginResponse.token)
-                completion(.success(()))
+            case .success(let token):
+                self?.secureDataStore.setToken(token) // Guarda el token directamente
+                completion(.success(())) // Login exitoso
             case .failure(let error):
-                completion(.failure(error))
+                completion(.failure(error)) // Manejo de error
             }
         }
     }
-
 }

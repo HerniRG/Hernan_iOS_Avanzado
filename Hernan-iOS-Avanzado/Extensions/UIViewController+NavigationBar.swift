@@ -8,8 +8,8 @@
 import UIKit
 
 extension UIViewController {
-
-// MARK: - NavigationBar Configuration Extension
+    
+    // MARK: - NavigationBar Configuration
     func configureNavigationBar(title: String?, backgroundColor: UIColor) {
         self.title = title
         navigationController?.navigationBar.prefersLargeTitles = true

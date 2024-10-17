@@ -42,24 +42,27 @@ class GARequestBuilder {
     ///   - params: Parámetros que deben ir en el body
     ///   - requiresToken: Indica si el token de autorización es necesario para esta petición
     private func setHeaders(params: [String: String]?, requiresToken: Bool) throws {
-        // Añadimos el token solo si es necesario y está disponible
         if requiresToken, let token = self.token {
             request?.setValue("Bearer \(token)", forHTTPHeaderField: "Authorization")
         }
         
-        // Convertimos los parámetros a JSON y los añadimos al cuerpo de la request
         if let params {
             do {
                 let jsonData = try JSONSerialization.data(withJSONObject: params)
                 request?.httpBody = jsonData
             } catch {
-                throw GAError.errorParsingData // Error al convertir parámetros a JSON
+                throw GAError.errorParsingData
             }
         }
         
-        // Indicamos que el cuerpo está en formato JSON
+        // Verificar que el tipo de contenido sea JSON
         request?.setValue("application/json", forHTTPHeaderField: "Content-Type")
+        // Añadir cabecera Accept
+        request?.setValue("application/json", forHTTPHeaderField: "Accept")
+        
+        print("Request body: \(String(data: request?.httpBody ?? Data(), encoding: .utf8) ?? "No body")")
     }
+
     
     /// Compone la request a partir de los parámetros recibidos
     /// - Parameters:
