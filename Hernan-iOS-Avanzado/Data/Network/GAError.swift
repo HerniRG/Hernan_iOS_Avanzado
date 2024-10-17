@@ -16,7 +16,8 @@ enum GAError: Error, CustomStringConvertible {
     case errorFromApi(statusCode: Int)
     case noDataReceived
     case errorParsingData
-    case coreDataError(error: Error) // Nuevo caso para errores de Core Data
+    case coreDataError(error: Error)
+    case authenticationFailed 
     
     var description: String {
         switch self {
@@ -32,6 +33,8 @@ enum GAError: Error, CustomStringConvertible {
             return "There was an error parsing data"
         case .coreDataError(error: let error):
             return "Core Data error: \((error as NSError).localizedDescription)"
+        case .authenticationFailed:
+            return "Authentication failed. Please check your credentials."
         }
     }
 }

@@ -52,7 +52,7 @@ class HeroUseCase: HeroUseCaseProtocol {
             completion(.success(heroes))
         } else {
             // Si no hay datos en la base de datos, se realiza una solicitud a la API
-            apiProvider.loadHeros(name: "") { [weak self] result in
+            apiProvider.loadHeros(name: filter?.predicateFormat ?? "") { [weak self] result in
                 switch result {
                 case .success(let apiHeroes):
                     // Guardamos los héroes obtenidos desde la API en la base de datos local
