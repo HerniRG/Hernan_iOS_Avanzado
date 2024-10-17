@@ -147,10 +147,7 @@ extension HeroesViewController: UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         guard let hero = viewModel.heroAt(index: indexPath.row) else { return }
         
-        // Imprimir la información del héroe en la consola
-        print("Héroe seleccionado: \(hero.name)")
-        print("Descripción: \(hero.info)")
-        print("Foto: \(hero.photo)")
-        
+        let detailsViewController = DetailsHeroViewController()
+        navigationController?.pushViewController(detailsViewController, animated: true)
     }
 }
