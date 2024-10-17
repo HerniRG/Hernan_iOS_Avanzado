@@ -5,6 +5,7 @@
 //  Created by Hernán Rodríguez on 15/10/24.
 //
 
+// MARK: - API Model
 struct ApiTransformation: Codable {
     let id: String?
     let name: String?

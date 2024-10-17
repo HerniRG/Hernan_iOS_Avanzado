@@ -43,7 +43,7 @@ class LoginViewController: UIViewController {
         loginContainerView.layer.cornerRadius = 10
         loginContainerView.layer.borderWidth = 0.5
         loginContainerView.layer.borderColor = UIColor.systemGray.cgColor
-        loginContainerView.backgroundColor = .secondarySystemBackground
+        loginContainerView.backgroundColor = UIColor.systemBackground.withAlphaComponent(0.9)
     }
     
     // MARK: - Keyboard Handling
@@ -156,9 +156,14 @@ class LoginViewController: UIViewController {
     // MARK: - Alerts
     private func showAlert(title: String, message: String, completion: @escaping () -> Void) {
         let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
-        alert.addAction(UIAlertAction(title: "OK", style: .default) { _ in
+        
+        let okAction = UIAlertAction(title: "OK", style: .cancel) { _ in
             completion()
-        })
+        }
+        okAction.setValue(UIColor.label, forKey: "titleTextColor")
+        
+        alert.addAction(okAction)
+        
         self.present(alert, animated: true, completion: nil)
     }
 }

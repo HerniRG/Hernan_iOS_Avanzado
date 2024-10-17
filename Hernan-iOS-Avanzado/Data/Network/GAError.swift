@@ -8,7 +8,7 @@
 import Foundation
 
 /// Enum de errores que gestionamos en la app
-/// El implementar el protocolo CustomStringConvertible nos permite configurar el valor de la variable description del Error
+/// Implementa CustomStringConvertible para personalizar la descripción del error
 enum GAError: Error, CustomStringConvertible {
     
     case requestWasNil
@@ -17,8 +17,9 @@ enum GAError: Error, CustomStringConvertible {
     case noDataReceived
     case errorParsingData
     case coreDataError(error: Error)
-    case authenticationFailed 
+    case authenticationFailed
     
+    // MARK: - Error Description
     var description: String {
         switch self {
         case .requestWasNil:

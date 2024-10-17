@@ -7,27 +7,32 @@
 
 import Foundation
 
+// MARK: - StatusHero Enum
 enum StatusHero {
     case dataUpdated
     case error(msg: String)
     case none
     case clearDataSuccess
-    case loading // Nuevo estado para indicar que los datos se están cargando
+    case loading
 }
 
+// MARK: - HeroesViewModel Class
 class HeroesViewModel {
     
+    // MARK: - Properties
     let useCase: HeroUseCaseProtocol
     let clearDataUseCase: ClearDatabaseAndTokenUseCaseProtocol
     var statusHero: GAObservable<StatusHero> = GAObservable(StatusHero.none)
     var heroes: [Hero] = []
     
+    // MARK: - Initializer
     init(useCase: HeroUseCaseProtocol = HeroUseCase(),
          clearDataUseCase: ClearDatabaseAndTokenUseCaseProtocol = ClearDatabaseAndTokenUseCase()) {
         self.useCase = useCase
         self.clearDataUseCase = clearDataUseCase
     }
     
+    // MARK: - Load Data
     func loadData(filter: String?) {
         statusHero.value = .loading
         
@@ -36,7 +41,7 @@ class HeroesViewModel {
             predicate = NSPredicate(format: "name CONTAINS[cd] %@", filter)
         }
         
-        // Comienza la carga de datos
+        // Carga de héroes
         useCase.loadHeros(filter: predicate) { [weak self] result in
             switch result {
             case .success(let heroes):
@@ -48,6 +53,7 @@ class HeroesViewModel {
         }
     }
     
+    // MARK: - Access Hero at Index
     func heroAt(index: Int) -> Hero? {
         guard index < heroes.count else {
             return nil
@@ -55,13 +61,14 @@ class HeroesViewModel {
         return heroes[index]
     }
     
+    // MARK: - Clear Data
     func clearData() {
         clearDataUseCase.clearDatabaseAndToken { [weak self] result in
             switch result {
             case .success:
                 self?.statusHero.value = .clearDataSuccess
-            case .failure(let error):
-                self?.statusHero.value = .error(msg: "Error limpiando la base de datos: \(error.localizedDescription)")
+            case .failure:
+                self?.statusHero.value = .error(msg: "Error limpiando la base de datos")
             }
         }
     }

@@ -7,23 +7,27 @@
 
 import Foundation
 
+// MARK: - StatusLogin
 // Definimos los posibles estados del Login
 enum StatusLogin {
     case success
     case error(msg: String)
     case none
-    case loading 
+    case loading
 }
 
+// MARK: - LoginViewModel
 class LoginViewModel {
     
     let loginUseCase: LoginUseCaseProtocol
     var statusLogin: GAObservable<StatusLogin> = GAObservable(.none)
     
+    // MARK: - Initializer
     init(loginUseCase: LoginUseCaseProtocol = LoginUseCase()) {
         self.loginUseCase = loginUseCase
     }
     
+    // MARK: - Login Function
     func login(username: String, password: String) {
         // Validamos si el usuario o la contraseña están vacíos
         guard !username.isEmpty else {

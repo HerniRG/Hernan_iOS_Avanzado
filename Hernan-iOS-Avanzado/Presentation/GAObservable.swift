@@ -7,17 +7,17 @@
 
 import Foundation
 
-///Crea nuestro tipo genérico, dándole una propiedad para almacenar ese valor, y un inicializador para que podamos crearlo fácilmente. El valor almacenado es privado: no queremos que se modifique por accidente.
-
+// MARK: - GAObservable Class
+/// Crea un tipo genérico para observar cambios en un valor.
 class GAObservable<ObservedType> {
     
-    private var _value: ObservedType
+    private var _value: ObservedType // Valor almacenado
     
-    /// Enviará el valor actual a cualquiera que lo esté observando
+    // Closure para notificar a los observadores sobre el cambio de valor
     private var valueChanged: ((ObservedType) -> Void)?
     
-    
-    ///Creamos una propiedad de valor donde el valor almacenado puede ser manipulado de forma segura. Esto es diferente a la propiedad _value, que es privada - ésta está diseñada para ser modificada desde cualquier punto de la app, y ambas cambiarán, cambiará _value y enviará su nuevo valor al observador utilizando el closure valueChanged. Otra opción quizás más clara visualmente sería tener una función publica que actualice _value  y otra que lo devuelva. En lugar de usar  los observers set y get de una segunda variable.
+    // MARK: - Public Property
+    /// Propiedad para acceder y modificar el valor observado.
     var value: ObservedType {
         get {
             return _value
@@ -25,18 +25,21 @@ class GAObservable<ObservedType> {
         set {
             _value = newValue
             DispatchQueue.main.async {
-                self.valueChanged?(self._value)
+                self.valueChanged?(self._value) // Notifica a los observadores en el hilo principal
             }
         }
     }
     
-    /// Inicializa el valor almacenado
+    // MARK: - Initializer
+    /// Inicializa el valor almacenado.
+    /// - Parameter value: Valor inicial.
     init(_ value: ObservedType) {
         self._value = value
     }
     
-    
-    // Asigna el closure a Valuechanged"
+    // MARK: - Binding
+    /// Asigna un closure que se ejecutará al cambiar el valor.
+    /// - Parameter completion: Closure que recibe el nuevo valor.
     func bind(completion: ((ObservedType) -> Void)?) {
         valueChanged = completion
     }

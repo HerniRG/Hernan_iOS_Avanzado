@@ -7,12 +7,13 @@
 
 import CoreData
 
+// MARK: - Type of Persistency
 enum TypePersistency {
     case disk
     case inMemory
 }
 
-/// Stack de Core Data
+// MARK: - Core Data Stack
 class StoreDataProvider {
     
     static var shared: StoreDataProvider = .init()
@@ -20,8 +21,7 @@ class StoreDataProvider {
     private let persistentContainer: NSPersistentContainer
     private let persistency: TypePersistency
     
-    /// MAnagedObjectContex, indicamos el tipo de merge policy deseado
-    /// para los objetos con la misma clave (Constraint añadidas en Model Editor
+    /// ManagedObjectContext, configurando la política de merge
     private var context: NSManagedObjectContext {
         let viewContext = persistentContainer.viewContext
         viewContext.mergePolicy = NSMergePolicy.mergeByPropertyObjectTrump
@@ -31,10 +31,12 @@ class StoreDataProvider {
     init(persistency: TypePersistency = .disk) {
         self.persistency = persistency
         self.persistentContainer = NSPersistentContainer(name: "Model")
+        
         if self.persistency == .inMemory {
             let persintentStore = persistentContainer.persistentStoreDescriptions.first
             persintentStore?.url = URL(filePath: "/dev/null")
         }
+        
         self.persistentContainer.loadPersistentStores { _, error in
             if let error {
                 fatalError("Error loading BBDD \(error.localizedDescription)")
@@ -42,7 +44,8 @@ class StoreDataProvider {
         }
     }
     
-    // Guarda el contexto si tiene camvbios pendientes
+    // MARK: - Save Context
+    /// Guarda el contexto si hay cambios pendientes
     func save() {
         if context.hasChanges {
             do {
@@ -54,11 +57,10 @@ class StoreDataProvider {
     }
 }
 
-
-/// Extension para crear las funciones de insertar y recuperar datos de BBDD
+// MARK: - Data Operations
 extension StoreDataProvider {
     
-    ///Inserta MOHero a partir de un array de ApiHero
+    /// Inserta MOHero a partir de un array de ApiHero
     func add(heroes: [ApiHero]) {
         for hero in heroes {
             let newHero = MOHero(context: context)
@@ -71,8 +73,7 @@ extension StoreDataProvider {
         save()
     }
     
-    
-    ///Obtiene los heroes que podemos filtrar usando el filter
+    /// Obtiene los héroes, filtrando según el NSPredicate
     func fetchHeroes(filter: NSPredicate?, sortAscending: Bool = true) -> [MOHero] {
         let request = MOHero.fetchRequest()
         if let filter {
@@ -90,8 +91,7 @@ extension StoreDataProvider {
         }
     }
     
-    ///Inserta MOLocation a partir de un array de ApiLocation
-    //////Importante asignar la relación con MOHero
+    /// Inserta MOLocation a partir de un array de ApiLocation
     func add(locations: [ApiLocation]) {
         for location in locations {
             let newLocation = MOLocation(context: context)
@@ -106,10 +106,10 @@ extension StoreDataProvider {
                 newLocation.hero = hero
             }
         }
+        save()
     }
     
-    ///Inserta MOTransformation a partir de un array de ApiHero
-    ///Importante asignar la relación con MOHero
+    /// Inserta MOTransformation a partir de un array de ApiTransformation
     func add(transformations: [ApiTransformation]) {
         for transformation in transformations {
             let newTransformation = MOTransformation(context: context)
@@ -124,10 +124,11 @@ extension StoreDataProvider {
                 newTransformation.hero = hero
             }
         }
+        save()
     }
     
+    /// Limpia la base de datos
     func clearBBDD() throws {
-        
         if context.hasChanges {
             try context.save()
         }
@@ -143,7 +144,7 @@ extension StoreDataProvider {
                 try context.execute(request)
                 context.reset()
             } catch {
-                throw error // Lanzamos el error en lugar de solo imprimirlo
+                throw error 
             }
         }
     }

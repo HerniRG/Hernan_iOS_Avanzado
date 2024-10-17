@@ -1,3 +1,4 @@
+//
 //  GAEndpoint.swift
 //  Hernan-iOS-Avanzado
 //
@@ -13,6 +14,7 @@ enum GAEndpoint {
     case transformations
     case login
     
+    // MARK: - Path for API Endpoints
     /// Función para obtener el path
     /// - Returns: Devuelve el path para el endpoint en cuestión
     func path() -> String {
@@ -24,10 +26,11 @@ enum GAEndpoint {
         case .transformations:
             return "/api/heros/tranformations"
         case .login:
-            return "/api/auth/login" 
+            return "/api/auth/login"
         }
     }
     
+    // MARK: - HTTP Method for API Endpoints
     /// Función para obtener el httpmethod
     /// - Returns: Devuelve el HTTPMethod a utilizar con cada endpoint
     func httpMethod() -> String {

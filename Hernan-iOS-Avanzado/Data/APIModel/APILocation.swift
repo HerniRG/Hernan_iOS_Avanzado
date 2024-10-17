@@ -5,7 +5,9 @@
 //  Created by Hernán Rodríguez on 15/10/24.
 //
 
-/// Modelo Location de la Api
+import Foundation
+
+// MARK: - Model
 struct ApiLocation: Codable {
     let id: String?
     let date: String?
@@ -13,11 +15,11 @@ struct ApiLocation: Codable {
     let longitude: String?
     let hero: ApiHero?
     
-    /// Usamos CondingKey para mapear los atributos a los valores que devuelve la api
+    // MARK: - Coding Keys
     enum CodingKeys: String, CodingKey {
         case id
         case date = "dateShow"
-        case latitude = "latitud"
+        case latitude = "latitud" 
         case longitude = "longitud"
         case hero
     }

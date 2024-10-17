@@ -5,7 +5,7 @@
 //  Created by Hernán Rodríguez on 15/10/24.
 //
 
-/// Modelo Hero de la Api
+// MARK: - Model
 struct ApiHero: Codable {
     let id: String?
     let name: String?

@@ -7,6 +7,7 @@
 
 import Foundation
 
+// MARK: - Protocol Definition
 /// Protocolo que define el caso de uso de login.
 protocol LoginUseCaseProtocol {
     /// Realiza la autenticación del usuario.
@@ -17,11 +18,13 @@ protocol LoginUseCaseProtocol {
     func login(username: String, password: String, completion: @escaping (Result<Void, GAError>) -> Void)
 }
 
+// MARK: - LoginUseCase Implementation
 class LoginUseCase: LoginUseCaseProtocol {
     
     private let apiProvider: ApiProviderProtocol
     private let secureDataStore: SecureDataStoreProtocol
     
+    // MARK: - Initializer
     /// Inicializador del caso de uso de login.
     /// - Parameters:
     ///   - apiProvider: Proveedor de API inyectado, por defecto `ApiProvider`.
@@ -31,6 +34,7 @@ class LoginUseCase: LoginUseCaseProtocol {
         self.secureDataStore = secureDataStore
     }
     
+    // MARK: - Login Function
     /// Implementación del login.
     /// - Parameters:
     ///   - username: Nombre de usuario.

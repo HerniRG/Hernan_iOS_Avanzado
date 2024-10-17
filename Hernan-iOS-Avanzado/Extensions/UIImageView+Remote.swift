@@ -8,17 +8,19 @@
 import UIKit
 
 extension UIImageView {
+    
+    // MARK: - Set Image from URL
     func setImage(from urlString: String) {
         // Placeholder de imagen por defecto
         self.image = UIImage(systemName: "photo")
 
         // Intentar convertir el string en URL
         guard let url = URL(string: urlString) else {
-            print("URL inválida: \(urlString)")
+            debugPrint("URL inválida: \(urlString)")
             return
         }
         
-        // Llamamos al método para descargar la imagen
+        // Descargar la imagen
         downloadWithURLSession(url: url) { [weak self] image in
             DispatchQueue.main.async {
                 self?.image = image
@@ -26,19 +28,14 @@ extension UIImageView {
         }
     }
     
-    // Este método obtiene una imagen a partir de una URL utilizando URLSession
-    private func downloadWithURLSession(
-        url: URL,
-        completion: @escaping (UIImage?) -> Void
-    ) {
+    // MARK: - Download Image with URLSession
+    private func downloadWithURLSession(url: URL, completion: @escaping (UIImage?) -> Void) {
         URLSession.shared.dataTask(with: url) { data, _, _ in
             guard let data, let image = UIImage(data: data) else {
-                // Si no se puede desempaquetar la data o la imagen
                 completion(nil)
                 return
             }
             completion(image)
-        }
-        .resume()
+        }.resume()
     }
 }

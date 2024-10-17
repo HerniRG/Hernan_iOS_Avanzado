@@ -7,9 +7,9 @@
 
 import Foundation
 
-/// Builder que construirá la request a usar en la API a partir de un endpoint,
-/// y parámetros dados.
+// MARK: - GARequestBuilder
 class GARequestBuilder {
+    
     /// Host del API
     private let host = "dragonball.keepcoding.education"
     private var request: URLRequest?
@@ -21,11 +21,13 @@ class GARequestBuilder {
     
     private let secureStorage: SecureDataStoreProtocol
     
+    // MARK: - Initializer
     /// Inicializador que inyecta `SecureDataStore`
     init(secureStorage: SecureDataStoreProtocol = SecureDataStore.shared) {
         self.secureStorage = secureStorage
     }
     
+    // MARK: - URL Generation
     /// Función para obtener la URL del request
     /// - Parameter endPoint: Endpoint para el que se crea la URL
     /// - Returns: La URL a partir de URLComponents
@@ -37,6 +39,7 @@ class GARequestBuilder {
         return components.url
     }
     
+    // MARK: - Header Configuration
     /// Configura los headers de la request
     /// - Parameters:
     ///   - params: Parámetros que deben ir en el body
@@ -55,15 +58,12 @@ class GARequestBuilder {
             }
         }
         
-        // Verificar que el tipo de contenido sea JSON
+        // Configuración de tipo de contenido
         request?.setValue("application/json", forHTTPHeaderField: "Content-Type")
-        // Añadir cabecera Accept
         request?.setValue("application/json", forHTTPHeaderField: "Accept")
-        
-        print("Request body: \(String(data: request?.httpBody ?? Data(), encoding: .utf8) ?? "No body")")
     }
-
     
+    // MARK: - Request Building
     /// Compone la request a partir de los parámetros recibidos
     /// - Parameters:
     ///   - endPoint: GAEndpoint para el que se crea la request
@@ -71,7 +71,7 @@ class GARequestBuilder {
     ///   - requiresToken: Indica si la request necesita el token de autenticación
     /// - Returns: Devuelve una URLRequest, compuesta a partir de los métodos de la clase
     func buildRequest(endPoint: GAEndpoint, params: [String: String], requiresToken: Bool = true) -> URLRequest? {
-        // Aseguramos que la URL se crea correctamente y, si requiere token, que exista el token
+        // Aseguramos que la URL se crea correctamente y que, si requiere token, exista el token
         guard let url = self.url(endPoint: endPoint), !requiresToken || self.token != nil else {
             return nil
         }
@@ -80,11 +80,10 @@ class GARequestBuilder {
         request = URLRequest(url: url)
         request?.httpMethod = endPoint.httpMethod()
         
-        // Configuramos los headers, capturando cualquier error en el proceso
+        // Configuramos los headers
         do {
             try setHeaders(params: params, requiresToken: requiresToken)
         } catch {
-            print("Error configurando los headers: \(error.localizedDescription)")
             return nil
         }
         

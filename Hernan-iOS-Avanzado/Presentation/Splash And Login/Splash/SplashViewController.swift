@@ -7,10 +7,12 @@
 
 import UIKit
 
+// MARK: - SplashViewController
 class SplashViewController: UIViewController {
     
     @IBOutlet weak var dragonBallImage: UIImageView!
     
+    // MARK: - Lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
     }
@@ -21,11 +23,13 @@ class SplashViewController: UIViewController {
         startDragonBallAnimation()
     }
     
+    // MARK: - Animation
     private func startDragonBallAnimation() {
         UIView.animateKeyframes(withDuration: 3.0, delay: 0, options: [.autoreverse, .repeat], animations: {
             self.addKeyframeAnimations()
         })
         
+        // Navegar después de 3 segundos
         DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
             self.stopAnimationAndNavigate()
         }
@@ -48,7 +52,9 @@ class SplashViewController: UIViewController {
         }
     }
     
+    // MARK: - Navigation
     private func navigateToLogin() {
+        // Verifica si hay un token almacenado
         if SecureDataStore.shared.getToken() != nil {
             let heroesViewController = HeroesViewController()
             navigationController?.pushViewController(heroesViewController, animated: true)
@@ -56,6 +62,5 @@ class SplashViewController: UIViewController {
             let loginViewController = LoginViewController()
             navigationController?.pushViewController(loginViewController, animated: true)
         }
-        
     }
 }

@@ -7,8 +7,9 @@
 
 import Foundation
 
-///Modelo de Domain Hero
-///ES el que se usará en la capa de presentación
+// MARK: - Domain Model: Hero
+/// Modelo de Domain Hero
+/// Este es el que se usará en la capa de presentación.
 struct Hero: Hashable {
     
     let id: String
@@ -17,8 +18,9 @@ struct Hero: Hashable {
     let photo: String
     let favorite: Bool
     
+    // MARK: - Initializers
     
-    ///Constructor para mapear un MOHero a un instancia de Hero
+    /// Constructor para mapear un MOHero a una instancia de Hero.
     init(moHero: MOHero) {
         self.id = moHero.id ?? ""
         self.name = moHero.name ?? ""
@@ -27,7 +29,7 @@ struct Hero: Hashable {
         self.favorite = moHero.favorite
     }
     
-    /// Constructor para mapear un ApiHero a una instancia de Hero (de la API a dominio)
+    /// Constructor para mapear un ApiHero a una instancia de Hero (de la API a dominio).
     init(apiHero: ApiHero) {
         self.id = apiHero.id ?? ""
         self.name = apiHero.name ?? ""

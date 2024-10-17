@@ -15,11 +15,13 @@ protocol SecureDataStoreProtocol {
 
 class SecureDataStore: SecureDataStoreProtocol {
     
+    // MARK: - Properties
     private let kToken = "kToken"
     private let keychain = KeychainSwift()
     
     static let shared: SecureDataStore = .init()
     
+    // MARK: - Token Management
     func setToken(_ token: String) {
         keychain.set(token, forKey: kToken)
     }
