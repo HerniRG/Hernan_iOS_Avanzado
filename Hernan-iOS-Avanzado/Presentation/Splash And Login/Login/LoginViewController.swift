@@ -77,29 +77,27 @@ class LoginViewController: UIViewController {
     // MARK: - Binding ViewModel
     private func setBinding() {
         viewModel.statusLogin.bind { [weak self] status in
-            self?.handleLoginStatus(status)
-        }
-    }
-    
-    private func handleLoginStatus(_ status: StatusLogin) {
-        switch status {
-        case .success:
-            hideActivityIndicator()
-            self.navigateToHeroesViewController()
+            guard let self = self else { return } // Aseguramos que self no sea nil
             
-        case .error(let msg):
-            hideLoginContainer()
-            showAlert(title: "Error", message: msg) {
+            switch status {
+            case .success:
                 self.hideActivityIndicator()
-                self.viewModel.statusLogin.value = .none
+                self.navigateToHeroesViewController()
+                
+            case .error(let msg):
+                self.hideLoginContainer()
+                self.showAlert(title: "Error", message: msg) {
+                    self.hideActivityIndicator()
+                    self.viewModel.statusLogin.value = .none
+                }
+                
+            case .loading:
+                self.showActivityIndicator()
+                self.hideLoginContainer(animated: true)
+                
+            case .none:
+                self.showLoginContainer(animated: true)
             }
-            
-        case .loading:
-            showActivityIndicator()
-            hideLoginContainer(animated: true)
-            
-        case .none:
-            showLoginContainer(animated: true)
         }
     }
     
@@ -121,29 +119,44 @@ class LoginViewController: UIViewController {
     }
     
     private func showLoginContainer(animated: Bool) {
+        loginContainerView.alpha = 0
+        loginContainerView.transform = CGAffineTransform(scaleX: 0.8, y: 0.8) // Comienza escalado
+
         loginContainerView.isHidden = false
+
         if animated {
-            animateViewAlpha(loginContainerView, to: 1)
+            UIView.animate(withDuration: 0.3, animations: {
+                self.loginContainerView.alpha = 1 // Desvanecimiento a 1
+                self.loginContainerView.transform = .identity // Vuelve a su tamaño original
+            }) { _ in
+                // Agregamos un efecto de "rebote"
+                UIView.animate(withDuration: 0.1, animations: {
+                    self.loginContainerView.transform = CGAffineTransform(scaleX: 1.05, y: 1.05)
+                }) { _ in
+                    UIView.animate(withDuration: 0.1) {
+                        self.loginContainerView.transform = .identity
+                    }
+                }
+            }
+        } else {
+            loginContainerView.alpha = 1
+            loginContainerView.transform = .identity
         }
     }
-    
+
     private func hideLoginContainer(animated: Bool = false) {
         if animated {
-            animateViewAlpha(loginContainerView, to: 0) {
+            UIView.animate(withDuration: 0.3, animations: {
+                self.loginContainerView.alpha = 0 // Desvanecimiento a 0
+                self.loginContainerView.transform = CGAffineTransform(scaleX: 0.8, y: 0.8) // Se escala hacia abajo
+            }) { _ in
                 self.loginContainerView.isHidden = true
             }
         } else {
             loginContainerView.isHidden = true
         }
     }
-    
-    private func animateViewAlpha(_ view: UIView, to alpha: CGFloat, completion: (() -> Void)? = nil) {
-        UIView.animate(withDuration: 0.2, animations: {
-            view.alpha = alpha
-        }, completion: { _ in
-            completion?()
-        })
-    }
+
     
     // MARK: - Actions
     @IBAction func loginButtonTapped(_ sender: Any) {
@@ -156,12 +169,10 @@ class LoginViewController: UIViewController {
     // MARK: - Alerts
     private func showAlert(title: String, message: String, completion: @escaping () -> Void) {
         let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
-        
         let okAction = UIAlertAction(title: "OK", style: .cancel) { _ in
             completion()
         }
         okAction.setValue(UIColor.label, forKey: "titleTextColor")
-        
         alert.addAction(okAction)
         
         self.present(alert, animated: true, completion: nil)

@@ -8,12 +8,18 @@
 import Foundation
 
 // MARK: - StatusLogin
-// Definimos los posibles estados del Login
 enum StatusLogin {
     case success
     case error(msg: String)
     case none
     case loading
+}
+
+// MARK: - LoginError
+enum LoginError: String {
+    case emptyUsername = "El email está vacío."
+    case emptyPassword = "La contraseña está vacía."
+    case genericError = "Fallo al iniciar sesión"
 }
 
 // MARK: - LoginViewModel
@@ -31,16 +37,15 @@ class LoginViewModel {
     func login(username: String, password: String) {
         // Validamos si el usuario o la contraseña están vacíos
         guard !username.isEmpty else {
-            statusLogin.value = .error(msg: "El email está vacío.")
+            statusLogin.value = .error(msg: LoginError.emptyUsername.rawValue)
             return
         }
         
         guard !password.isEmpty else {
-            statusLogin.value = .error(msg: "La contraseña está vacía.")
+            statusLogin.value = .error(msg: LoginError.emptyPassword.rawValue)
             return
         }
         
-        // Si las credenciales no están vacías, iniciamos el proceso de login
         statusLogin.value = .loading
         
         loginUseCase.login(username: username, password: password) { [weak self] result in
@@ -48,8 +53,7 @@ class LoginViewModel {
             case .success:
                 self?.statusLogin.value = .success
             case .failure:
-                // Si hay un error en el login, mostramos un mensaje de error
-                self?.statusLogin.value = .error(msg: "Fallo al iniciar sesión")
+                self?.statusLogin.value = .error(msg: LoginError.genericError.rawValue)
             }
         }
     }

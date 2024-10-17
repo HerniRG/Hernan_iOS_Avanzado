@@ -143,4 +143,14 @@ extension HeroesViewController: UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
         return UIEdgeInsets(top: 10, left: 10, bottom: 10, right: 10) // Márgenes de la sección
     }
+    
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        guard let hero = viewModel.heroAt(index: indexPath.row) else { return }
+        
+        // Imprimir la información del héroe en la consola
+        print("Héroe seleccionado: \(hero.name)")
+        print("Descripción: \(hero.info)")
+        print("Foto: \(hero.photo)")
+        
+    }
 }

@@ -25,13 +25,10 @@ class SplashViewController: UIViewController {
     
     // MARK: - Animation
     private func startDragonBallAnimation() {
-        UIView.animateKeyframes(withDuration: 3.0, delay: 0, options: [.autoreverse, .repeat], animations: {
+        UIView.animateKeyframes(withDuration: 3.0, delay: 0, options: [.autoreverse], animations: {
             self.addKeyframeAnimations()
-        })
-        
-        // Navegar después de 3 segundos
-        DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
-            self.stopAnimationAndNavigate()
+        }) {_ in 
+            self.navigateToLogin()
         }
     }
     
@@ -44,17 +41,7 @@ class SplashViewController: UIViewController {
         }
     }
     
-    private func stopAnimationAndNavigate() {
-        UIView.animate(withDuration: 0.5, animations: {
-            self.dragonBallImage.transform = .identity
-        }) { _ in
-            self.navigateToLogin()
-        }
-    }
-    
-    // MARK: - Navigation
     private func navigateToLogin() {
-        // Verifica si hay un token almacenado
         if SecureDataStore.shared.getToken() != nil {
             let heroesViewController = HeroesViewController()
             navigationController?.pushViewController(heroesViewController, animated: true)
