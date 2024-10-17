@@ -8,7 +8,7 @@
 import Foundation
 
 /// Enum de errores que gestionamos en la app
-/// El implementar el protocol CustomStringConvertible nos permite configurar el valor de la variable description del Error
+/// El implementar el protocolo CustomStringConvertible nos permite configurar el valor de la variable description del Error
 enum GAError: Error, CustomStringConvertible {
     
     case requestWasNil
@@ -16,6 +16,7 @@ enum GAError: Error, CustomStringConvertible {
     case errorFromApi(statusCode: Int)
     case noDataReceived
     case errorParsingData
+    case coreDataError(error: Error) // Nuevo caso para errores de Core Data
     
     var description: String {
         switch self {
@@ -24,11 +25,13 @@ enum GAError: Error, CustomStringConvertible {
         case .errorFromServer(error: let error):
             return "Received error from server \((error as NSError).code)"
         case .errorFromApi(statusCode: let code):
-            return "Received error from api status code \(code)"
+            return "Received error from API status code \(code)"
         case .noDataReceived:
-            return "Data no received from server"
+            return "No data received from server"
         case .errorParsingData:
-            return "There was un error parsing data"
+            return "There was an error parsing data"
+        case .coreDataError(error: let error):
+            return "Core Data error: \((error as NSError).localizedDescription)"
         }
     }
 }

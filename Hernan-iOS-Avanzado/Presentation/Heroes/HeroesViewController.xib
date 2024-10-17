@@ -11,6 +11,7 @@
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="HeroesViewController" customModule="Hernan_iOS_Avanzado" customModuleProvider="target">
             <connections>
                 <outlet property="collectionView" destination="eJd-1w-UNE" id="gbH-13-aSV"/>
+                <outlet property="loadingIndicator" destination="sGG-FU-dxW" id="wcm-zh-9IY"/>
                 <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
             </connections>
         </placeholder>
@@ -21,7 +22,7 @@
             <subviews>
                 <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="none" translatesAutoresizingMaskIntoConstraints="NO" id="eJd-1w-UNE">
                     <rect key="frame" x="0.0" y="59" width="393" height="793"/>
-                    <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                    <color key="backgroundColor" systemColor="systemOrangeColor"/>
                     <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="10" minimumInteritemSpacing="10" id="N7r-YR-mfM">
                         <size key="itemSize" width="128" height="128"/>
                         <size key="headerReferenceSize" width="0.0" height="0.0"/>
@@ -29,21 +30,26 @@
                         <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
                     </collectionViewFlowLayout>
                 </collectionView>
+                <activityIndicatorView hidden="YES" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" style="large" translatesAutoresizingMaskIntoConstraints="NO" id="sGG-FU-dxW">
+                    <rect key="frame" x="178" y="407.66666666666669" width="37" height="37"/>
+                </activityIndicatorView>
             </subviews>
             <viewLayoutGuide key="safeArea" id="fnl-2z-Ty3"/>
-            <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+            <color key="backgroundColor" systemColor="systemOrangeColor"/>
             <constraints>
+                <constraint firstItem="sGG-FU-dxW" firstAttribute="centerX" secondItem="i5M-Pr-FkT" secondAttribute="centerX" id="667-ZN-mSb"/>
                 <constraint firstItem="eJd-1w-UNE" firstAttribute="top" secondItem="fnl-2z-Ty3" secondAttribute="top" id="VAW-Wg-tyI"/>
                 <constraint firstItem="eJd-1w-UNE" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" id="YuJ-vy-hFd"/>
                 <constraint firstAttribute="bottom" secondItem="eJd-1w-UNE" secondAttribute="bottom" id="cEh-X7-S0K"/>
+                <constraint firstItem="sGG-FU-dxW" firstAttribute="centerY" secondItem="i5M-Pr-FkT" secondAttribute="centerY" id="eX2-4t-RjG"/>
                 <constraint firstItem="fnl-2z-Ty3" firstAttribute="trailing" secondItem="eJd-1w-UNE" secondAttribute="trailing" id="g65-Z6-nWA"/>
             </constraints>
             <point key="canvasLocation" x="132" y="-11"/>
         </view>
     </objects>
     <resources>
-        <systemColor name="systemBackgroundColor">
-            <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+        <systemColor name="systemOrangeColor">
+            <color red="1" green="0.58431372550000005" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>
     </resources>
 </document>

@@ -12,6 +12,9 @@
 		66509D562CBFAF84009134FF /* HeroCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 66509D552CBFAF84009134FF /* HeroCollectionViewCell.xib */; };
 		66509D572CBFAF84009134FF /* HeroCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66509D542CBFAF84009134FF /* HeroCollectionViewCell.swift */; };
 		66509D5A2CBFDBBE009134FF /* SecureDataStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66509D592CBFDBB7009134FF /* SecureDataStore.swift */; };
+		66509D5F2CBFEC95009134FF /* UIImageView+Remote.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66509D5E2CBFEC93009134FF /* UIImageView+Remote.swift */; };
+		66509D612CBFF531009134FF /* UIViewController+NavigationBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66509D602CBFF51E009134FF /* UIViewController+NavigationBar.swift */; };
+		66509D632CBFF785009134FF /* ClearDataBaseUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66509D622CBFF775009134FF /* ClearDataBaseUseCase.swift */; };
 		66547DCB2CBEA00F0084C792 /* Model.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 66547DA32CBEA00F0084C792 /* Model.xcdatamodeld */; };
 		66547DDC2CBEA00F0084C792 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66547DBD2CBEA00F0084C792 /* AppDelegate.swift */; };
 		66547DDD2CBEA00F0084C792 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66547DC02CBEA00F0084C792 /* SceneDelegate.swift */; };
@@ -63,6 +66,9 @@
 		66509D552CBFAF84009134FF /* HeroCollectionViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = HeroCollectionViewCell.xib; sourceTree = "<group>"; };
 		66509D582CBFC8DA009134FF /* Model 2.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "Model 2.xcdatamodel"; sourceTree = "<group>"; };
 		66509D592CBFDBB7009134FF /* SecureDataStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SecureDataStore.swift; sourceTree = "<group>"; };
+		66509D5E2CBFEC93009134FF /* UIImageView+Remote.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImageView+Remote.swift"; sourceTree = "<group>"; };
+		66509D602CBFF51E009134FF /* UIViewController+NavigationBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIViewController+NavigationBar.swift"; sourceTree = "<group>"; };
+		66509D622CBFF775009134FF /* ClearDataBaseUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClearDataBaseUseCase.swift; sourceTree = "<group>"; };
 		66547DBD2CBEA00F0084C792 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		66547DBE2CBEA00F0084C792 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		66547DBF2CBEA00F0084C792 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -132,6 +138,15 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		66509D5B2CBFEC5F009134FF /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				66509D602CBFF51E009134FF /* UIViewController+NavigationBar.swift */,
+				66509D5E2CBFEC93009134FF /* UIImageView+Remote.swift */,
+			);
+			path = Extensions;
+			sourceTree = "<group>";
+		};
 		66547DA42CBEA00F0084C792 /* CoreData */ = {
 			isa = PBXGroup;
 			children = (
@@ -166,6 +181,7 @@
 		66547DBA2CBEA00F0084C792 /* UseCases */ = {
 			isa = PBXGroup;
 			children = (
+				66509D622CBFF775009134FF /* ClearDataBaseUseCase.swift */,
 				66547E112CBEA75E0084C792 /* HeroUseCase.swift */,
 			);
 			path = UseCases;
@@ -204,6 +220,7 @@
 		66547DC92CBEA00F0084C792 /* Hernan-iOS-Avanzado */ = {
 			isa = PBXGroup;
 			children = (
+				66509D5B2CBFEC5F009134FF /* Extensions */,
 				66547DB02CBEA00F0084C792 /* Data */,
 				66547DBB2CBEA00F0084C792 /* Domain */,
 				66547DBC2CBEA00F0084C792 /* Presentation */,
@@ -450,6 +467,7 @@
 				66547E0E2CBEA52E0084C792 /* GARequestBuilder.swift in Sources */,
 				66547DF62CBEA3040084C792 /* MOTransformation+CoreDataClass.swift in Sources */,
 				66547E002CBEA45D0084C792 /* APIHero.swift in Sources */,
+				66509D5F2CBFEC95009134FF /* UIImageView+Remote.swift in Sources */,
 				66547E172CBEA7E30084C792 /* HeroesViewController.swift in Sources */,
 				66547E082CBEA4CC0084C792 /* APIProvider.swift in Sources */,
 				66547E0C2CBEA5200084C792 /* GAError.swift in Sources */,
@@ -462,10 +480,12 @@
 				66547E042CBEA4720084C792 /* APITransformation.swift in Sources */,
 				66547DDD2CBEA00F0084C792 /* SceneDelegate.swift in Sources */,
 				66547DFA2CBEA3F00084C792 /* StoreDataProvider.swift in Sources */,
+				66509D612CBFF531009134FF /* UIViewController+NavigationBar.swift in Sources */,
 				66547DDE2CBEA00F0084C792 /* LoginViewController.swift in Sources */,
 				66547DDF2CBEA00F0084C792 /* SplashViewController.swift in Sources */,
 				66547E022CBEA4670084C792 /* APILocation.swift in Sources */,
 				66547E122CBEA7620084C792 /* HeroUseCase.swift in Sources */,
+				66509D632CBFF785009134FF /* ClearDataBaseUseCase.swift in Sources */,
 				66547E102CBEA7150084C792 /* Hero.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
