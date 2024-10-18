@@ -31,12 +31,16 @@ class GARequestBuilder {
     /// Función para obtener la URL del request
     /// - Parameter endPoint: Endpoint para el que se crea la URL
     /// - Returns: La URL a partir de URLComponents
-    private func url(endPoint: GAEndpoint) -> URL? {
+    private func url(endPoint: GAEndpoint) throws(GAError) -> URL {
         var components = URLComponents()
         components.scheme = "https"
         components.host = self.host
         components.path = endPoint.path()
-        return components.url
+        if let url = components.url {
+            return url
+        } else {
+            throw GAError.badUrl
+        }
     }
     
     // MARK: - Header Configuration
@@ -44,8 +48,9 @@ class GARequestBuilder {
     /// - Parameters:
     ///   - params: Parámetros que deben ir en el body
     ///   - requiresToken: Indica si el token de autorización es necesario para esta petición
-    private func setHeaders(params: [String: String]?, requiresToken: Bool) throws {
-        if requiresToken, let token = self.token {
+    private func setHeaders(params: [String: String]?, requiresToken: Bool = true) throws(GAError) {
+        if requiresToken {
+            guard let token = self.token else { throw GAError.sessionTokenMissing }
             request?.setValue("Bearer \(token)", forHTTPHeaderField: "Authorization")
         }
         
@@ -70,23 +75,22 @@ class GARequestBuilder {
     ///   - params: Parámetros para el body de la request.
     ///   - requiresToken: Indica si la request necesita el token de autenticación
     /// - Returns: Devuelve una URLRequest, compuesta a partir de los métodos de la clase
-    func buildRequest(endPoint: GAEndpoint, params: [String: String], requiresToken: Bool = true) -> URLRequest? {
-        // Aseguramos que la URL se crea correctamente y que, si requiere token, exista el token
-        guard let url = self.url(endPoint: endPoint), !requiresToken || self.token != nil else {
-            return nil
-        }
+    func buildRequest(endPoint: GAEndpoint, params: [String: String], requiresToken: Bool = true) throws(GAError) -> URLRequest {
         
-        // Creamos la request
-        request = URLRequest(url: url)
-        request?.httpMethod = endPoint.httpMethod()
-        
-        // Configuramos los headers
         do {
+            // Aseguramos que la URL se crea correctamente y que, si requiere token, exista el token
+            let url = try self.url(endPoint: endPoint)
+            // Creamos la request
+            request = URLRequest(url: url)
+            request?.httpMethod = endPoint.httpMethod()
+            // Configuramos los headers
             try setHeaders(params: params, requiresToken: requiresToken)
+            if let finalRequest = self.request {
+                return finalRequest
+            }
         } catch {
-            return nil
+            throw error
         }
-        
-        return request
+        throw GAError.requestWasNil
     }
 }

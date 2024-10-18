@@ -18,6 +18,8 @@ enum GAError: Error, CustomStringConvertible {
     case errorParsingData
     case coreDataError(error: Error)
     case authenticationFailed
+    case sessionTokenMissing
+    case badUrl
     
     // MARK: - Error Description
     var description: String {
@@ -35,7 +37,11 @@ enum GAError: Error, CustomStringConvertible {
         case .coreDataError(error: let error):
             return "Core Data error: \((error as NSError).localizedDescription)"
         case .authenticationFailed:
-            return "Authentication failed. Please check your credentials."
+            return "Authentication failed. Please check your credentials"
+        case .sessionTokenMissing:
+            return "Session token missing"
+        case .badUrl:
+            return "Bad URL"
         }
     }
 }

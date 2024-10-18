@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import Kingfisher
 
 // MARK: - SectionsHeroes Enum
 enum SectionsHeroes {
@@ -104,10 +105,24 @@ class HeroesViewController: UIViewController {
         collectionView.contentInsetAdjustmentBehavior = .never
         collectionView.delegate = self
         let cellRegister = UICollectionView.CellRegistration<HeroCollectionViewCell, Hero>(cellNib: UINib(nibName: HeroCollectionViewCell.identifier, bundle: nil)) { cell, indexPath, hero in
-            if let hero = self.viewModel.heroAt(index: indexPath.row) {
-                cell.heroNameLabel.text = hero.name
-                cell.heroImage.setImage(from: hero.photo)
+            
+            cell.heroNameLabel.text = hero.name
+            // Animación personalizada de escala (zoom)
+            if let url = URL(string: hero.photo) {
+                cell.heroImage.kf.setImage(with: url, placeholder: UIImage(named: "placeholderImage"), options: [.cacheOriginalImage]) { result in
+                    switch result {
+                    case .success(_):
+                        // Animación de zoom cuando se carga la imagen
+                        cell.heroImage.transform = CGAffineTransform(scaleX: 0.8, y: 0.8)
+                        UIView.animate(withDuration: 0.3, animations: {
+                            cell.heroImage.transform = CGAffineTransform.identity
+                        })
+                    case .failure(let error):
+                        print("Error al cargar la imagen: \(error)")
+                    }
+                }
             }
+            
         }
         
         dataSource = UICollectionViewDiffableDataSource<SectionsHeroes, Hero>(collectionView: collectionView, cellProvider: { collectionView, indexPath, hero in

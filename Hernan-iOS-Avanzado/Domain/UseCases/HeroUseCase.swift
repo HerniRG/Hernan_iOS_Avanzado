@@ -50,9 +50,11 @@ class HeroUseCase: HeroUseCaseProtocol {
             apiProvider.loadHeros(name: filter?.predicateFormat ?? "") { [weak self] result in
                 switch result {
                 case .success(let apiHeroes):
-                    self?.storeDataProvider.add(heroes: apiHeroes) // Guardamos héroes en la BD
-                    let heroes = apiHeroes.map { Hero(apiHero: $0) } // Mapeo de ApiHero a Hero
-                    completion(.success(heroes)) // Devolvemos héroes de la API
+                    DispatchQueue.main.async {
+                        self?.storeDataProvider.add(heroes: apiHeroes) // Guardamos héroes en la BD
+                        let heroes = apiHeroes.map { Hero(apiHero: $0) } // Mapeo de ApiHero a Hero
+                        completion(.success(heroes)) // Devolvemos héroes de la API
+                    }
                 case .failure(let error):
                     completion(.failure(error)) // Error en la API
                 }
