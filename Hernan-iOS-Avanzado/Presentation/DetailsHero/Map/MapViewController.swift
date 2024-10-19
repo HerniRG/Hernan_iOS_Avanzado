@@ -15,7 +15,16 @@ class MapViewController: UIViewController {
     @IBOutlet weak var mapView: MKMapView!
     
     // MARK: - Properties
-    private var viewModel = MapViewModel()
+    private var viewModel: MapViewModel
+    
+    init(viewModel: MapViewModel = MapViewModel()) {
+        self.viewModel = viewModel
+        super.init(nibName: String(describing: MapViewController.self), bundle: nil)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
     
     // MARK: - Lifecycle
     override func viewDidLoad() {
@@ -74,6 +83,7 @@ class MapViewController: UIViewController {
     
     // Actualizar el título basado en el número de anotaciones
     private func updateTitleForAnnotations() {
+        configureNavigationBar(title: "Localizaciones", backgroundColor: .systemBackground)
         title = viewModel.annotationCount == 1 ? "Localización" : "Localizaciones"
     }
 }

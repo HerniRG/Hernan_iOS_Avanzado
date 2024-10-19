@@ -38,7 +38,7 @@ class HeroesViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         configureCollectionView()
-        configureNavigationBar(title: "Heroes", backgroundColor: .systemBackground)
+        title = "Heroes"
         configureLogoutButton()
         setBinding()
         viewModel.loadData(filter: nil)
@@ -48,6 +48,8 @@ class HeroesViewController: UIViewController {
         super.viewWillAppear(animated)
         navigationItem.hidesBackButton = true
         navigationController?.setNavigationBarHidden(false, animated: animated)
+        configureNavigationBar(title: "Heroes", backgroundColor: .systemBackground)
+        
     }
     
     // MARK: - Logout Button Configuration

@@ -22,9 +22,11 @@ class DetailsHeroViewController: UIViewController {
     @IBOutlet weak var heroLabel: UILabel!
     @IBOutlet weak var heroImage: UIImageView!
     @IBOutlet weak var transformationsCollectionView: UICollectionView!
+    @IBOutlet weak var stackViewTransformations: UIStackView!
     
     // MARK: - Properties
     private var viewModel: DetailsHeroViewModel
+    private var mapViewController: MapViewController?
     private var dataSource: UICollectionViewDiffableDataSource<SectionsTransformations, Transformation>?
     
     // MARK: - Initializer
@@ -46,15 +48,19 @@ class DetailsHeroViewController: UIViewController {
         viewModel.loadData()
     }
     
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        updateCollectionView()
+    }
+    
     // MARK: - Setup inicial de la UI
     private func setupUI() {
-        // Ocultar inicialmente el contenido del héroe
         heroLabel.alpha = 0
         heroImage.alpha = 0
+        stackViewTransformations.alpha = 0
+        stackViewTransformations.isHidden = true
         configureHeroImageAppearance()
         activityIndicator.startAnimating()
-        
-        // Configurar el título del NavigationBar
         configureNavigationBar(title: viewModel.hero.name, backgroundColor: .systemBackground)
     }
     
@@ -65,22 +71,23 @@ class DetailsHeroViewController: UIViewController {
         heroImage.layer.borderColor = UIColor.label.cgColor
         heroImage.clipsToBounds = true
     }
-
+    
     // MARK: - Bindings
     private func setBinding() {
         viewModel.status.bind { [weak self] status in
+            guard let self = self else { return }
             switch status {
             case .loading:
-                self?.showLoadingState()
+                self.showLoadingState()
             case .success:
-                self?.showSuccessState()
+                self.showSuccessState()
             case .error(let message):
-                self?.showError(message: message)
+                self.showError(message: message)
             }
         }
     }
     
-    // MARK: - Mostrar/Ocultar el ítem de mapa en la barra de navegación
+    // MARK: - Actualizar visibilidad del ítem del mapa
     private func updateMapItemVisibility() {
         if viewModel.annotations.isEmpty {
             navigationItem.rightBarButtonItem = nil
@@ -94,51 +101,32 @@ class DetailsHeroViewController: UIViewController {
     
     // MARK: - Acción al tocar el botón de mapa
     @objc private func mapButtonTapped() {
-        let mapViewController = MapViewController()
-        mapViewController.configure(with: viewModel.annotations)
-        navigationController?.pushViewController(mapViewController, animated: true)
+        if mapViewController == nil {
+            mapViewController = MapViewController()
+        }
+        mapViewController?.configure(with: viewModel.annotations)
+        if let mapVC = mapViewController {
+            navigationController?.pushViewController(mapVC, animated: true)
+        }
     }
     
     // MARK: - Mostrar estado de carga
     private func showLoadingState() {
         activityIndicator.startAnimating()
-        heroLabel.alpha = 0
-        heroImage.alpha = 0
-        
-        // Actualizar la visibilidad del ítem en la barra de navegación
+        hideUIElements()
         updateMapItemVisibility()
     }
     
     // MARK: - Mostrar estado de éxito
     private func showSuccessState() {
-        // Detener el indicador de carga
         activityIndicator.stopAnimating()
-        
-        // Mostrar la información del héroe
-        heroLabel.text = viewModel.hero.info
-        if let imageUrl = URL(string: viewModel.hero.photo) {
-            heroImage.kf.setImage(with: imageUrl, placeholder: UIImage(named: "placeholder"))
-        }
-        
-        // Animación para mostrar los elementos
-        UIView.animate(withDuration: 0.5) {
-            self.heroLabel.alpha = 1
-            self.heroImage.alpha = 1
-        }
-        
-        // Actualizar la visibilidad del ítem en la barra de navegación
+        updateHeroInfo()
+        updateStackViewTransformations()
         updateMapItemVisibility()
-        updateCollectionView()
+        animateUIElements()
     }
     
-    private func updateCollectionView() {
-        var snapshot = NSDiffableDataSourceSnapshot<SectionsTransformations, Transformation>()
-        snapshot.appendSections([.main])
-        snapshot.appendItems(viewModel.transformations, toSection: .main)
-        dataSource?.apply(snapshot, animatingDifferences: true)
-    }
-    
-    // MARK: - Mostrar Error
+    // MARK: - Mostrar error
     private func showError(message: String) {
         activityIndicator.stopAnimating()
         let alert = UIAlertController(title: "Error", message: message, preferredStyle: .alert)
@@ -146,29 +134,68 @@ class DetailsHeroViewController: UIViewController {
         present(alert, animated: true, completion: nil)
     }
     
-    // MARK: - Collection View Configuration
+    // MARK: - Actualizar colección
+    private func updateCollectionView() {
+        var snapshot = NSDiffableDataSourceSnapshot<SectionsTransformations, Transformation>()
+        snapshot.appendSections([.main])
+        snapshot.appendItems(viewModel.transformations, toSection: .main)
+        dataSource?.apply(snapshot, animatingDifferences: false)
+    }
+    
+    // MARK: - Ocultar elementos de la UI
+    private func hideUIElements() {
+        heroLabel.alpha = 0
+        heroImage.alpha = 0
+        stackViewTransformations.alpha = 0
+        stackViewTransformations.isHidden = true
+    }
+    
+    // MARK: - Actualizar información del héroe
+    private func updateHeroInfo() {
+        heroLabel.text = viewModel.hero.info
+        if let imageUrl = URL(string: viewModel.hero.photo) {
+            heroImage.kf.setImage(with: imageUrl, placeholder: UIImage(named: "placeholder"))
+        }
+    }
+    
+    // MARK: - Actualizar StackView de transformaciones
+    private func updateStackViewTransformations() {
+        if viewModel.transformations.isEmpty {
+            stackViewTransformations.isHidden = true
+        } else {
+            stackViewTransformations.isHidden = false
+        }
+    }
+    
+    // MARK: - Animaciones de la UI
+    private func animateUIElements() {
+        UIView.animate(withDuration: 0.5) {
+            self.heroLabel.alpha = 1
+            self.heroImage.alpha = 1
+            if !self.stackViewTransformations.isHidden {
+                self.stackViewTransformations.alpha = 1
+            }
+        }
+        
+        // Aparecer con retraso y de abajo hacia arriba
+        transformationsCollectionView.transform = CGAffineTransform(translationX: 0, y: 50)
+        transformationsCollectionView.alpha = 0
+        
+        UIView.animate(withDuration: 0.7, delay: 0.5, options: [.curveEaseInOut], animations: {
+            self.transformationsCollectionView.transform = .identity
+            self.transformationsCollectionView.alpha = 1 
+        }, completion: nil)
+    }
+    
+    // MARK: - Configuración del Collection View
     func configureCollectionView() {
         transformationsCollectionView.contentInsetAdjustmentBehavior = .never
         transformationsCollectionView.delegate = self
         let cellRegister = UICollectionView.CellRegistration<HeroCollectionViewCell, Transformation>(cellNib: UINib(nibName: HeroCollectionViewCell.identifier, bundle: nil)) { cell, indexPath, transformation in
-            
             cell.heroNameLabel.text = transformation.name
-            // Animación personalizada de escala (zoom)
             if let url = URL(string: transformation.photo) {
-                cell.heroImage.kf.setImage(with: url, placeholder: UIImage(named: "placeholderImage"), options: [.cacheOriginalImage]) { result in
-                    switch result {
-                    case .success(_):
-                        // Animación de zoom cuando se carga la imagen
-                        cell.heroImage.transform = CGAffineTransform(scaleX: 0.8, y: 0.8)
-                        UIView.animate(withDuration: 0.3, animations: {
-                            cell.heroImage.transform = CGAffineTransform.identity
-                        })
-                    case .failure(let error):
-                        print("Error al cargar la imagen: \(error)")
-                    }
-                }
+                cell.heroImage.kf.setImage(with: url, placeholder: UIImage(named: "placeholderImage"))
             }
-            
         }
         
         dataSource = UICollectionViewDiffableDataSource<SectionsTransformations, Transformation>(collectionView: transformationsCollectionView, cellProvider: { collectionView, indexPath, transformation in
@@ -179,26 +206,19 @@ class DetailsHeroViewController: UIViewController {
 
 // MARK: - UICollectionViewDelegateFlowLayout
 extension DetailsHeroViewController: UICollectionViewDelegateFlowLayout {
-
-    func transformationsCollectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         let sectionInsets = UIEdgeInsets(top: 0, left: 10, bottom: 0, right: 10) // Márgenes laterales
-        
-        // Cálculo del ancho disponible restando márgenes y padding
-        let availableHeight = collectionView.frame.height - sectionInsets.top - sectionInsets.bottom
-        let widthPerItem = collectionView.frame.width / 2 // Ajusta la proporción del ancho si quieres más items en pantalla
-
-        return CGSize(width: widthPerItem, height: availableHeight) // Ajustar el ancho y mantener la altura completa
+        let widthPerItem: CGFloat = 300
+        let heightPerItem = collectionView.frame.height - sectionInsets.top - sectionInsets.bottom
+        return CGSize(width: widthPerItem, height: heightPerItem)
     }
-
-    func transformationsCollectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
-        return 10 // Espacio horizontal entre celdas
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
+        return 10
     }
-
-    func transformationsCollectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
-        return 0 // Sin espacio entre los items en la misma fila (solo horizontal en este caso)
-    }
-
-    func transformationsCollectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
-        return UIEdgeInsets(top: 0, left: 10, bottom: 0, right: 10) // Márgenes horizontales
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
+        return UIEdgeInsets(top: 0, left: 10, bottom: 0, right: 10)
     }
 }

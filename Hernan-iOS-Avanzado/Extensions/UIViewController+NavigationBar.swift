@@ -12,7 +12,7 @@ extension UIViewController {
     // MARK: - NavigationBar Configuration
     func configureNavigationBar(title: String?, backgroundColor: UIColor) {
         self.title = title
-        navigationController?.navigationBar.prefersLargeTitles = true
+        navigationController?.navigationBar.prefersLargeTitles = false
         
         let appearance = UINavigationBarAppearance()
         appearance.configureWithOpaqueBackground()

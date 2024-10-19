@@ -60,7 +60,14 @@ class DetailsHeroViewModel {
         useCase.loadTransformationsForHeroWithId(id: hero.id) { [weak self] result in
             switch result {
             case .success(let transformations):
-                self?.transformations = transformations
+                // Eliminar duplicados por nombre y ordenar alfabéticamente
+                let uniqueTransformations = Dictionary(grouping: transformations, by: { $0.name })
+                    .compactMap { $0.value.first } // Mantiene la primera ocurrencia de cada nombre
+                
+                self?.transformations = uniqueTransformations.sorted(by: {
+                    $0.name.localizedStandardCompare($1.name) == .orderedAscending
+                })
+                
                 self?.status.value = .success
             case .failure(let error):
                 self?.handleError(error)
