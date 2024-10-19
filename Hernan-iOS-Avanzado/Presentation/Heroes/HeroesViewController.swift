@@ -162,7 +162,9 @@ extension HeroesViewController: UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         guard let hero = viewModel.heroAt(index: indexPath.row) else { return }
         
-        let detailsViewController = DetailsHeroViewController()
-        navigationController?.pushViewController(detailsViewController, animated: true)
+        let detailsHeroViewModel = DetailsHeroViewModel(hero: hero)
+        let detailsHeroViewController = DetailsHeroViewController(viewModel: detailsHeroViewModel)
+        
+        navigationController?.pushViewController(detailsHeroViewController, animated: true)
     }
 }

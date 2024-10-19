@@ -20,6 +20,7 @@ enum GAError: Error, CustomStringConvertible {
     case authenticationFailed
     case sessionTokenMissing
     case badUrl
+    case heroNotFound(heroId: String)
     
     // MARK: - Error Description
     var description: String {
@@ -42,6 +43,8 @@ enum GAError: Error, CustomStringConvertible {
             return "Session token missing"
         case .badUrl:
             return "Bad URL"
+        case .heroNotFound(heroId: let heroId):
+            return "Hero with id \(heroId) not found"
         }
     }
 }

@@ -8,6 +8,11 @@
 
 /* Begin PBXBuildFile section */
 		660181E92CC23F1D00D08DBB /* Kingfisher in Frameworks */ = {isa = PBXBuildFile; productRef = 660181E82CC23F1D00D08DBB /* Kingfisher */; };
+		6631329C2CC258E200F4E48C /* DetailsHeroViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6631329B2CC258D800F4E48C /* DetailsHeroViewModel.swift */; };
+		6631329E2CC25A6500F4E48C /* DetailsHeroUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6631329D2CC25A5B00F4E48C /* DetailsHeroUseCase.swift */; };
+		663132A02CC25B7B00F4E48C /* Location.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6631329F2CC25B7800F4E48C /* Location.swift */; };
+		663132A22CC29F2300F4E48C /* HeroAnnotation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 663132A12CC29F1B00F4E48C /* HeroAnnotation.swift */; };
+		663132A42CC2A9DA00F4E48C /* MapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 663132A32CC2A9D300F4E48C /* MapViewController.swift */; };
 		663218A52CC187ED0086D097 /* DetailsHeroViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 663218A32CC187ED0086D097 /* DetailsHeroViewController.swift */; };
 		663218A62CC187ED0086D097 /* DetailsHeroViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 663218A42CC187ED0086D097 /* DetailsHeroViewController.xib */; };
 		66509D512CBFA17B009134FF /* HeroesViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66509D502CBFA16F009134FF /* HeroesViewModel.swift */; };
@@ -64,6 +69,11 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		6631329B2CC258D800F4E48C /* DetailsHeroViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailsHeroViewModel.swift; sourceTree = "<group>"; };
+		6631329D2CC25A5B00F4E48C /* DetailsHeroUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailsHeroUseCase.swift; sourceTree = "<group>"; };
+		6631329F2CC25B7800F4E48C /* Location.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Location.swift; sourceTree = "<group>"; };
+		663132A12CC29F1B00F4E48C /* HeroAnnotation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HeroAnnotation.swift; sourceTree = "<group>"; };
+		663132A32CC2A9D300F4E48C /* MapViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapViewController.swift; sourceTree = "<group>"; };
 		663218A32CC187ED0086D097 /* DetailsHeroViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailsHeroViewController.swift; sourceTree = "<group>"; };
 		663218A42CC187ED0086D097 /* DetailsHeroViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = DetailsHeroViewController.xib; sourceTree = "<group>"; };
 		66509D502CBFA16F009134FF /* HeroesViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HeroesViewModel.swift; sourceTree = "<group>"; };
@@ -146,9 +156,20 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		663132A52CC2B5FE00F4E48C /* Map */ = {
+			isa = PBXGroup;
+			children = (
+				663132A32CC2A9D300F4E48C /* MapViewController.swift */,
+				663132A12CC29F1B00F4E48C /* HeroAnnotation.swift */,
+			);
+			path = Map;
+			sourceTree = "<group>";
+		};
 		663218A22CC187AF0086D097 /* DetailsHero */ = {
 			isa = PBXGroup;
 			children = (
+				663132A52CC2B5FE00F4E48C /* Map */,
+				6631329B2CC258D800F4E48C /* DetailsHeroViewModel.swift */,
 				663218A32CC187ED0086D097 /* DetailsHeroViewController.swift */,
 				663218A42CC187ED0086D097 /* DetailsHeroViewController.xib */,
 			);
@@ -189,6 +210,7 @@
 		66547DB42CBEA00F0084C792 /* Models */ = {
 			isa = PBXGroup;
 			children = (
+				6631329F2CC25B7800F4E48C /* Location.swift */,
 				66547E0F2CBEA7110084C792 /* Hero.swift */,
 			);
 			path = Models;
@@ -197,6 +219,7 @@
 		66547DBA2CBEA00F0084C792 /* UseCases */ = {
 			isa = PBXGroup;
 			children = (
+				6631329D2CC25A5B00F4E48C /* DetailsHeroUseCase.swift */,
 				667073412CC10F2300982A5D /* LoginUseCase.swift */,
 				66509D622CBFF775009134FF /* ClearDataBaseUseCase.swift */,
 				66547E112CBEA75E0084C792 /* HeroUseCase.swift */,
@@ -497,6 +520,7 @@
 				66547DF42CBEA3040084C792 /* MOLocation+CoreDataClass.swift in Sources */,
 				66547E0E2CBEA52E0084C792 /* GARequestBuilder.swift in Sources */,
 				66547DF62CBEA3040084C792 /* MOTransformation+CoreDataClass.swift in Sources */,
+				6631329E2CC25A6500F4E48C /* DetailsHeroUseCase.swift in Sources */,
 				66547E002CBEA45D0084C792 /* APIHero.swift in Sources */,
 				66547E172CBEA7E30084C792 /* HeroesViewController.swift in Sources */,
 				66547E082CBEA4CC0084C792 /* APIProvider.swift in Sources */,
@@ -510,13 +534,17 @@
 				66547E0A2CBEA5150084C792 /* GAEndpoint.swift in Sources */,
 				66547E042CBEA4720084C792 /* APITransformation.swift in Sources */,
 				66547DDD2CBEA00F0084C792 /* SceneDelegate.swift in Sources */,
+				6631329C2CC258E200F4E48C /* DetailsHeroViewModel.swift in Sources */,
 				66547DFA2CBEA3F00084C792 /* StoreDataProvider.swift in Sources */,
+				663132A42CC2A9DA00F4E48C /* MapViewController.swift in Sources */,
 				667073442CC1112300982A5D /* LoginViewModel.swift in Sources */,
 				66509D612CBFF531009134FF /* UIViewController+NavigationBar.swift in Sources */,
+				663132A22CC29F2300F4E48C /* HeroAnnotation.swift in Sources */,
 				66547DDE2CBEA00F0084C792 /* LoginViewController.swift in Sources */,
 				66547DDF2CBEA00F0084C792 /* SplashViewController.swift in Sources */,
 				66547E022CBEA4670084C792 /* APILocation.swift in Sources */,
 				66547E122CBEA7620084C792 /* HeroUseCase.swift in Sources */,
+				663132A02CC25B7B00F4E48C /* Location.swift in Sources */,
 				66509D632CBFF785009134FF /* ClearDataBaseUseCase.swift in Sources */,
 				66547E102CBEA7150084C792 /* Hero.swift in Sources */,
 			);
