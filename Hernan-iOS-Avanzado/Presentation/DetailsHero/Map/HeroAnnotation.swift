@@ -9,7 +9,7 @@ import MapKit
 
 class HeroAnnotation: NSObject, MKAnnotation {
     let coordinate: CLLocationCoordinate2D
-    let title: String?
+    var title: String?
     let subtitle: String?
     
     init(coordinate: CLLocationCoordinate2D, title: String? = nil, subtitle: String? = nil) {

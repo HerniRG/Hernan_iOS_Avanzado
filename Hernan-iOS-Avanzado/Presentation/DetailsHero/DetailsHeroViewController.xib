@@ -22,11 +22,11 @@
             <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
-                <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="tdh-5s-bWr">
+                <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" translatesAutoresizingMaskIntoConstraints="NO" id="tdh-5s-bWr">
                     <rect key="frame" x="10" y="71" width="373" height="781"/>
                     <subviews>
                         <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="24" translatesAutoresizingMaskIntoConstraints="NO" id="4MC-Xi-D0b" userLabel="Stack View Padre">
-                            <rect key="frame" x="0.0" y="0.0" width="373" height="568.33333333333337"/>
+                            <rect key="frame" x="0.0" y="0.0" width="373" height="718.33333333333337"/>
                             <subviews>
                                 <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="7Js-1a-mpp">
                                     <rect key="frame" x="0.0" y="0.0" width="373" height="250"/>
@@ -41,10 +41,10 @@
                                     <nil key="highlightedColor"/>
                                 </label>
                                 <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="none" translatesAutoresizingMaskIntoConstraints="NO" id="0w3-NF-veM">
-                                    <rect key="frame" x="0.0" y="318.33333333333331" width="373" height="249.99999999999994"/>
+                                    <rect key="frame" x="0.0" y="318.33333333333326" width="373" height="400"/>
                                     <color key="backgroundColor" systemColor="systemOrangeColor"/>
                                     <constraints>
-                                        <constraint firstAttribute="height" constant="250" id="plh-GO-uih"/>
+                                        <constraint firstAttribute="height" constant="400" id="plh-GO-uih"/>
                                     </constraints>
                                     <collectionViewFlowLayout key="collectionViewLayout" scrollDirection="horizontal" minimumLineSpacing="10" minimumInteritemSpacing="10" id="0l0-3t-Fmm">
                                         <size key="itemSize" width="128" height="128"/>
