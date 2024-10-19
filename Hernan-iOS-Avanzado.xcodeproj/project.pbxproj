@@ -10,11 +10,11 @@
 		660181E92CC23F1D00D08DBB /* Kingfisher in Frameworks */ = {isa = PBXBuildFile; productRef = 660181E82CC23F1D00D08DBB /* Kingfisher */; };
 		6603D09E2CC3BA9D00F7704A /* HeroAnnotationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6603D09D2CC3BA9600F7704A /* HeroAnnotationView.swift */; };
 		6603D0A12CC3C69900F7704A /* Transformation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6603D0A02CC3C69500F7704A /* Transformation.swift */; };
+		660798CF2CC4005E00207394 /* MapViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 660798CE2CC4005A00207394 /* MapViewModel.swift */; };
 		6631329C2CC258E200F4E48C /* DetailsHeroViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6631329B2CC258D800F4E48C /* DetailsHeroViewModel.swift */; };
 		6631329E2CC25A6500F4E48C /* DetailsHeroUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6631329D2CC25A5B00F4E48C /* DetailsHeroUseCase.swift */; };
 		663132A02CC25B7B00F4E48C /* Location.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6631329F2CC25B7800F4E48C /* Location.swift */; };
 		663132A22CC29F2300F4E48C /* HeroAnnotation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 663132A12CC29F1B00F4E48C /* HeroAnnotation.swift */; };
-		663132A42CC2A9DA00F4E48C /* MapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 663132A32CC2A9D300F4E48C /* MapViewController.swift */; };
 		663218A52CC187ED0086D097 /* DetailsHeroViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 663218A32CC187ED0086D097 /* DetailsHeroViewController.swift */; };
 		663218A62CC187ED0086D097 /* DetailsHeroViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 663218A42CC187ED0086D097 /* DetailsHeroViewController.xib */; };
 		66509D512CBFA17B009134FF /* HeroesViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66509D502CBFA16F009134FF /* HeroesViewModel.swift */; };
@@ -48,6 +48,8 @@
 		66547E122CBEA7620084C792 /* HeroUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66547E112CBEA75E0084C792 /* HeroUseCase.swift */; };
 		66547E172CBEA7E30084C792 /* HeroesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66547E152CBEA7E30084C792 /* HeroesViewController.swift */; };
 		66547E182CBEA7E30084C792 /* HeroesViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 66547E162CBEA7E30084C792 /* HeroesViewController.xib */; };
+		666B5E742CC3F5E8008A88D1 /* MapViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 666B5E732CC3F5E8008A88D1 /* MapViewController.xib */; };
+		666B5E752CC3F5E8008A88D1 /* MapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 666B5E722CC3F5E8008A88D1 /* MapViewController.swift */; };
 		667073422CC10F2A00982A5D /* LoginUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 667073412CC10F2300982A5D /* LoginUseCase.swift */; };
 		667073442CC1112300982A5D /* LoginViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 667073432CC1111700982A5D /* LoginViewModel.swift */; };
 		668041752CBF09D90099338E /* KeychainSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 668041742CBF09D90099338E /* KeychainSwift */; };
@@ -73,11 +75,11 @@
 /* Begin PBXFileReference section */
 		6603D09D2CC3BA9600F7704A /* HeroAnnotationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HeroAnnotationView.swift; sourceTree = "<group>"; };
 		6603D0A02CC3C69500F7704A /* Transformation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Transformation.swift; sourceTree = "<group>"; };
+		660798CE2CC4005A00207394 /* MapViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapViewModel.swift; sourceTree = "<group>"; };
 		6631329B2CC258D800F4E48C /* DetailsHeroViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailsHeroViewModel.swift; sourceTree = "<group>"; };
 		6631329D2CC25A5B00F4E48C /* DetailsHeroUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailsHeroUseCase.swift; sourceTree = "<group>"; };
 		6631329F2CC25B7800F4E48C /* Location.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Location.swift; sourceTree = "<group>"; };
 		663132A12CC29F1B00F4E48C /* HeroAnnotation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HeroAnnotation.swift; sourceTree = "<group>"; };
-		663132A32CC2A9D300F4E48C /* MapViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapViewController.swift; sourceTree = "<group>"; };
 		663218A32CC187ED0086D097 /* DetailsHeroViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailsHeroViewController.swift; sourceTree = "<group>"; };
 		663218A42CC187ED0086D097 /* DetailsHeroViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = DetailsHeroViewController.xib; sourceTree = "<group>"; };
 		66509D502CBFA16F009134FF /* HeroesViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HeroesViewModel.swift; sourceTree = "<group>"; };
@@ -113,6 +115,8 @@
 		66547E112CBEA75E0084C792 /* HeroUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HeroUseCase.swift; sourceTree = "<group>"; };
 		66547E152CBEA7E30084C792 /* HeroesViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HeroesViewController.swift; sourceTree = "<group>"; };
 		66547E162CBEA7E30084C792 /* HeroesViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = HeroesViewController.xib; sourceTree = "<group>"; };
+		666B5E722CC3F5E8008A88D1 /* MapViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapViewController.swift; sourceTree = "<group>"; };
+		666B5E732CC3F5E8008A88D1 /* MapViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = MapViewController.xib; sourceTree = "<group>"; };
 		667073412CC10F2300982A5D /* LoginUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginUseCase.swift; sourceTree = "<group>"; };
 		667073432CC1111700982A5D /* LoginViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewModel.swift; sourceTree = "<group>"; };
 		66D7A6F02CB9849400EAD8C8 /* Hernan-iOS-Avanzado.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Hernan-iOS-Avanzado.app"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -163,9 +167,11 @@
 		663132A52CC2B5FE00F4E48C /* Map */ = {
 			isa = PBXGroup;
 			children = (
+				660798CE2CC4005A00207394 /* MapViewModel.swift */,
 				6603D09D2CC3BA9600F7704A /* HeroAnnotationView.swift */,
-				663132A32CC2A9D300F4E48C /* MapViewController.swift */,
 				663132A12CC29F1B00F4E48C /* HeroAnnotation.swift */,
+				666B5E722CC3F5E8008A88D1 /* MapViewController.swift */,
+				666B5E732CC3F5E8008A88D1 /* MapViewController.xib */,
 			);
 			path = Map;
 			sourceTree = "<group>";
@@ -491,6 +497,7 @@
 			files = (
 				66547DE12CBEA00F0084C792 /* Assets.xcassets in Resources */,
 				66547DE32CBEA00F0084C792 /* LaunchScreen.storyboard in Resources */,
+				666B5E742CC3F5E8008A88D1 /* MapViewController.xib in Resources */,
 				66547DE42CBEA00F0084C792 /* LoginViewController.xib in Resources */,
 				66547E182CBEA7E30084C792 /* HeroesViewController.xib in Resources */,
 				663218A62CC187ED0086D097 /* DetailsHeroViewController.xib in Resources */,
@@ -538,13 +545,13 @@
 				66509D532CBFA3EF009134FF /* GAObservable.swift in Sources */,
 				66547DDC2CBEA00F0084C792 /* AppDelegate.swift in Sources */,
 				66509D512CBFA17B009134FF /* HeroesViewModel.swift in Sources */,
+				666B5E752CC3F5E8008A88D1 /* MapViewController.swift in Sources */,
 				66509D572CBFAF84009134FF /* HeroCollectionViewCell.swift in Sources */,
 				66547E0A2CBEA5150084C792 /* GAEndpoint.swift in Sources */,
 				66547E042CBEA4720084C792 /* APITransformation.swift in Sources */,
 				66547DDD2CBEA00F0084C792 /* SceneDelegate.swift in Sources */,
 				6631329C2CC258E200F4E48C /* DetailsHeroViewModel.swift in Sources */,
 				66547DFA2CBEA3F00084C792 /* StoreDataProvider.swift in Sources */,
-				663132A42CC2A9DA00F4E48C /* MapViewController.swift in Sources */,
 				667073442CC1112300982A5D /* LoginViewModel.swift in Sources */,
 				66509D612CBFF531009134FF /* UIViewController+NavigationBar.swift in Sources */,
 				663132A22CC29F2300F4E48C /* HeroAnnotation.swift in Sources */,
@@ -555,6 +562,7 @@
 				663132A02CC25B7B00F4E48C /* Location.swift in Sources */,
 				66509D632CBFF785009134FF /* ClearDataBaseUseCase.swift in Sources */,
 				66547E102CBEA7150084C792 /* Hero.swift in Sources */,
+				660798CF2CC4005E00207394 /* MapViewModel.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
