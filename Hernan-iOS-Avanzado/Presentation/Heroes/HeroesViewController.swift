@@ -49,7 +49,11 @@ class HeroesViewController: UIViewController {
         navigationItem.hidesBackButton = true
         navigationController?.setNavigationBarHidden(false, animated: animated)
         configureNavigationBar(title: "Heroes", backgroundColor: .systemBackground)
-        
+    }
+    
+    override func viewWillLayoutSubviews() {
+        super.viewWillLayoutSubviews()
+        collectionView.collectionViewLayout.invalidateLayout() 
     }
     
     // MARK: - Logout Button Configuration
@@ -137,7 +141,7 @@ class HeroesViewController: UIViewController {
 extension HeroesViewController: UICollectionViewDelegateFlowLayout {
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        let itemsPerRow: CGFloat = 2 // Número de columnas que quieres
+        let itemsPerRow: CGFloat = collectionView.frame.width > collectionView.frame.height ? 3 : 2 // Cambia el número de columnas según la orientación
         let padding: CGFloat = 2 // Espacio entre celdas
         let sectionInsets = UIEdgeInsets(top: 14, left: 10, bottom: 14, right: 10) // Márgenes laterales
         

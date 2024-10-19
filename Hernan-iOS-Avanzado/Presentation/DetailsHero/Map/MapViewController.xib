@@ -49,13 +49,13 @@
             <viewLayoutGuide key="safeArea" id="fnl-2z-Ty3"/>
             <color key="backgroundColor" systemColor="systemBackgroundColor"/>
             <constraints>
-                <constraint firstItem="xBf-n5-oNg" firstAttribute="trailing" secondItem="fnl-2z-Ty3" secondAttribute="trailing" id="0Bi-qK-LCN"/>
+                <constraint firstItem="xBf-n5-oNg" firstAttribute="trailing" secondItem="i5M-Pr-FkT" secondAttribute="trailing" id="0Bi-qK-LCN"/>
                 <constraint firstAttribute="bottom" secondItem="xBf-n5-oNg" secondAttribute="bottom" id="TVP-cn-WDP"/>
                 <constraint firstItem="4KU-jT-elO" firstAttribute="top" secondItem="fnl-2z-Ty3" secondAttribute="top" constant="20" id="WuH-QG-p0h"/>
                 <constraint firstItem="xBf-n5-oNg" firstAttribute="top" secondItem="fnl-2z-Ty3" secondAttribute="top" id="YdX-oY-MSM"/>
                 <constraint firstItem="kdI-Zu-NbR" firstAttribute="centerX" secondItem="i5M-Pr-FkT" secondAttribute="centerX" id="e9Y-8a-SkZ"/>
                 <constraint firstItem="fnl-2z-Ty3" firstAttribute="bottom" secondItem="kdI-Zu-NbR" secondAttribute="bottom" constant="20" id="fEN-ft-OPX"/>
-                <constraint firstItem="xBf-n5-oNg" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" id="k0x-Ox-59W"/>
+                <constraint firstItem="xBf-n5-oNg" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="k0x-Ox-59W"/>
                 <constraint firstItem="fnl-2z-Ty3" firstAttribute="trailing" secondItem="4KU-jT-elO" secondAttribute="trailing" constant="20" id="wNW-MP-ThR"/>
             </constraints>
             <point key="canvasLocation" x="49.618320610687022" y="-11.267605633802818"/>
