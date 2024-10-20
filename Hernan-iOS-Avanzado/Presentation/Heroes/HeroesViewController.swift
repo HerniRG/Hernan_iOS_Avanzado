@@ -25,7 +25,7 @@ class HeroesViewController: UIViewController {
     private var dataSource: UICollectionViewDiffableDataSource<SectionsHeroes, Hero>?
     private var isAscendingOrder: Bool = true
     private var searchController = UISearchController(searchResultsController: nil)
-    private var searchWorkItem: DispatchWorkItem? // Aquí defines la propiedad
+    private var searchWorkItem: DispatchWorkItem?
     
     // MARK: - Initializer
     init(viewModel: HeroesViewModel = HeroesViewModel()) {
@@ -54,6 +54,7 @@ class HeroesViewController: UIViewController {
         navigationItem.hidesBackButton = true
         navigationController?.setNavigationBarHidden(false, animated: animated)
         configureNavigationBar(title: "Heroes", backgroundColor: .systemBackground)
+        searchController.searchBar.text = ""
     }
     
     override func viewWillLayoutSubviews() {
@@ -204,7 +205,7 @@ extension HeroesViewController: UICollectionViewDelegateFlowLayout {
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         guard let hero = viewModel.heroAt(index: indexPath.row) else { return }
-        
+                
         let detailsHeroViewModel = DetailsHeroViewModel(hero: hero)
         let detailsHeroViewController = DetailsHeroViewController(viewModel: detailsHeroViewModel)
         
