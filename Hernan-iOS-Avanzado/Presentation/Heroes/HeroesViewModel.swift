@@ -62,6 +62,16 @@ class HeroesViewModel {
         return heroes[index]
     }
     
+    // MARK: - Ordenar héroes
+    func sortHeroes(ascending: Bool) {
+        if ascending {
+            self.heroes.sort { $0.name.localizedCompare($1.name) == .orderedAscending }
+        } else {
+            self.heroes.sort { $0.name.localizedCompare($1.name) == .orderedDescending }
+        }
+        self.statusHero.value = .dataUpdated 
+    }
+    
     // MARK: - Clear Data
     func clearData() {
         clearDataUseCase.clearDatabaseAndToken { [weak self] result in

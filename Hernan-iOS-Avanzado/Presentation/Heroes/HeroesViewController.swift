@@ -23,6 +23,7 @@ class HeroesViewController: UIViewController {
     // MARK: - Properties
     private var viewModel: HeroesViewModel
     private var dataSource: UICollectionViewDiffableDataSource<SectionsHeroes, Hero>?
+    private var isAscendingOrder: Bool = true // Variable para manejar el orden
     
     // MARK: - Initializer
     init(viewModel: HeroesViewModel = HeroesViewModel()) {
@@ -40,6 +41,7 @@ class HeroesViewController: UIViewController {
         configureCollectionView()
         title = "Heroes"
         configureLogoutButton()
+        configureSortButton() // Configuramos el botón de ordenación
         setBinding()
         viewModel.loadData(filter: nil)
     }
@@ -53,12 +55,24 @@ class HeroesViewController: UIViewController {
     
     override func viewWillLayoutSubviews() {
         super.viewWillLayoutSubviews()
-        collectionView.collectionViewLayout.invalidateLayout() 
+        collectionView.collectionViewLayout.invalidateLayout()
+    }
+    
+    // MARK: - Sort Button Configuration
+    func configureSortButton() {
+        let sortButton = UIBarButtonItem(title: "Ordenar", style: .plain, target: self, action: #selector(sortButtonTapped))
+        sortButton.tintColor = .label
+        navigationItem.leftBarButtonItem = sortButton
+    }
+    
+    @objc func sortButtonTapped() {
+        isAscendingOrder.toggle() // Cambia el orden cada vez que se pulsa
+        viewModel.sortHeroes(ascending: isAscendingOrder) // Llama a la función para ordenar los héroes
     }
     
     // MARK: - Logout Button Configuration
     func configureLogoutButton() {
-        let logoutButton = UIBarButtonItem(title: "Logout", style: .plain, target: self, action: #selector(logoutButtonTapped))
+        let logoutButton = UIBarButtonItem(title: "Cerrar sesión", style: .plain, target: self, action: #selector(logoutButtonTapped))
         logoutButton.tintColor = .label
         navigationItem.rightBarButtonItem = logoutButton
     }
