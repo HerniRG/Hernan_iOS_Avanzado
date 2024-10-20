@@ -26,7 +26,7 @@
                     <standardMapConfiguration key="preferredConfiguration"/>
                 </mapView>
                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="4KU-jT-elO" userLabel="Style">
-                    <rect key="frame" x="245" y="79" width="128" height="35"/>
+                    <rect key="frame" x="20" y="723" width="128" height="35"/>
                     <state key="normal" title="Button"/>
                     <buttonConfiguration key="configuration" style="filled" title="Tipo de Mapa">
                         <color key="baseBackgroundColor" systemColor="systemOrangeColor"/>
@@ -36,7 +36,7 @@
                     </connections>
                 </button>
                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="kdI-Zu-NbR" userLabel="Siguiente">
-                    <rect key="frame" x="149" y="763" width="95.333333333333314" height="35"/>
+                    <rect key="frame" x="277.66666666666669" y="723" width="95.333333333333314" height="35"/>
                     <state key="normal" title="Button"/>
                     <buttonConfiguration key="configuration" style="filled" title="Siguiente">
                         <color key="baseBackgroundColor" systemColor="systemIndigoColor"/>
@@ -49,14 +49,14 @@
             <viewLayoutGuide key="safeArea" id="fnl-2z-Ty3"/>
             <color key="backgroundColor" systemColor="systemBackgroundColor"/>
             <constraints>
-                <constraint firstItem="xBf-n5-oNg" firstAttribute="trailing" secondItem="i5M-Pr-FkT" secondAttribute="trailing" id="0Bi-qK-LCN"/>
-                <constraint firstAttribute="bottom" secondItem="xBf-n5-oNg" secondAttribute="bottom" id="TVP-cn-WDP"/>
-                <constraint firstItem="4KU-jT-elO" firstAttribute="top" secondItem="fnl-2z-Ty3" secondAttribute="top" constant="20" id="WuH-QG-p0h"/>
-                <constraint firstItem="xBf-n5-oNg" firstAttribute="top" secondItem="fnl-2z-Ty3" secondAttribute="top" id="YdX-oY-MSM"/>
-                <constraint firstItem="kdI-Zu-NbR" firstAttribute="centerX" secondItem="i5M-Pr-FkT" secondAttribute="centerX" id="e9Y-8a-SkZ"/>
-                <constraint firstItem="fnl-2z-Ty3" firstAttribute="bottom" secondItem="kdI-Zu-NbR" secondAttribute="bottom" constant="20" id="fEN-ft-OPX"/>
-                <constraint firstItem="xBf-n5-oNg" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="k0x-Ox-59W"/>
-                <constraint firstItem="fnl-2z-Ty3" firstAttribute="trailing" secondItem="4KU-jT-elO" secondAttribute="trailing" constant="20" id="wNW-MP-ThR"/>
+                <constraint firstItem="xBf-n5-oNg" firstAttribute="top" secondItem="fnl-2z-Ty3" secondAttribute="top" id="AIe-Tf-HKh"/>
+                <constraint firstItem="xBf-n5-oNg" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="EwF-ZM-47b"/>
+                <constraint firstAttribute="trailing" secondItem="xBf-n5-oNg" secondAttribute="trailing" id="N9O-Bh-uQu"/>
+                <constraint firstItem="fnl-2z-Ty3" firstAttribute="trailing" secondItem="kdI-Zu-NbR" secondAttribute="trailing" constant="20" id="TCW-5G-tOs"/>
+                <constraint firstItem="fnl-2z-Ty3" firstAttribute="bottom" secondItem="4KU-jT-elO" secondAttribute="bottom" constant="60" id="o9n-Nr-DEU"/>
+                <constraint firstItem="fnl-2z-Ty3" firstAttribute="bottom" secondItem="kdI-Zu-NbR" secondAttribute="bottom" constant="60" id="qOj-Ga-SMK"/>
+                <constraint firstAttribute="bottom" secondItem="xBf-n5-oNg" secondAttribute="bottom" id="rmr-zm-g7w"/>
+                <constraint firstItem="4KU-jT-elO" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" constant="20" id="xmk-Kg-ngs"/>
             </constraints>
             <point key="canvasLocation" x="49.618320610687022" y="-11.267605633802818"/>
         </view>

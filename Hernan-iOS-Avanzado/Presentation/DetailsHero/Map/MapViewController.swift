@@ -13,6 +13,7 @@ class MapViewController: UIViewController {
     // MARK: - IBOutlets
     @IBOutlet weak var nextButton: UIButton!
     @IBOutlet weak var mapView: MKMapView!
+    private var locationManager: CLLocationManager = CLLocationManager()
     
     // MARK: - Properties
     private var viewModel: MapViewModel
@@ -31,12 +32,36 @@ class MapViewController: UIViewController {
         super.viewDidLoad()
         setupMapView()
         setupBindings()
+        checkAuthLocation()
     }
     
     // MARK: - Configurar el MapView
     private func setupMapView() {
         updateTitleForAnnotations()
         mapView.delegate = self
+        mapView.showsScale = true
+        mapView.showsCompass = true
+        mapView.isZoomEnabled = true
+    }
+    
+    // MARK: - Check Auth Location
+    private func checkAuthLocation() {
+        let authorizationStatus = locationManager.authorizationStatus
+        
+        switch authorizationStatus {
+        case .notDetermined:
+            locationManager.requestWhenInUseAuthorization()
+        case .denied, .restricted:
+            mapView.showsUserLocation = false
+            mapView.showsUserTrackingButton = false
+        case .authorizedAlways, .authorizedWhenInUse:
+            locationManager.startUpdatingLocation()
+            mapView.showsUserLocation = true
+            mapView.showsUserTrackingButton = true
+        @unknown default:
+            break
+        }
+        
     }
     
     // MARK: - Configurar los bindings

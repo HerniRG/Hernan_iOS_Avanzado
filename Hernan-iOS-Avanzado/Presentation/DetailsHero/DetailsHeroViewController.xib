@@ -26,8 +26,8 @@
                 <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" translatesAutoresizingMaskIntoConstraints="NO" id="tdh-5s-bWr">
                     <rect key="frame" x="0.0" y="59" width="393" height="793"/>
                     <subviews>
-                        <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="equalCentering" spacing="16" translatesAutoresizingMaskIntoConstraints="NO" id="4MC-Xi-D0b" userLabel="Stack View Padre">
-                            <rect key="frame" x="0.0" y="0.0" width="393" height="773"/>
+                        <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="equalCentering" translatesAutoresizingMaskIntoConstraints="NO" id="4MC-Xi-D0b" userLabel="Stack View Padre">
+                            <rect key="frame" x="0.0" y="0.0" width="393" height="757"/>
                             <subviews>
                                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="JQK-gv-3m1">
                                     <rect key="frame" x="0.0" y="0.0" width="393" height="368.66666666666669"/>
@@ -59,7 +59,7 @@
                                     </constraints>
                                 </view>
                                 <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="12" translatesAutoresizingMaskIntoConstraints="NO" id="bN9-45-R3n">
-                                    <rect key="frame" x="0.0" y="384.66666666666674" width="393" height="388.33333333333326"/>
+                                    <rect key="frame" x="0.0" y="368.66666666666674" width="393" height="388.33333333333326"/>
                                     <subviews>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Transformaciones" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="tNV-hk-gEt">
                                             <rect key="frame" x="0.0" y="0.0" width="393" height="26.333333333333332"/>
