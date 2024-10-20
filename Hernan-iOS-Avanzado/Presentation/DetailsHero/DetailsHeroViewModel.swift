@@ -52,7 +52,7 @@ class DetailsHeroViewModel {
             guard let coordinate = location.coordinate else { return nil }
             return HeroAnnotation(coordinate: coordinate, title: self.hero.name)
         }
-        self.status.value = .success // Cambiar estado a éxito después de actualizar
+        self.status.value = .success 
     }
     
     // MARK: - Cargar transformaciones del héroe
@@ -73,6 +73,10 @@ class DetailsHeroViewModel {
                 self?.handleError(error)
             }
         }
+    }
+    
+    func transformationAt(index: Int) -> Transformation? {
+        return index < transformations.count ? transformations[index] : nil
     }
     
     // Manejar errores

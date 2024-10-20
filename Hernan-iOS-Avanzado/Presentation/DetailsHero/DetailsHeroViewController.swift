@@ -183,7 +183,7 @@ class DetailsHeroViewController: UIViewController {
         
         UIView.animate(withDuration: 0.7, delay: 0.5, options: [.curveEaseInOut], animations: {
             self.transformationsCollectionView.transform = .identity
-            self.transformationsCollectionView.alpha = 1 
+            self.transformationsCollectionView.alpha = 1
         }, completion: nil)
     }
     
@@ -206,6 +206,15 @@ class DetailsHeroViewController: UIViewController {
 
 // MARK: - UICollectionViewDelegateFlowLayout
 extension DetailsHeroViewController: UICollectionViewDelegateFlowLayout {
+    
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        guard let selectedTransformation = viewModel.transformationAt(index: indexPath.row) else { return }
+        
+        let detailsTransformationViewModel = DetailsTransformationViewModel(transformation: selectedTransformation)
+        let detailsTransformationViewController = DetailsTransformationViewController(viewModel: detailsTransformationViewModel)
+        
+        present(detailsTransformationViewController, animated: true, completion: nil)
+    }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         let sectionInsets = UIEdgeInsets(top: 0, left: 10, bottom: 0, right: 10) // Márgenes laterales

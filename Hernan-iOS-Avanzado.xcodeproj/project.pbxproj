@@ -53,6 +53,9 @@
 		667073422CC10F2A00982A5D /* LoginUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 667073412CC10F2300982A5D /* LoginUseCase.swift */; };
 		667073442CC1112300982A5D /* LoginViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 667073432CC1111700982A5D /* LoginViewModel.swift */; };
 		668041752CBF09D90099338E /* KeychainSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 668041742CBF09D90099338E /* KeychainSwift */; };
+		66A1DB9B2CC4E90C008D817B /* DetailsTransformationViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 66A1DB9A2CC4E90C008D817B /* DetailsTransformationViewController.xib */; };
+		66A1DB9C2CC4E90C008D817B /* DetailsTransformationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66A1DB992CC4E90C008D817B /* DetailsTransformationViewController.swift */; };
+		66A1DB9E2CC4E922008D817B /* DetailsTransformationViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66A1DB9D2CC4E910008D817B /* DetailsTransformationViewModel.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -119,6 +122,9 @@
 		666B5E732CC3F5E8008A88D1 /* MapViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = MapViewController.xib; sourceTree = "<group>"; };
 		667073412CC10F2300982A5D /* LoginUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginUseCase.swift; sourceTree = "<group>"; };
 		667073432CC1111700982A5D /* LoginViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewModel.swift; sourceTree = "<group>"; };
+		66A1DB992CC4E90C008D817B /* DetailsTransformationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailsTransformationViewController.swift; sourceTree = "<group>"; };
+		66A1DB9A2CC4E90C008D817B /* DetailsTransformationViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = DetailsTransformationViewController.xib; sourceTree = "<group>"; };
+		66A1DB9D2CC4E910008D817B /* DetailsTransformationViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailsTransformationViewModel.swift; sourceTree = "<group>"; };
 		66D7A6F02CB9849400EAD8C8 /* Hernan-iOS-Avanzado.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Hernan-iOS-Avanzado.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		66D7A7062CB9849500EAD8C8 /* Hernan-iOS-AvanzadoTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Hernan-iOS-AvanzadoTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		66D7A7102CB9849500EAD8C8 /* Hernan-iOS-AvanzadoUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Hernan-iOS-AvanzadoUITests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -255,6 +261,7 @@
 				66547E142CBEA78A0084C792 /* Splash And Login */,
 				66547E132CBEA7810084C792 /* Heroes */,
 				663218A22CC187AF0086D097 /* DetailsHero */,
+				66A1DB982CC4E6A1008D817B /* DetailsTransformation */,
 			);
 			path = Presentation;
 			sourceTree = "<group>";
@@ -350,6 +357,16 @@
 				66509D552CBFAF84009134FF /* HeroCollectionViewCell.xib */,
 			);
 			path = Cell;
+			sourceTree = "<group>";
+		};
+		66A1DB982CC4E6A1008D817B /* DetailsTransformation */ = {
+			isa = PBXGroup;
+			children = (
+				66A1DB9D2CC4E910008D817B /* DetailsTransformationViewModel.swift */,
+				66A1DB992CC4E90C008D817B /* DetailsTransformationViewController.swift */,
+				66A1DB9A2CC4E90C008D817B /* DetailsTransformationViewController.xib */,
+			);
+			path = DetailsTransformation;
 			sourceTree = "<group>";
 		};
 		66D7A6E72CB9849400EAD8C8 = {
@@ -495,6 +512,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				66A1DB9B2CC4E90C008D817B /* DetailsTransformationViewController.xib in Resources */,
 				66547DE12CBEA00F0084C792 /* Assets.xcassets in Resources */,
 				66547DE32CBEA00F0084C792 /* LaunchScreen.storyboard in Resources */,
 				666B5E742CC3F5E8008A88D1 /* MapViewController.xib in Resources */,
@@ -561,7 +579,9 @@
 				66547E122CBEA7620084C792 /* HeroUseCase.swift in Sources */,
 				663132A02CC25B7B00F4E48C /* Location.swift in Sources */,
 				66509D632CBFF785009134FF /* ClearDataBaseUseCase.swift in Sources */,
+				66A1DB9C2CC4E90C008D817B /* DetailsTransformationViewController.swift in Sources */,
 				66547E102CBEA7150084C792 /* Hero.swift in Sources */,
+				66A1DB9E2CC4E922008D817B /* DetailsTransformationViewModel.swift in Sources */,
 				660798CF2CC4005E00207394 /* MapViewModel.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
