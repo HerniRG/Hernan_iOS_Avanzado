@@ -67,9 +67,14 @@ class HeroesViewController: UIViewController {
         searchController.obscuresBackgroundDuringPresentation = false
         searchController.searchBar.placeholder = "Buscar héroe"
         
+        // Cambiar el texto del botón "Cancel" a "Cancelar"
+        searchController.searchBar.setValue("Cancelar", forKey: "cancelButtonText")
+        // Evitar que el UISearchController encoge la barra de navegación
+        searchController.hidesNavigationBarDuringPresentation = false
+        
         // Hacer que la barra de búsqueda se muestre directamente en la navegación
         navigationItem.searchController = searchController
-        navigationItem.hidesSearchBarWhenScrolling = false 
+        navigationItem.hidesSearchBarWhenScrolling = false
         definesPresentationContext = true
     }
 

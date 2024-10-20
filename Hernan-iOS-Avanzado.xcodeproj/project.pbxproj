@@ -637,7 +637,7 @@
 				DEVELOPMENT_TEAM = 9M98K8Y584;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "Hernan-iOS-Avanzado/Supporting Files/Info.plist";
-				INFOPLIST_KEY_CFBundleDisplayName = "Hernan iOS Avanzado";
+				INFOPLIST_KEY_CFBundleDisplayName = "Dragon Ball";
 				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "Necesito la ubicación para mostrarlo en el mapa";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
@@ -666,7 +666,7 @@
 				DEVELOPMENT_TEAM = 9M98K8Y584;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "Hernan-iOS-Avanzado/Supporting Files/Info.plist";
-				INFOPLIST_KEY_CFBundleDisplayName = "Hernan iOS Avanzado";
+				INFOPLIST_KEY_CFBundleDisplayName = "Dragon Ball";
 				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "Necesito la ubicación para mostrarlo en el mapa";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
