@@ -35,8 +35,11 @@ class LoginViewController: UIViewController {
         // Configuración de los UITextFields
         usernameTextField.backgroundColor = .secondarySystemBackground
         usernameTextField.textColor = .label
+        
+        // Configuración de passwordTextField
         passwordTextField.backgroundColor = .secondarySystemBackground
         passwordTextField.textColor = .label
+        setupPasswordToggle()
     }
     
     private func setupLoginContainerView() {
@@ -44,6 +47,34 @@ class LoginViewController: UIViewController {
         loginContainerView.layer.borderWidth = 0.5
         loginContainerView.layer.borderColor = UIColor.systemGray.cgColor
         loginContainerView.backgroundColor = UIColor.systemBackground.withAlphaComponent(0.9)
+    }
+    
+    private func setupPasswordToggle() {
+        // Crear botón
+        let passwordToggleButton = UIButton(type: .custom)
+        passwordToggleButton.setImage(UIImage(systemName: "eye.fill"), for: .selected)
+        passwordToggleButton.setImage(UIImage(systemName: "eye.slash.fill"), for: .normal)
+        passwordToggleButton.tintColor = .label
+        passwordToggleButton.frame = CGRect(x: 0, y: 0, width: 24, height: 24)
+        
+        // Asignar función al botón
+        passwordToggleButton.addTarget(self, action: #selector(togglePasswordVisibility), for: .touchUpInside)
+        
+        // Crear un contenedor para el botón con un padding a la derecha
+        let paddingView = UIView(frame: CGRect(x: 0, y: 0, width: 40, height: 24)) // Espacio adicional a la derecha
+        passwordToggleButton.center = paddingView.center
+        paddingView.addSubview(passwordToggleButton)
+        
+        // Configurar el contenedor como el rightView del passwordTextField
+        passwordTextField.rightView = paddingView
+        passwordTextField.rightViewMode = .always
+    }
+    
+    @objc private func togglePasswordVisibility(_ sender: UIButton) {
+        sender.isSelected.toggle() // Cambiar el estado del botón
+        
+        // Alternar el modo de seguridad del campo de texto
+        passwordTextField.isSecureTextEntry.toggle()
     }
     
     // MARK: - Keyboard Handling

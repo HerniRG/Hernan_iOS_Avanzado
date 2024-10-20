@@ -58,7 +58,7 @@
                                                 <constraint firstAttribute="bottom" secondItem="5F4-zN-Jp3" secondAttribute="bottom" constant="10" id="hD8-oh-Lbn"/>
                                             </constraints>
                                         </view>
-                                        <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="Ceq-ev-z4s">
+                                        <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="Ceq-ev-z4s">
                                             <rect key="frame" x="0.0" y="82.333333333333343" width="353" height="250.00000000000003"/>
                                             <constraints>
                                                 <constraint firstAttribute="height" constant="250" id="Esv-Dg-gLm"/>

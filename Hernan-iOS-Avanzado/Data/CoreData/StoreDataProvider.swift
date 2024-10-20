@@ -63,14 +63,20 @@ extension StoreDataProvider {
     /// Inserta MOHero a partir de un array de ApiHero
     func add(heroes: [ApiHero]) {
         for hero in heroes {
-            let newHero = MOHero(context: context)
-            newHero.id = hero.id
-            newHero.name = hero.name
-            newHero.info = hero.description
-            newHero.favorite = hero.favorite ?? false
-            newHero.photo = hero.photo
+            // Verificar que id y name no sean nil antes de agregar
+            if let id = hero.id, let name = hero.name {
+                let newHero = MOHero(context: context)
+                newHero.id = id
+                newHero.name = name
+                newHero.info = hero.description
+                newHero.favorite = hero.favorite ?? false
+                newHero.photo = hero.photo
+                
+                save()  // Guardar después de insertar cada héroe
+            } else {
+                print("Error: Datos incompletos para el héroe \(hero)")
+            }
         }
-        save()
     }
     
     /// Obtiene los héroes, filtrando según el NSPredicate
@@ -94,45 +100,80 @@ extension StoreDataProvider {
     /// Inserta MOLocation a partir de un array de ApiLocation
     func add(locations: [ApiLocation]) {
         for location in locations {
-            let newLocation = MOLocation(context: context)
-            newLocation.id = location.id
-            newLocation.latitude = location.latitude
-            newLocation.longitude = location.longitude
-            newLocation.date = location.date
-            
-            if let heroId = location.hero?.id {
-                let predicate = NSPredicate(format: "id == %@", heroId)
-                let hero = fetchHeroes(filter: predicate).first
-                newLocation.hero = hero
+            // Verificar que id, latitude, y longitude no sean nil antes de agregar
+            if let id = location.id, let latitude = location.latitude, let longitude = location.longitude {
+                let newLocation = MOLocation(context: context)
+                newLocation.id = id
+                newLocation.latitude = latitude
+                newLocation.longitude = longitude
+                newLocation.date = location.date
+                
+                if let heroId = location.hero?.id {
+                    let predicate = NSPredicate(format: "id == %@", heroId)
+                    if let hero = fetchHeroes(filter: predicate).first {
+                        newLocation.hero = hero
+                        hero.addToLocations(newLocation)
+                    }
+                }
+            } else {
+                print("Error: Datos incompletos para la localización \(location)")
             }
         }
-        save()
+        save()  // Guardar después de insertar cada localización
     }
     
     /// Inserta MOTransformation a partir de un array de ApiTransformation
     func add(transformations: [ApiTransformation]) {
         for transformation in transformations {
-            let newTransformation = MOTransformation(context: context)
-            newTransformation.id = transformation.id
-            newTransformation.name = transformation.name
-            newTransformation.info = transformation.description
-            newTransformation.photo = transformation.photo
-            
-            if let heroId = transformation.hero?.id {
-                let predicate = NSPredicate(format: "id == %@", heroId)
-                let hero = fetchHeroes(filter: predicate).first
-                newTransformation.hero = hero
+            // Verificar que id y name no sean nil antes de agregar
+            if let id = transformation.id, let name = transformation.name {
+                let newTransformation = MOTransformation(context: context)
+                newTransformation.id = id
+                newTransformation.name = name
+                newTransformation.info = transformation.description
+                newTransformation.photo = transformation.photo
+                
+                if let heroId = transformation.hero?.id {
+                    let predicate = NSPredicate(format: "id == %@", heroId)
+                    if let hero = fetchHeroes(filter: predicate).first {
+                        newTransformation.hero = hero
+                        hero.addToTransformations(newTransformation)
+                    }
+                }
+            } else {
+                print("Error: Datos incompletos para la transformación \(transformation)")
             }
         }
-        save()
+        save()  // Guardar después de insertar cada transformación
     }
     
     /// Limpia la base de datos
     func clearBBDD() throws {
-        if context.hasChanges {
-            try context.save()
+        let heroes = fetchHeroes(filter: nil)
+        
+        for hero in heroes {
+            // Eliminar transformaciones relacionadas
+            if let transformations = hero.transformations {
+                for transformation in transformations {
+                    context.delete(transformation)
+                }
+            }
+            
+            // Eliminar localizaciones relacionadas
+            if let locations = hero.locations {
+                for location in locations {
+                    context.delete(location)
+                }
+            }
+            
+            // Finalmente, eliminar el héroe
+            context.delete(hero)
         }
         
+        // Guardar el contexto antes de hacer el batch delete
+        try context.save()
+        
+        // Ahora ejecutar los batch deletes para asegurarte de que todo está limpio
         let batchDeleteHeroes = NSBatchDeleteRequest(fetchRequest: MOHero.fetchRequest())
         let batchDeleteTransformations = NSBatchDeleteRequest(fetchRequest: MOTransformation.fetchRequest())
         let batchDeleteLocations = NSBatchDeleteRequest(fetchRequest: MOLocation.fetchRequest())
@@ -142,9 +183,9 @@ extension StoreDataProvider {
         for request in batchDeleteRequests {
             do {
                 try context.execute(request)
-                context.reset()
+                context.reset()  // Limpiar el contexto después de ejecutar cada batch delete
             } catch {
-                throw error 
+                throw error  // Si falla algún batch delete, lanzar el error
             }
         }
     }

@@ -40,7 +40,7 @@
                                     <rect key="frame" x="0.0" y="0.0" width="293" height="34"/>
                                     <color key="tintColor" systemColor="systemIndigoColor"/>
                                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                    <textInputTraits key="textInputTraits" autocorrectionType="no" textContentType="email"/>
+                                    <textInputTraits key="textInputTraits" autocorrectionType="no" keyboardType="emailAddress" textContentType="email"/>
                                 </textField>
                                 <textField opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="248" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="contraseña" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="W6V-81-Pnx">
                                     <rect key="frame" x="0.0" y="50" width="293" height="34"/>
