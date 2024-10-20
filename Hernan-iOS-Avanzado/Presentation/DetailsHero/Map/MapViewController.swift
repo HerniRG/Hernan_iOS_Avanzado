@@ -8,7 +8,7 @@
 import UIKit
 import MapKit
 
-class MapViewController: UIViewController {
+class MapViewController: UIViewController, CLLocationManagerDelegate {
     
     // MARK: - IBOutlets
     @IBOutlet weak var nextButton: UIButton!
@@ -32,6 +32,9 @@ class MapViewController: UIViewController {
         super.viewDidLoad()
         setupMapView()
         setupBindings()
+        
+        // Configurar delegado y verificar autorización de ubicación
+        locationManager.delegate = self
         checkAuthLocation()
     }
     
@@ -55,13 +58,31 @@ class MapViewController: UIViewController {
             mapView.showsUserLocation = false
             mapView.showsUserTrackingButton = false
         case .authorizedAlways, .authorizedWhenInUse:
-            locationManager.startUpdatingLocation()
-            mapView.showsUserLocation = true
-            mapView.showsUserTrackingButton = true
+            enableUserLocation()
         @unknown default:
             break
         }
-        
+    }
+    
+    // MARK: - Habilitar la ubicación del usuario
+    private func enableUserLocation() {
+        locationManager.startUpdatingLocation()
+        mapView.showsUserLocation = true
+        mapView.showsUserTrackingButton = true
+    }
+    
+    // MARK: - CLLocationManagerDelegate
+    func locationManager(_ manager: CLLocationManager, didChangeAuthorization status: CLAuthorizationStatus) {
+        switch status {
+        case .authorizedWhenInUse, .authorizedAlways:
+            // Habilitar el botón de localización al concederse los permisos
+            enableUserLocation()
+        case .denied, .restricted:
+            mapView.showsUserLocation = false
+            mapView.showsUserTrackingButton = false
+        default:
+            break
+        }
     }
     
     // MARK: - Configurar los bindings
@@ -72,7 +93,11 @@ class MapViewController: UIViewController {
                 break
             case .success:
                 self?.updateMap()
-                self?.nextButton.isHidden = self?.viewModel.isNextButtonHidden ?? true
+                if self?.viewModel.isNextButtonChangeText == true {
+                    self?.nextButton.setTitle("Localización", for: .normal)
+                } else {
+                    self?.nextButton.setTitle("Localizaciones", for: .normal)
+                }
             case .error(let msg):
                 print("Error: \(msg)")
             }

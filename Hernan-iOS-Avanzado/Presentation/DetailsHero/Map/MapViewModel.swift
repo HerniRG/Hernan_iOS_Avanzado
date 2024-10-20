@@ -41,7 +41,7 @@ class MapViewModel {
     private var currentMapType: MapTypeState = .standard
     var status: GAObservable<MapViewStatus> = GAObservable(.loading)
     
-    var isNextButtonHidden: Bool {
+    var isNextButtonChangeText: Bool {
         return annotations.count <= 1
     }
     
