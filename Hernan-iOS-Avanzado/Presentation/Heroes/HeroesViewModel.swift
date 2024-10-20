@@ -45,7 +45,8 @@ class HeroesViewModel {
         useCase.loadHeros(filter: predicate) { [weak self] result in
             switch result {
             case .success(let heroes):
-                self?.heroes = heroes
+                // Ordenar héroes por nombre antes de asignarlos
+                self?.heroes = heroes.sorted { $0.name.localizedCompare($1.name) == .orderedAscending }
                 self?.statusHero.value = .dataUpdated
             case .failure(let error):
                 self?.statusHero.value = .error(msg: error.description)

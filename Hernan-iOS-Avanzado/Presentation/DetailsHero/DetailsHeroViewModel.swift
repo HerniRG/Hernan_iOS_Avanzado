@@ -5,6 +5,8 @@
 //  Created by Hernán Rodríguez on 18/10/24.
 //
 
+import Foundation
+
 enum StatusDetailsHero {
     case loading
     case success
@@ -47,14 +49,34 @@ class DetailsHeroViewModel {
     }
     
     // Actualizar las anotaciones del mapa
+    // Actualizar las anotaciones del mapa
     private func updateAnnotations() {
         self.annotations = heroLocations.compactMap { location in
             guard let coordinate = location.coordinate else { return nil }
-            return HeroAnnotation(coordinate: coordinate, title: self.hero.name)
+            
+            // Llamar a la función de formateo de la fecha
+            let formattedDate = formatDate(location.date)
+            
+            // Aquí pasamos el dateShow formateado como subtítulo
+            return HeroAnnotation(coordinate: coordinate, title: self.hero.name, subtitle: formattedDate)
         }
-        self.status.value = .success 
+        self.status.value = .success
     }
     
+    // Función para formatear la fecha
+    private func formatDate(_ dateString: String?) -> String {
+        guard let dateString = dateString else { return "Fecha no disponible" }
+        
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ssZ"
+        
+        if let date = dateFormatter.date(from: dateString) {
+            dateFormatter.dateFormat = "d MMM yyyy"
+            return dateFormatter.string(from: date)
+        } else {
+            return "Fecha no disponible"
+        }
+    }
     // MARK: - Cargar transformaciones del héroe
     private func loadTransformations() {
         useCase.loadTransformationsForHeroWithId(id: hero.id) { [weak self] result in
