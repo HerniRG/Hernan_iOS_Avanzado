@@ -10,9 +10,9 @@ import UIKit
 extension UIViewController {
     
     // MARK: - NavigationBar Configuration
-    func configureNavigationBar(title: String?, backgroundColor: UIColor) {
+    func configureNavigationBar(title: String?, backgroundColor: UIColor, extendedBar: Bool = false) {
         self.title = title
-        navigationController?.navigationBar.prefersLargeTitles = false
+        navigationController?.navigationBar.prefersLargeTitles = extendedBar ? true : false
         
         let appearance = UINavigationBarAppearance()
         appearance.configureWithOpaqueBackground()

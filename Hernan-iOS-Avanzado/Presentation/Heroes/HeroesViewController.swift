@@ -23,7 +23,9 @@ class HeroesViewController: UIViewController {
     // MARK: - Properties
     private var viewModel: HeroesViewModel
     private var dataSource: UICollectionViewDiffableDataSource<SectionsHeroes, Hero>?
-    private var isAscendingOrder: Bool = true // Variable para manejar el orden
+    private var isAscendingOrder: Bool = true
+    private var searchController = UISearchController(searchResultsController: nil)
+    private var searchWorkItem: DispatchWorkItem? // Aquí defines la propiedad
     
     // MARK: - Initializer
     init(viewModel: HeroesViewModel = HeroesViewModel()) {
@@ -41,7 +43,8 @@ class HeroesViewController: UIViewController {
         configureCollectionView()
         title = "Heroes"
         configureLogoutButton()
-        configureSortButton() // Configuramos el botón de ordenación
+        configureSearchController()
+        configureSortButton()
         setBinding()
         viewModel.loadData(filter: nil)
     }
@@ -58,21 +61,36 @@ class HeroesViewController: UIViewController {
         collectionView.collectionViewLayout.invalidateLayout()
     }
     
-    // MARK: - Sort Button Configuration
-    func configureSortButton() {
-        let sortButton = UIBarButtonItem(title: "Ordenar", style: .plain, target: self, action: #selector(sortButtonTapped))
+    // MARK: - Search Configuration
+    private func configureSearchController() {
+        searchController.searchResultsUpdater = self
+        searchController.obscuresBackgroundDuringPresentation = false
+        searchController.searchBar.placeholder = "Buscar héroe"
+        
+        // Hacer que la barra de búsqueda se muestre directamente en la navegación
+        navigationItem.searchController = searchController
+        navigationItem.hidesSearchBarWhenScrolling = false 
+        definesPresentationContext = true
+    }
+
+    // Configuración de los botones de orden
+    private func configureSortButton() {
+        let sortIcon = UIImage(systemName: "arrow.up.arrow.down")
+        let sortButton = UIBarButtonItem(image: sortIcon, style: .plain, target: self, action: #selector(sortButtonTapped))
         sortButton.tintColor = .label
         navigationItem.leftBarButtonItem = sortButton
     }
-    
+
     @objc func sortButtonTapped() {
-        isAscendingOrder.toggle() // Cambia el orden cada vez que se pulsa
-        viewModel.sortHeroes(ascending: isAscendingOrder) // Llama a la función para ordenar los héroes
+        isAscendingOrder.toggle()
+        viewModel.sortHeroes(ascending: isAscendingOrder)
     }
+
     
     // MARK: - Logout Button Configuration
     func configureLogoutButton() {
-        let logoutButton = UIBarButtonItem(title: "Cerrar sesión", style: .plain, target: self, action: #selector(logoutButtonTapped))
+        let logoutIcon = UIImage(systemName: "power") // Icono de un botón de apagado para representar el logout
+        let logoutButton = UIBarButtonItem(image: logoutIcon, style: .plain, target: self, action: #selector(logoutButtonTapped))
         logoutButton.tintColor = .label
         navigationItem.rightBarButtonItem = logoutButton
     }
@@ -186,5 +204,27 @@ extension HeroesViewController: UICollectionViewDelegateFlowLayout {
         let detailsHeroViewController = DetailsHeroViewController(viewModel: detailsHeroViewModel)
         
         navigationController?.pushViewController(detailsHeroViewController, animated: true)
+    }
+}
+
+
+// MARK: - UISearchResultsUpdating
+extension HeroesViewController: UISearchResultsUpdating {
+    
+    func updateSearchResults(for searchController: UISearchController) {
+        let searchText = searchController.searchBar.text ?? ""
+        
+        // Cancelar cualquier búsqueda anterior
+        searchWorkItem?.cancel()
+
+        // Crear un nuevo WorkItem para retrasar la búsqueda
+        let workItem = DispatchWorkItem { [weak self] in
+            guard let self = self else { return }
+            self.viewModel.loadData(filter: searchText.isEmpty ? nil : searchText)
+        }
+
+        // Guardar el nuevo WorkItem y ejecutarlo después de un pequeño retraso
+        searchWorkItem = workItem
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.5, execute: workItem)
     }
 }
