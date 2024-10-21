@@ -12,6 +12,7 @@
             <connections>
                 <outlet property="collectionView" destination="eJd-1w-UNE" id="gbH-13-aSV"/>
                 <outlet property="loadingIndicator" destination="sGG-FU-dxW" id="wcm-zh-9IY"/>
+                <outlet property="noHeroesLabel" destination="Xs7-kH-Ygk" id="hvh-GO-XcY"/>
                 <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
             </connections>
         </placeholder>
@@ -20,6 +21,12 @@
             <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
+                <label hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="No se han encontrado héroes con esa búsqueda." textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Xs7-kH-Ygk" userLabel="noHeroes">
+                    <rect key="frame" x="20" y="405.66666666666669" width="353" height="40.666666666666686"/>
+                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                    <nil key="textColor"/>
+                    <nil key="highlightedColor"/>
+                </label>
                 <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="none" translatesAutoresizingMaskIntoConstraints="NO" id="eJd-1w-UNE">
                     <rect key="frame" x="0.0" y="59" width="393" height="793"/>
                     <color key="backgroundColor" systemColor="systemOrangeColor"/>
@@ -38,6 +45,10 @@
             <color key="backgroundColor" systemColor="systemOrangeColor"/>
             <constraints>
                 <constraint firstItem="sGG-FU-dxW" firstAttribute="centerX" secondItem="i5M-Pr-FkT" secondAttribute="centerX" id="667-ZN-mSb"/>
+                <constraint firstItem="fnl-2z-Ty3" firstAttribute="trailing" secondItem="Xs7-kH-Ygk" secondAttribute="trailing" constant="20" id="6yE-fg-wPw"/>
+                <constraint firstItem="Xs7-kH-Ygk" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" constant="20" id="Fb1-h1-PuW"/>
+                <constraint firstItem="Xs7-kH-Ygk" firstAttribute="centerX" secondItem="i5M-Pr-FkT" secondAttribute="centerX" id="Phc-Se-HmI"/>
+                <constraint firstItem="Xs7-kH-Ygk" firstAttribute="centerY" secondItem="i5M-Pr-FkT" secondAttribute="centerY" id="Rn5-Yy-aZ7"/>
                 <constraint firstItem="eJd-1w-UNE" firstAttribute="top" secondItem="fnl-2z-Ty3" secondAttribute="top" id="VAW-Wg-tyI"/>
                 <constraint firstItem="eJd-1w-UNE" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" id="YuJ-vy-hFd"/>
                 <constraint firstAttribute="bottom" secondItem="eJd-1w-UNE" secondAttribute="bottom" id="cEh-X7-S0K"/>

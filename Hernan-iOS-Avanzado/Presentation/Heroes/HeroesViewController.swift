@@ -17,6 +17,7 @@ enum SectionsHeroes {
 class HeroesViewController: UIViewController {
     
     // MARK: - IBOutlets
+    @IBOutlet weak var noHeroesLabel: UILabel!
     @IBOutlet weak var collectionView: UICollectionView!
     @IBOutlet weak var loadingIndicator: UIActivityIndicatorView!
     
@@ -78,7 +79,7 @@ class HeroesViewController: UIViewController {
         navigationItem.hidesSearchBarWhenScrolling = false
         definesPresentationContext = true
     }
-
+    
     // Configuración de los botones de orden
     private func configureSortButton() {
         let sortIcon = UIImage(systemName: "arrow.up.arrow.down")
@@ -86,12 +87,12 @@ class HeroesViewController: UIViewController {
         sortButton.tintColor = .label
         navigationItem.leftBarButtonItem = sortButton
     }
-
+    
     @objc func sortButtonTapped() {
         isAscendingOrder.toggle()
         viewModel.sortHeroes(ascending: isAscendingOrder)
     }
-
+    
     
     // MARK: - Logout Button Configuration
     func configureLogoutButton() {
@@ -131,6 +132,33 @@ class HeroesViewController: UIViewController {
         snapshot.appendSections([.main])
         snapshot.appendItems(viewModel.heroes, toSection: .main)
         dataSource?.apply(snapshot, animatingDifferences: true)
+        
+        // Mostrar u ocultar el mensaje "No hay héroes"
+        let noResults = viewModel.heroes.isEmpty
+        
+        if noResults {
+            // Si no hay héroes, animar la aparición del label
+            noHeroesLabel.isHidden = false
+            noHeroesLabel.alpha = 0
+            noHeroesLabel.transform = CGAffineTransform(scaleX: 0.8, y: 0.8)
+            
+            UIView.animate(withDuration: 0.3, animations: {
+                self.noHeroesLabel.alpha = 1
+                self.noHeroesLabel.transform = CGAffineTransform.identity
+            })
+            
+            // Ocultar la collectionView si no hay resultados
+            collectionView.isHidden = true
+        } else {
+            // Si hay héroes, ocultar el label y mostrar la collectionView
+            UIView.animate(withDuration: 0.3, animations: {
+                self.noHeroesLabel.alpha = 0
+                self.collectionView.alpha = 1
+            }) { _ in
+                self.noHeroesLabel.isHidden = true
+                self.collectionView.isHidden = false
+            }
+        }
     }
     
     private func showErrorAlert(message: String) {
@@ -205,7 +233,7 @@ extension HeroesViewController: UICollectionViewDelegateFlowLayout {
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         guard let hero = viewModel.heroAt(index: indexPath.row) else { return }
-                
+        
         let detailsHeroViewModel = DetailsHeroViewModel(hero: hero)
         let detailsHeroViewController = DetailsHeroViewController(viewModel: detailsHeroViewModel)
         
@@ -222,13 +250,13 @@ extension HeroesViewController: UISearchResultsUpdating {
         
         // Cancelar cualquier búsqueda anterior
         searchWorkItem?.cancel()
-
+        
         // Crear un nuevo WorkItem para retrasar la búsqueda
         let workItem = DispatchWorkItem { [weak self] in
             guard let self = self else { return }
             self.viewModel.loadData(filter: searchText.isEmpty ? nil : searchText)
         }
-
+        
         // Guardar el nuevo WorkItem y ejecutarlo después de un pequeño retraso
         searchWorkItem = workItem
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.5, execute: workItem)
