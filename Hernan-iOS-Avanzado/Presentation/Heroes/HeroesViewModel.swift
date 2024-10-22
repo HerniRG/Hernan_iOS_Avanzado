@@ -8,7 +8,7 @@
 import Foundation
 
 // MARK: - StatusHero Enum
-enum StatusHero {
+enum StatusHero: Equatable {
     case dataUpdated
     case error(msg: String)
     case none
@@ -43,13 +43,15 @@ class HeroesViewModel {
         
         // Carga de héroes
         useCase.loadHeros(filter: predicate) { [weak self] result in
-            switch result {
-            case .success(let heroes):
-                // Ordenar héroes por nombre antes de asignarlos
-                self?.heroes = heroes.sorted { $0.name.localizedCompare($1.name) == .orderedAscending }
-                self?.statusHero.value = .dataUpdated
-            case .failure(let error):
-                self?.statusHero.value = .error(msg: error.description)
+            DispatchQueue.main.async {
+                switch result {
+                case .success(let heroes):
+                    // Ordenar héroes por nombre antes de asignarlos
+                    self?.heroes = heroes.sorted { $0.name.localizedCompare($1.name) == .orderedAscending }
+                    self?.statusHero.value = .dataUpdated
+                case .failure(let error):
+                    self?.statusHero.value = .error(msg: error.description)
+                }
             }
         }
     }
@@ -69,17 +71,21 @@ class HeroesViewModel {
         } else {
             self.heroes.sort { $0.name.localizedCompare($1.name) == .orderedDescending }
         }
-        self.statusHero.value = .dataUpdated 
+        self.statusHero.value = .dataUpdated
     }
     
     // MARK: - Clear Data
     func clearData() {
-        clearDataUseCase.clearDatabaseAndToken { [weak self] result in
-            switch result {
-            case .success:
-                self?.statusHero.value = .clearDataSuccess
-            case .failure:
-                self?.statusHero.value = .error(msg: "Error limpiando la base de datos")
+        DispatchQueue.global(qos: .background).async { [weak self] in
+            self?.clearDataUseCase.clearDatabaseAndToken { result in
+                DispatchQueue.main.async {
+                    switch result {
+                    case .success:
+                        self?.statusHero.value = .clearDataSuccess
+                    case .failure:
+                        self?.statusHero.value = .error(msg: "Error limpiando la base de datos")
+                    }
+                }
             }
         }
     }

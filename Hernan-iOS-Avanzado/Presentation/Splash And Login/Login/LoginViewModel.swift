@@ -8,7 +8,7 @@
 import Foundation
 
 // MARK: - StatusLogin
-enum StatusLogin {
+enum StatusLogin: Equatable {
     case success
     case error(msg: String)
     case none

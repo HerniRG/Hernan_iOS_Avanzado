@@ -55,6 +55,49 @@ class StoreDataProvider {
             }
         }
     }
+    
+    /// Limpia la base de datos
+    func clearBBDD() throws {
+        let heroes = fetchHeroes(filter: nil)
+        
+        for hero in heroes {
+            // Eliminar transformaciones relacionadas
+            if let transformations = hero.transformations {
+                for transformation in transformations {
+                    context.delete(transformation)
+                }
+            }
+            
+            // Eliminar localizaciones relacionadas
+            if let locations = hero.locations {
+                for location in locations {
+                    context.delete(location)
+                }
+            }
+            
+            // Finalmente, eliminar el héroe
+            context.delete(hero)
+        }
+        
+        // Guardar el contexto antes de hacer el batch delete
+        try context.save()
+        
+        // Ahora ejecutar los batch deletes para asegurarte de que todo está limpio
+        let batchDeleteHeroes = NSBatchDeleteRequest(fetchRequest: MOHero.fetchRequest())
+        let batchDeleteTransformations = NSBatchDeleteRequest(fetchRequest: MOTransformation.fetchRequest())
+        let batchDeleteLocations = NSBatchDeleteRequest(fetchRequest: MOLocation.fetchRequest())
+        
+        let batchDeleteRequests: [NSBatchDeleteRequest] = [batchDeleteHeroes, batchDeleteTransformations, batchDeleteLocations]
+        
+        for request in batchDeleteRequests {
+            do {
+                try context.execute(request)
+                context.reset()  // Limpiar el contexto después de ejecutar cada batch delete
+            } catch {
+                throw error  // Si falla algún batch delete, lanzar el error
+            }
+        }
+    }
 }
 
 // MARK: - Data Operations
@@ -71,31 +114,38 @@ extension StoreDataProvider {
                 newHero.info = hero.description
                 newHero.favorite = hero.favorite ?? false
                 newHero.photo = hero.photo
-                
-                save()  // Guardar después de insertar cada héroe
             } else {
                 print("Error: Datos incompletos para el héroe \(hero)")
             }
         }
+        // Guardar después de insertar todos los héroes
+        save()
     }
     
     /// Obtiene los héroes, filtrando según el NSPredicate
     func fetchHeroes(filter: NSPredicate?, sortAscending: Bool = true) -> [MOHero] {
         let request = MOHero.fetchRequest()
-        if let filter {
+        
+        if let filter = filter {
             request.predicate = filter
+            print("Applying filter: \(filter)")
+        } else {
+            print("No filter applied")
         }
+        
         let sortDescriptor = NSSortDescriptor(keyPath: \MOHero.name, ascending: sortAscending)
         request.sortDescriptors = [sortDescriptor]
         
         do {
             let heroes = try context.fetch(request)
+            print("Filtered heroes: \(heroes.map { $0.name })") // Depurar nombres de héroes filtrados
             return heroes
         } catch {
             debugPrint("Error loading heroes \(error.localizedDescription)")
             return []
         }
     }
+    
     
     /// Inserta MOLocation a partir de un array de ApiLocation
     func add(locations: [ApiLocation]) {
@@ -145,48 +195,5 @@ extension StoreDataProvider {
             }
         }
         save()  // Guardar después de insertar cada transformación
-    }
-    
-    /// Limpia la base de datos
-    func clearBBDD() throws {
-        let heroes = fetchHeroes(filter: nil)
-        
-        for hero in heroes {
-            // Eliminar transformaciones relacionadas
-            if let transformations = hero.transformations {
-                for transformation in transformations {
-                    context.delete(transformation)
-                }
-            }
-            
-            // Eliminar localizaciones relacionadas
-            if let locations = hero.locations {
-                for location in locations {
-                    context.delete(location)
-                }
-            }
-            
-            // Finalmente, eliminar el héroe
-            context.delete(hero)
-        }
-        
-        // Guardar el contexto antes de hacer el batch delete
-        try context.save()
-        
-        // Ahora ejecutar los batch deletes para asegurarte de que todo está limpio
-        let batchDeleteHeroes = NSBatchDeleteRequest(fetchRequest: MOHero.fetchRequest())
-        let batchDeleteTransformations = NSBatchDeleteRequest(fetchRequest: MOTransformation.fetchRequest())
-        let batchDeleteLocations = NSBatchDeleteRequest(fetchRequest: MOLocation.fetchRequest())
-        
-        let batchDeleteRequests: [NSBatchDeleteRequest] = [batchDeleteHeroes, batchDeleteTransformations, batchDeleteLocations]
-        
-        for request in batchDeleteRequests {
-            do {
-                try context.execute(request)
-                context.reset()  // Limpiar el contexto después de ejecutar cada batch delete
-            } catch {
-                throw error  // Si falla algún batch delete, lanzar el error
-            }
-        }
     }
 }

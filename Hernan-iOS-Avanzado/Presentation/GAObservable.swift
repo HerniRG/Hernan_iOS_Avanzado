@@ -7,39 +7,34 @@
 
 import Foundation
 
-// MARK: - GAObservable Class
-/// Crea un tipo genérico para observar cambios en un valor.
 class GAObservable<ObservedType> {
     
-    private var _value: ObservedType // Valor almacenado
+    private var _value: ObservedType
     
-    // Closure para notificar a los observadores sobre el cambio de valor
+    /// Enviará el valor actual a cualquiera que lo esté observando
     private var valueChanged: ((ObservedType) -> Void)?
     
-    // MARK: - Public Property
-    /// Propiedad para acceder y modificar el valor observado.
+    
+    ///Creamos una propiedad de valor donde el valor almacenado puede ser manipulado de forma segura. Esto es diferente a la propiedad _value, que es privada - ésta está diseñada para ser modificada desde cualquier punto de la app, y ambas cambiarán, cambiará _value y enviará su nuevo valor al observador utilizando el closure valueChanged. Otra opción quizás más clara visualmente sería tener una función publica que actualice _value  y otra que lo devuelva. En lugar de usar  los observers set y get de una segunda variable.
     var value: ObservedType {
         get {
             return _value
         }
         set {
-            _value = newValue
             DispatchQueue.main.async {
-                self.valueChanged?(self._value) // Notifica a los observadores en el hilo principal
+                self._value = newValue
+                self.valueChanged?(self._value)
             }
         }
     }
     
-    // MARK: - Initializer
-    /// Inicializa el valor almacenado.
-    /// - Parameter value: Valor inicial.
+    /// Inicializa el valor almacenado
     init(_ value: ObservedType) {
         self._value = value
     }
     
-    // MARK: - Binding
-    /// Asigna un closure que se ejecutará al cambiar el valor.
-    /// - Parameter completion: Closure que recibe el nuevo valor.
+    
+    // Asigna el closure a Valuchanged"
     func bind(completion: ((ObservedType) -> Void)?) {
         valueChanged = completion
     }

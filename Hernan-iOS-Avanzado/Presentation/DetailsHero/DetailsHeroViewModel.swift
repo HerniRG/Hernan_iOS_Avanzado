@@ -7,7 +7,7 @@
 
 import Foundation
 
-enum StatusDetailsHero {
+enum StatusDetailsHero: Equatable {
     case loading
     case success
     case error(msg: String)

@@ -19,12 +19,9 @@ protocol ClearDatabaseAndTokenUseCaseProtocol {
 class ClearDatabaseAndTokenUseCase: ClearDatabaseAndTokenUseCaseProtocol {
     
     private var storeDataProvider: StoreDataProvider
-    private var secureDataStore: SecureDataStore
+    private var secureDataStore: SecureDataStoreProtocol // Cambia a SecureDataStoreProtocol
     
-    // MARK: - Initializer
-    /// Inicializador del caso de uso para limpiar la base de datos.
-    /// - Parameter storeDataProvider: Proveedor de almacenamiento local (por defecto, `StoreDataProvider.shared`).
-    init(storeDataProvider: StoreDataProvider = .shared, secureDataStore: SecureDataStore = .shared) {
+    init(storeDataProvider: StoreDataProvider = .shared, secureDataStore: SecureDataStoreProtocol = SecureDataStore.shared) {
         self.storeDataProvider = storeDataProvider
         self.secureDataStore = secureDataStore
     }

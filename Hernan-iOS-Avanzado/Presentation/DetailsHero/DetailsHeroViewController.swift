@@ -154,7 +154,10 @@ class DetailsHeroViewController: UIViewController {
     private func updateHeroInfo() {
         heroLabel.text = viewModel.hero.info
         if let imageUrl = URL(string: viewModel.hero.photo) {
-            heroImage.kf.setImage(with: imageUrl, placeholder: UIImage(named: "placeholder"))
+            DispatchQueue.main.async { [weak self] in
+                guard let self = self else { return }
+                self.heroImage.kf.setImage(with: imageUrl, placeholder: UIImage(named: "placeholder"))
+            }
         }
     }
     
