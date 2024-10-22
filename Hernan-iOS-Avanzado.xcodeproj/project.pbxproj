@@ -70,6 +70,8 @@
 		66F50A042CC8328F003B9AE2 /* LoginUseCaseTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66F50A032CC83282003B9AE2 /* LoginUseCaseTests.swift */; };
 		66F50A062CC835A0003B9AE2 /* DetailsHeroUseCaseTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66F50A052CC83595003B9AE2 /* DetailsHeroUseCaseTests.swift */; };
 		66F50A082CC8372A003B9AE2 /* ClearDataBaseAndTokenUseCaseTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66F50A072CC83716003B9AE2 /* ClearDataBaseAndTokenUseCaseTests.swift */; };
+		66F50A0A2CC84626003B9AE2 /* DetailsTransformationViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66F50A092CC84612003B9AE2 /* DetailsTransformationViewModelTests.swift */; };
+		66F50A0C2CC849DE003B9AE2 /* MapViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66F50A0B2CC849D7003B9AE2 /* MapViewModelTests.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -156,6 +158,8 @@
 		66F50A032CC83282003B9AE2 /* LoginUseCaseTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginUseCaseTests.swift; sourceTree = "<group>"; };
 		66F50A052CC83595003B9AE2 /* DetailsHeroUseCaseTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailsHeroUseCaseTests.swift; sourceTree = "<group>"; };
 		66F50A072CC83716003B9AE2 /* ClearDataBaseAndTokenUseCaseTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClearDataBaseAndTokenUseCaseTests.swift; sourceTree = "<group>"; };
+		66F50A092CC84612003B9AE2 /* DetailsTransformationViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailsTransformationViewModelTests.swift; sourceTree = "<group>"; };
+		66F50A0B2CC849D7003B9AE2 /* MapViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapViewModelTests.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
@@ -461,6 +465,8 @@
 				66F509FF2CC80430003B9AE2 /* LoginViewModelTests.swift */,
 				66F509FD2CC7FB61003B9AE2 /* HeroesViewModelTests.swift */,
 				66F50A012CC8097D003B9AE2 /* DetailsHeroViewModelTests.swift */,
+				66F50A092CC84612003B9AE2 /* DetailsTransformationViewModelTests.swift */,
+				66F50A0B2CC849D7003B9AE2 /* MapViewModelTests.swift */,
 			);
 			path = Presentation;
 			sourceTree = "<group>";
@@ -670,12 +676,14 @@
 				66F509FA2CC7EE00003B9AE2 /* APIProviderTests.swift in Sources */,
 				66F509FE2CC7FB69003B9AE2 /* HeroesViewModelTests.swift in Sources */,
 				66F50A002CC80436003B9AE2 /* LoginViewModelTests.swift in Sources */,
+				66F50A0A2CC84626003B9AE2 /* DetailsTransformationViewModelTests.swift in Sources */,
 				66F509EA2CC7EC2B003B9AE2 /* StoreProviderTests.swift in Sources */,
 				66F509F42CC7ECC6003B9AE2 /* MockData.swift in Sources */,
 				66F50A082CC8372A003B9AE2 /* ClearDataBaseAndTokenUseCaseTests.swift in Sources */,
 				66F50A042CC8328F003B9AE2 /* LoginUseCaseTests.swift in Sources */,
 				66F509FC2CC7EF99003B9AE2 /* HeroesUseCaseTests.swift in Sources */,
 				66F509F62CC7ED24003B9AE2 /* SecureDataStorageMock.swift in Sources */,
+				66F50A0C2CC849DE003B9AE2 /* MapViewModelTests.swift in Sources */,
 				66F509F02CC7EC6F003B9AE2 /* APIProviderMock.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

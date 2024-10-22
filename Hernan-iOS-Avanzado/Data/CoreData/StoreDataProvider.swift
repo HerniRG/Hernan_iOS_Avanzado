@@ -58,46 +58,21 @@ class StoreDataProvider {
     
     /// Limpia la base de datos
     func clearBBDD() throws {
-        let heroes = fetchHeroes(filter: nil)
-        
-        for hero in heroes {
-            // Eliminar transformaciones relacionadas
-            if let transformations = hero.transformations {
-                for transformation in transformations {
-                    context.delete(transformation)
-                }
-            }
-            
-            // Eliminar localizaciones relacionadas
-            if let locations = hero.locations {
-                for location in locations {
-                    context.delete(location)
-                }
-            }
-            
-            // Finalmente, eliminar el héroe
-            context.delete(hero)
-        }
-        
-        // Guardar el contexto antes de hacer el batch delete
-        try context.save()
-        
-        // Ahora ejecutar los batch deletes para asegurarte de que todo está limpio
         let batchDeleteHeroes = NSBatchDeleteRequest(fetchRequest: MOHero.fetchRequest())
         let batchDeleteTransformations = NSBatchDeleteRequest(fetchRequest: MOTransformation.fetchRequest())
         let batchDeleteLocations = NSBatchDeleteRequest(fetchRequest: MOLocation.fetchRequest())
-        
-        let batchDeleteRequests: [NSBatchDeleteRequest] = [batchDeleteHeroes, batchDeleteTransformations, batchDeleteLocations]
-        
-        for request in batchDeleteRequests {
-            do {
-                try context.execute(request)
-                context.reset()  // Limpiar el contexto después de ejecutar cada batch delete
-            } catch {
-                throw error  // Si falla algún batch delete, lanzar el error
-            }
+
+        // Ejecutar las solicitudes de eliminación
+        do {
+            try context.execute(batchDeleteHeroes)
+            try context.execute(batchDeleteTransformations)
+            try context.execute(batchDeleteLocations)
+            context.reset()  // Limpiar el contexto después de cada batch delete
+        } catch {
+            throw error  // Si falla algún batch delete, lanzar el error
         }
     }
+
 }
 
 // MARK: - Data Operations

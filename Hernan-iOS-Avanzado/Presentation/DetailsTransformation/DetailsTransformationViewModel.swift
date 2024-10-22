@@ -27,6 +27,11 @@ class DetailsTransformationViewModel {
     }
     
     func getTransformationPhotoURL() -> URL? {
+        // Comprobar si la cadena está vacía
+        if transformation.photo.isEmpty {
+            return nil
+        }
+        // Retorna la URL si es válida
         return URL(string: transformation.photo)
     }
 }

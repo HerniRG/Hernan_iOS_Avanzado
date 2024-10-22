@@ -8,7 +8,7 @@
 import Foundation
 import MapKit
 
-enum MapViewStatus {
+enum MapViewStatus: Equatable {
     case loading
     case success
     case error(msg: String)
