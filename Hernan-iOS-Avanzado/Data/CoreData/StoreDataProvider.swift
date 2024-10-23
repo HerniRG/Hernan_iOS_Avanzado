@@ -116,19 +116,13 @@ extension StoreDataProvider {
     func fetchHeroes(filter: NSPredicate?, sortAscending: Bool = true) -> [MOHero] {
         let request = MOHero.fetchRequest()
         
-        if let filter = filter {
-            request.predicate = filter
-            print("Applying filter: \(filter)")
-        } else {
-            print("No filter applied")
-        }
+        if let filter = filter { request.predicate = filter }
         
         let sortDescriptor = NSSortDescriptor(keyPath: \MOHero.name, ascending: sortAscending)
         request.sortDescriptors = [sortDescriptor]
         
         do {
             let heroes = try context.fetch(request)
-            print("Filtered heroes: \(heroes.map { $0.name })") // Depurar nombres de héroes filtrados
             return heroes
         } catch {
             debugPrint("Error loading heroes \(error.localizedDescription)")

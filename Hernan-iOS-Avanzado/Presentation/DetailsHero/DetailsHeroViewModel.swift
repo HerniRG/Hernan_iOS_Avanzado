@@ -49,7 +49,6 @@ class DetailsHeroViewModel {
     }
     
     // Actualizar las anotaciones del mapa
-    // Actualizar las anotaciones del mapa
     private func updateAnnotations() {
         self.annotations = heroLocations.compactMap { location in
             guard let coordinate = location.coordinate else { return nil }
