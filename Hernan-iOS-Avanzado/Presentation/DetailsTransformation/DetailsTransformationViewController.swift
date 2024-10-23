@@ -1,9 +1,7 @@
+// DetailsTransformationViewController.swift
+// Hernan-iOS-Avanzado
 //
-//  DetailsTransformationViewController.swift
-//  Hernan-iOS-Avanzado
-//
-//  Created by Hernán Rodríguez on 20/10/24.
-//
+// Created by Hernán Rodríguez on 20/10/24.
 
 import UIKit
 import Kingfisher
@@ -21,7 +19,6 @@ class DetailsTransformationViewController: UIViewController {
     private var viewModel: DetailsTransformationViewModel
     private var panGesture: UIPanGestureRecognizer!
     
-    
     // MARK: - Initializer
     init(viewModel: DetailsTransformationViewModel) {
         self.viewModel = viewModel
@@ -37,8 +34,11 @@ class DetailsTransformationViewController: UIViewController {
         super.viewDidLoad()
         setupUI()
         setupPanGesture()
-        
     }
+}
+
+// MARK: - UI Configuration
+extension DetailsTransformationViewController {
     
     // MARK: - Setup UI
     private func setupUI() {
@@ -67,6 +67,10 @@ class DetailsTransformationViewController: UIViewController {
         
         dragIndicatorView.layer.cornerRadius = 3
     }
+}
+
+// MARK: - Pan Gesture Handling
+extension DetailsTransformationViewController {
     
     // MARK: - Setup Pan Gesture
     private func setupPanGesture() {

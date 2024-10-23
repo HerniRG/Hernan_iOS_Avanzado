@@ -5,6 +5,11 @@
 //  Created by Hernán Rodríguez on 15/10/24.
 //
 
+// HeroesViewController.swift
+// Hernan-iOS-Avanzado
+//
+// Created by Hernán Rodríguez on 15/10/24.
+
 import UIKit
 import Kingfisher
 
@@ -68,19 +73,13 @@ class HeroesViewController: UIViewController {
         searchController.searchResultsUpdater = self
         searchController.obscuresBackgroundDuringPresentation = false
         searchController.searchBar.placeholder = "Buscar héroe"
-        
-        // Cambiar el texto del botón "Cancel" a "Cancelar"
         searchController.searchBar.setValue("Cancelar", forKey: "cancelButtonText")
-        // Evitar que el UISearchController encoge la barra de navegación
         searchController.hidesNavigationBarDuringPresentation = false
-        
-        // Hacer que la barra de búsqueda se muestre directamente en la navegación
         navigationItem.searchController = searchController
         navigationItem.hidesSearchBarWhenScrolling = false
         definesPresentationContext = true
     }
     
-    // Configuración de los botones de orden
     private func configureSortButton() {
         let sortIcon = UIImage(systemName: "arrow.up.arrow.down")
         let sortButton = UIBarButtonItem(image: sortIcon, style: .plain, target: self, action: #selector(sortButtonTapped))
@@ -93,10 +92,8 @@ class HeroesViewController: UIViewController {
         viewModel.sortHeroes(ascending: isAscendingOrder)
     }
     
-    
-    // MARK: - Logout Button Configuration
-    func configureLogoutButton() {
-        let logoutIcon = UIImage(systemName: "power") // Icono de un botón de apagado para representar el logout
+    private func configureLogoutButton() {
+        let logoutIcon = UIImage(systemName: "power")
         let logoutButton = UIBarButtonItem(image: logoutIcon, style: .plain, target: self, action: #selector(logoutButtonTapped))
         logoutButton.tintColor = .label
         navigationItem.rightBarButtonItem = logoutButton
@@ -132,32 +129,14 @@ class HeroesViewController: UIViewController {
         snapshot.appendSections([.main])
         snapshot.appendItems(viewModel.heroes, toSection: .main)
         dataSource?.apply(snapshot, animatingDifferences: true)
-        
-        // Mostrar u ocultar el mensaje "No hay héroes"
         let noResults = viewModel.heroes.isEmpty
         
         if noResults {
-            // Si no hay héroes, animar la aparición del label
-            noHeroesLabel.isHidden = false
-            noHeroesLabel.alpha = 0
-            noHeroesLabel.transform = CGAffineTransform(scaleX: 0.8, y: 0.8)
-            
-            UIView.animate(withDuration: 0.3, animations: {
-                self.noHeroesLabel.alpha = 1
-                self.noHeroesLabel.transform = CGAffineTransform.identity
-            })
-            
-            // Ocultar la collectionView si no hay resultados
+            animateNoHeroesLabel(show: true)
             collectionView.isHidden = true
         } else {
-            // Si hay héroes, ocultar el label y mostrar la collectionView
-            UIView.animate(withDuration: 0.3, animations: {
-                self.noHeroesLabel.alpha = 0
-                self.collectionView.alpha = 1
-            }) { _ in
-                self.noHeroesLabel.isHidden = true
-                self.collectionView.isHidden = false
-            }
+            animateNoHeroesLabel(show: false)
+            collectionView.isHidden = false
         }
     }
     
@@ -167,7 +146,6 @@ class HeroesViewController: UIViewController {
         present(alert, animated: true, completion: nil)
     }
     
-    // MARK: - Navigate to Splash
     func navigateToSplash() {
         navigationController?.popToRootViewController(animated: true)
     }
@@ -179,22 +157,16 @@ class HeroesViewController: UIViewController {
         let cellRegister = UICollectionView.CellRegistration<HeroCollectionViewCell, Hero>(cellNib: UINib(nibName: HeroCollectionViewCell.identifier, bundle: nil)) { cell, indexPath, hero in
             
             cell.heroNameLabel.text = hero.name
-            // Animación personalizada de escala (zoom)
             if let url = URL(string: hero.photo) {
                 cell.heroImage.kf.setImage(with: url, placeholder: UIImage(named: "placeholderImage"), options: [.cacheOriginalImage]) { result in
                     switch result {
                     case .success(_):
-                        // Animación de zoom cuando se carga la imagen
-                        cell.heroImage.transform = CGAffineTransform(scaleX: 0.8, y: 0.8)
-                        UIView.animate(withDuration: 0.3, animations: {
-                            cell.heroImage.transform = CGAffineTransform.identity
-                        })
+                        self.animateCellImage(cell: cell)
                     case .failure(let error):
                         print("Error al cargar la imagen: \(error)")
                     }
                 }
             }
-            
         }
         
         dataSource = UICollectionViewDiffableDataSource<SectionsHeroes, Hero>(collectionView: collectionView, cellProvider: { collectionView, indexPath, hero in
@@ -207,28 +179,27 @@ class HeroesViewController: UIViewController {
 extension HeroesViewController: UICollectionViewDelegateFlowLayout {
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        let itemsPerRow: CGFloat = collectionView.frame.width > collectionView.frame.height ? 3 : 2 // Cambia el número de columnas según la orientación
-        let padding: CGFloat = 2 // Espacio entre celdas
-        let sectionInsets = UIEdgeInsets(top: 14, left: 10, bottom: 14, right: 10) // Márgenes laterales
+        let itemsPerRow: CGFloat = collectionView.frame.width > collectionView.frame.height ? 3 : 2
+        let padding: CGFloat = 2
+        let sectionInsets = UIEdgeInsets(top: 14, left: 10, bottom: 14, right: 10)
         
-        // Cálculo del ancho disponible restando márgenes y padding
         let totalPadding = (itemsPerRow - 1) * padding + sectionInsets.left + sectionInsets.right
         let availableWidth = collectionView.frame.width - totalPadding
         let widthPerItem = availableWidth / itemsPerRow
         
-        return CGSize(width: widthPerItem, height: 200) // Altura fija, puedes ajustarla según necesidad
+        return CGSize(width: widthPerItem, height: 200)
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
-        return 2 // Espacio vertical entre filas
+        return 2
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
-        return 2 // Espacio horizontal entre las celdas
+        return 2
     }
     
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
-        return UIEdgeInsets(top: 10, left: 10, bottom: 10, right: 10) // Márgenes de la sección
+    func collectionView(_ collectionView: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
+        return UIEdgeInsets(top: 10, left: 10, bottom: 10, right: 10)
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
@@ -241,23 +212,18 @@ extension HeroesViewController: UICollectionViewDelegateFlowLayout {
     }
 }
 
-
 // MARK: - UISearchResultsUpdating
 extension HeroesViewController: UISearchResultsUpdating {
     
     func updateSearchResults(for searchController: UISearchController) {
         let searchText = searchController.searchBar.text ?? ""
-        
-        // Cancelar cualquier búsqueda anterior
         searchWorkItem?.cancel()
         
-        // Crear un nuevo WorkItem para retrasar la búsqueda
         let workItem = DispatchWorkItem { [weak self] in
             guard let self = self else { return }
             self.viewModel.loadData(filter: searchText.isEmpty ? nil : searchText)
         }
         
-        // Guardar el nuevo WorkItem y ejecutarlo después de un pequeño retraso
         searchWorkItem = workItem
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.5, execute: workItem)
     }
