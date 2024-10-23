@@ -8,7 +8,7 @@
 import XCTest
 @testable import Hernan_iOS_Avanzado
 
-// Mock del caso de uso de login para simular el comportamiento exitoso y fallido
+// Mock del caso de uso de login para simular comportamientos exitosos y fallidos
 class LoginUseCaseMock: LoginUseCaseProtocol {
     var shouldReturnError = false
     
@@ -27,123 +27,127 @@ final class LoginViewModelTests: XCTestCase {
     var loginUseCaseMock: LoginUseCaseMock!
     
     override func setUpWithError() throws {
+        // Configuración inicial: se crea el mock del caso de uso y el ViewModel
         try super.setUpWithError()
         loginUseCaseMock = LoginUseCaseMock()
         sut = LoginViewModel(loginUseCase: loginUseCaseMock)
     }
     
     override func tearDownWithError() throws {
+        // Limpieza de las instancias después de cada test
         sut = nil
         loginUseCaseMock = nil
         try super.tearDownWithError()
     }
     
-    // Test para verificar que el login devuelve success correctamente
+    /// Test que verifica que el login devuelve success correctamente
     func testLogin_Should_Return_Success() {
-        // Given
+        // Given: Preparamos la variable para verificar el estado de éxito
         var isSuccess = false
         let expectation = expectation(description: "Login should return success")
         
+        // Vinculamos el estado del login con el ViewModel
         sut.statusLogin.bind { status in
             if status == .success {
                 isSuccess = true
-                expectation.fulfill()
+                expectation.fulfill() // Indicamos que la operación ha terminado
             }
         }
         
-        // When
+        // When: Llamamos al método login del ViewModel
         sut.login(username: "test@example.com", password: "123456")
         
-        // Then
+        // Then: Verificamos que el login tuvo éxito
         wait(for: [expectation], timeout: 1)
         XCTAssertTrue(isSuccess)
     }
     
-    
-    // Test para verificar que el login devuelve un error correctamente
+    /// Test que verifica que el login devuelve un error correctamente
     func testLogin_Should_Return_Error() {
-        // Given
+        // Given: Configuramos el mock para devolver un error
         loginUseCaseMock.shouldReturnError = true
         var errorMessage: String?
         let expectation = expectation(description: "Login should return error")
         
+        // Vinculamos el estado del login con el ViewModel
         sut.statusLogin.bind { status in
             if case .error(let msg) = status {
                 errorMessage = msg
-                expectation.fulfill()
+                expectation.fulfill() // Indicamos que la operación ha terminado
             }
         }
         
-        // When
+        // When: Llamamos al método login del ViewModel
         sut.login(username: "test@example.com", password: "123456")
         
-        // Then
+        // Then: Verificamos que se recibió el mensaje de error esperado
         wait(for: [expectation], timeout: 1)
         XCTAssertEqual(errorMessage, "Fallo al iniciar sesión")
     }
     
-    
-    // Test para verificar que muestra error si el email está vacío
+    /// Test que verifica que muestra un error si el nombre de usuario está vacío
     func testLogin_Should_Return_EmptyUsernameError() {
-        // Given
+        // Given: Preparamos la variable para verificar el mensaje de error
         var errorMessage: String?
         let expectation = expectation(description: "Login should return empty username error")
         
+        // Vinculamos el estado del login con el ViewModel
         sut.statusLogin.bind { status in
             if case .error(let msg) = status {
                 errorMessage = msg
-                expectation.fulfill()
+                expectation.fulfill() // Indicamos que la operación ha terminado
             }
         }
         
-        // When
+        // When: Llamamos al método login del ViewModel con un nombre de usuario vacío
         sut.login(username: "", password: "123456")
         
-        // Then
+        // Then: Verificamos que se recibió el mensaje de error esperado
         wait(for: [expectation], timeout: 1)
         XCTAssertEqual(errorMessage, LoginError.emptyUsername.rawValue)
     }
     
-    // Test para verificar que muestra error si la contraseña está vacía
+    /// Test que verifica que muestra un error si la contraseña está vacía
     func testLogin_Should_Return_EmptyPasswordError() {
-        // Given
+        // Given: Preparamos la variable para verificar el mensaje de error
         var errorMessage: String?
         let expectation = expectation(description: "Login should return empty password error")
         
+        // Vinculamos el estado del login con el ViewModel
         sut.statusLogin.bind { status in
             if case .error(let msg) = status {
                 errorMessage = msg
-                expectation.fulfill()
+                expectation.fulfill() // Indicamos que la operación ha terminado
             }
         }
         
-        // When
+        // When: Llamamos al método login del ViewModel con una contraseña vacía
         sut.login(username: "test@example.com", password: "")
         
-        // Then
+        // Then: Verificamos que se recibió el mensaje de error esperado
         wait(for: [expectation], timeout: 1)
         XCTAssertEqual(errorMessage, LoginError.emptyPassword.rawValue)
     }
     
-    // Test para verificar el estado de loading
+    /// Test que verifica que el estado de loading se establece correctamente
     func testLogin_Should_SetStatusLoading() {
-        // Given
+        // Given: Preparamos la variable para verificar el estado de loading
         var isLoading = false
         let expectation = expectation(description: "Set loading state")
         
-        // When
+        // Vinculamos el estado del login con el ViewModel
         sut.statusLogin.bind { status in
             if status == .loading {
                 isLoading = true
-                expectation.fulfill()
+                expectation.fulfill() // Indicamos que la operación ha terminado
             }
         }
         
+        // When: Llamamos al método login del ViewModel
         sut.login(username: "test@example.com", password: "123456")
         
-        // Then
+        // Then: Verificamos que el estado de loading se haya activado
         wait(for: [expectation], timeout: 1)
         XCTAssertTrue(isLoading)
     }
-    
 }

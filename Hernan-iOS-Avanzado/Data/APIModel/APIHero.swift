@@ -13,3 +13,11 @@ struct ApiHero: Codable {
     let photo: String?
     let favorite: Bool?
 }
+
+// Extensión para mapear ApiHero a Hero
+extension ApiHero {
+    func mapToHero() -> Hero {
+        return Hero(apiHero: self)
+    }
+}
+

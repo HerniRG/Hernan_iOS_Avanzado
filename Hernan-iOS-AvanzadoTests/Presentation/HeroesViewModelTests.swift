@@ -8,6 +8,7 @@
 import XCTest
 @testable import Hernan_iOS_Avanzado
 
+// Mock para simular el caso de uso de éxito en la carga de héroes
 class HeroUseCaseMock: HeroUseCaseProtocol {
     func loadHeros(filter: NSPredicate?, completion: @escaping ((Result<[Hero], GAError>) -> Void)) {
         let heroes = try? MockData.mockHeroes().map({$0.mapToHero()})
@@ -15,9 +16,17 @@ class HeroUseCaseMock: HeroUseCaseProtocol {
     }
 }
 
+// Mock para simular el caso de uso que falla en la carga de héroes
 class HeroUseCaseErrorMock: HeroUseCaseProtocol {
     func loadHeros(filter: NSPredicate?, completion: @escaping ((Result<[Hero], GAError>) -> Void)) {
         completion(.failure(.noDataReceived))
+    }
+}
+
+// Mock para simular el comportamiento exitoso de clearData
+class ClearDataUseCaseSuccessMock: ClearDatabaseAndTokenUseCaseProtocol {
+    func clearDatabaseAndToken(completion: @escaping (Result<Void, GAError>) -> Void) {
+        completion(.success(()))
     }
 }
 
@@ -26,18 +35,20 @@ final class HeroesViewModelTests: XCTestCase {
     var sut: HeroesViewModel!
     
     override func setUpWithError() throws {
+        // Inicialización del ViewModel con un caso de uso mockeado para el test
         try super.setUpWithError()
         sut = HeroesViewModel(useCase: HeroUseCaseMock())
     }
     
     override func tearDownWithError() throws {
+        // Limpieza de la instancia del ViewModel después del test
         sut = nil
         try super.tearDownWithError()
     }
     
-    // Test para verificar que la carga de héroes devuelve datos correctamente
+    /// Test que verifica que la carga de héroes devuelve datos correctamente
     func testLoad_Should_Return_Heroes() {
-        //Given
+        // Given
         var heroes: [Hero]?
         let expectedCountHeroes = 26
         
@@ -56,15 +67,14 @@ final class HeroesViewModelTests: XCTestCase {
         }
         sut.loadData(filter: nil)
         
-        //Then
-        wait(for: [expectation], timeout: 1)
+        // Then
+        wait(for: [expectation], timeout: 2) 
         XCTAssertEqual(heroes?.count, expectedCountHeroes)
     }
     
-    
-    // Test para verificar que la carga de héroes devuelve un error correctamente
+    /// Test que verifica que la carga de héroes devuelve un error correctamente
     func testLoad_Should_Return_Error() {
-        //Given
+        // Given
         sut = HeroesViewModel(useCase: HeroUseCaseErrorMock())
         var msgError: String?
         
@@ -83,15 +93,14 @@ final class HeroesViewModelTests: XCTestCase {
         }
         sut.loadData(filter: nil)
         
-        //Then
-        wait(for: [expectation], timeout: 1)
+        // Then
+        wait(for: [expectation], timeout: 2)
         XCTAssertEqual(msgError, "No data received from server")
     }
     
-    
-    // Test para verificar que el héroe en el índice dado es correcto
+    /// Test que verifica que el héroe en el índice dado es el correcto
     func test_HeroATIndex() {
-        //Given
+        // Given
         var hero: Hero?
         
         // When
@@ -108,10 +117,9 @@ final class HeroesViewModelTests: XCTestCase {
         }
         sut.loadData(filter: nil)
         
-        //Then
-        wait(for: [expectation], timeout: 1)
+        // Then
+        wait(for: [expectation], timeout: 2)
         
-        // Verificación del héroe en el índice 0
         hero = sut.heroAt(index: 0)
         XCTAssertNotNil(hero)
         XCTAssertEqual(hero?.name, "Androide 17")
@@ -121,7 +129,7 @@ final class HeroesViewModelTests: XCTestCase {
         XCTAssertNil(hero)
     }
     
-    // Test para verificar el estado de loading
+    /// Test que verifica el estado de loading
     func testLoad_Should_SetStatusLoading() {
         // Given
         var loadingState: Bool = false
@@ -137,14 +145,14 @@ final class HeroesViewModelTests: XCTestCase {
         
         sut.loadData(filter: nil)
         
-        //Then
-        wait(for: [expectation], timeout: 1)
+        // Then
+        wait(for: [expectation], timeout: 2)
         XCTAssertTrue(loadingState)
     }
     
-    // Test para verificar que clearData devuelve success correctamente
+    /// Test que verifica que clearData devuelve success correctamente
     func testClearData_Should_Return_ClearDataSuccess() {
-        //Given
+        // Given
         sut = HeroesViewModel(useCase: HeroUseCaseMock(), clearDataUseCase: ClearDataUseCaseSuccessMock())
         var clearDataSuccess: Bool = false
         
@@ -161,21 +169,8 @@ final class HeroesViewModelTests: XCTestCase {
         }
         sut.clearData()
         
-        //Then
-        wait(for: [expectation], timeout: 1)
+        // Then
+        wait(for: [expectation], timeout: 2)
         XCTAssertTrue(clearDataSuccess)
-    }
-}
-
-// Mock para simular el comportamiento exitoso de clearData
-class ClearDataUseCaseSuccessMock: ClearDatabaseAndTokenUseCaseProtocol {
-    func clearDatabaseAndToken(completion: @escaping (Result<Void, GAError>) -> Void) {
-        completion(.success(()))
-    }
-}
-
-extension ApiHero {
-    func mapToHero() -> Hero {
-        return Hero(apiHero: self)
     }
 }

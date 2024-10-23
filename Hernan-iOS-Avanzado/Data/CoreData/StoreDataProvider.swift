@@ -18,6 +18,15 @@ class StoreDataProvider {
     
     static var shared: StoreDataProvider = .init()
     
+    static var managedModel: NSManagedObjectModel = {
+        let bundle = Bundle(for: StoreDataProvider.self)
+        guard let url = bundle.url(forResource: "Model", withExtension: "momd"),
+              let model = NSManagedObjectModel(contentsOf: url) else {
+            fatalError("Error loading model")
+        }
+        return model
+    }()
+    
     private let persistentContainer: NSPersistentContainer
     private let persistency: TypePersistency
     
@@ -30,18 +39,23 @@ class StoreDataProvider {
     
     init(persistency: TypePersistency = .disk) {
         self.persistency = persistency
-        self.persistentContainer = NSPersistentContainer(name: "Model")
-        
+        self.persistentContainer = NSPersistentContainer(name: "Model", managedObjectModel: Self.managedModel)
         if self.persistency == .inMemory {
-            let persintentStore = persistentContainer.persistentStoreDescriptions.first
-            persintentStore?.url = URL(filePath: "/dev/null")
+            let persistentStore = persistentContainer.persistentStoreDescriptions.first
+            persistentStore?.url = URL(filePath: "/dev/null")
         }
-        
         self.persistentContainer.loadPersistentStores { _, error in
             if let error {
                 fatalError("Error loading BBDD \(error.localizedDescription)")
             }
         }
+    }
+    
+    // Función para poder testar los casos de error de uan request.
+    // Usa genérico para que valga para cualquier tipo de NSMAnagedObjet
+    // Podríamos usar MOHero que  conforma NSFetchRequestResult pero nos limitaría para otras entidades
+    func perform<T: NSFetchRequestResult>(request: NSFetchRequest<T>) throws -> [T] {
+        return try context.fetch(request)
     }
     
     // MARK: - Save Context
@@ -61,7 +75,7 @@ class StoreDataProvider {
         let batchDeleteHeroes = NSBatchDeleteRequest(fetchRequest: MOHero.fetchRequest())
         let batchDeleteTransformations = NSBatchDeleteRequest(fetchRequest: MOTransformation.fetchRequest())
         let batchDeleteLocations = NSBatchDeleteRequest(fetchRequest: MOLocation.fetchRequest())
-
+        
         // Ejecutar las solicitudes de eliminación
         do {
             try context.execute(batchDeleteHeroes)
@@ -72,7 +86,7 @@ class StoreDataProvider {
             throw error  // Si falla algún batch delete, lanzar el error
         }
     }
-
+    
 }
 
 // MARK: - Data Operations

@@ -14,103 +14,108 @@ final class MapViewModelTests: XCTestCase {
     var sut: MapViewModel!
     
     override func setUpWithError() throws {
+        // Configuración inicial del ViewModel para los tests
         try super.setUpWithError()
         sut = MapViewModel()
     }
     
     override func tearDownWithError() throws {
+        // Limpieza de las instancias después de cada test
         sut = nil
         try super.tearDownWithError()
     }
     
+    /// Test que verifica que el estado inicial es correcto
     func test_InitialState() {
-        // Verificar que el estado inicial es loading
+        // Verificamos que el estado inicial sea loading y que no haya anotaciones cargadas
         XCTAssertEqual(sut.status.value, .loading)
         XCTAssertTrue(sut.annotations.isEmpty, "Las anotaciones deberían estar vacías al inicio.")
     }
     
+    /// Test que verifica que el estado y las anotaciones se actualizan correctamente
     func test_LoadAnnotations_UpdatesStatus() {
-        // Dado unas anotaciones de prueba
+        // Given: Se crean anotaciones de prueba
         let annotation1 = HeroAnnotation(coordinate: CLLocationCoordinate2D(latitude: 35.6895, longitude: 139.6917), title: "Tokyo", subtitle: "Japan")
         let annotation2 = HeroAnnotation(coordinate: CLLocationCoordinate2D(latitude: 34.0522, longitude: -118.2437), title: "Los Angeles", subtitle: "USA")
         
-        // Crear una expectativa
+        // Creamos una expectativa para esperar que el estado y las anotaciones se actualicen
         let expectation = self.expectation(description: "Load annotations should update status")
-
-        // Cuando se cargan las anotaciones
+        
+        // When: Se cargan las anotaciones en el ViewModel
         sut.loadAnnotations([annotation1, annotation2])
         
-        // Usamos DispatchQueue para asegurarnos de que la comprobación ocurre en el hilo principal
+        // Usamos DispatchQueue para asegurar que se realice en el hilo principal
         DispatchQueue.main.async {
-            // Entonces: El estado debe ser success y las anotaciones deben estar actualizadas
+            // Then: Verificamos que el estado es success y las anotaciones se han actualizado correctamente
             XCTAssertEqual(self.sut.status.value, .success, "El estado debería ser success después de cargar las anotaciones.")
             XCTAssertEqual(self.sut.annotationCount, 2, "El conteo de anotaciones debería ser 2.")
             XCTAssertEqual(self.sut.firstAnnotation?.title, annotation1.title, "La primera anotación debería ser 'Tokyo'.")
             
-            // Cumplir la expectativa
-            expectation.fulfill()
+            expectation.fulfill() // Indicamos que la operación ha terminado
         }
-
-        wait(for: [expectation], timeout: 1) // Espera a que se cumpla la expectativa
+        
+        // Esperamos a que se cumpla la expectativa
+        wait(for: [expectation], timeout: 1)
     }
-
     
-    // Test para cambiar el tipo de mapa
+    /// Test que verifica que el tipo de mapa cambia correctamente
     func test_ToggleMapType_ChangesMapType() {
+        // Creamos una expectativa para la transición del tipo de mapa
         let expectation = self.expectation(description: "Toggle map type changes map type")
-
-        // Cuando se cambia el tipo de mapa
+        
+        // When: Se cambia el tipo de mapa
         let initialType = sut.toggleMapType()
         XCTAssertEqual(initialType, MKMapType.satellite)
-
+        
         let nextType = sut.toggleMapType()
         XCTAssertEqual(nextType, MKMapType.hybrid)
-
+        
         let finalType = sut.toggleMapType()
         XCTAssertEqual(finalType, MKMapType.standard)
-
+        
         let resetType = sut.toggleMapType()
         XCTAssertEqual(resetType, MKMapType.satellite)
-
-        expectation.fulfill() // Marca la expectativa como cumplida
-        wait(for: [expectation], timeout: 1) // Espera a que se cumpla la expectativa
+        
+        expectation.fulfill() // Indicamos que la operación ha terminado
+        wait(for: [expectation], timeout: 1)
     }
-
-    // Test para obtener la siguiente anotación
+    
+    /// Test que verifica que se obtiene la anotación correcta con nextAnnotation
     func test_NextAnnotation_ReturnsCorrectAnnotation() {
-        // Dado unas anotaciones de prueba
+        // Given: Se crean anotaciones de prueba
         let annotation1 = HeroAnnotation(coordinate: CLLocationCoordinate2D(latitude: 35.6895, longitude: 139.6917), title: "Tokyo", subtitle: "Japan")
         let annotation2 = HeroAnnotation(coordinate: CLLocationCoordinate2D(latitude: 34.0522, longitude: -118.2437), title: "Los Angeles", subtitle: "USA")
         
         sut.loadAnnotations([annotation1, annotation2])
-
-        // Cuando se obtiene la siguiente anotación
+        
+        // Creamos una expectativa para esperar el cambio de anotación
         let expectation = self.expectation(description: "Next annotation returns correct annotation")
-
+        
+        // When: Se obtiene la siguiente anotación
         let nextAnnotation = sut.nextAnnotation()
-
-        // Entonces: Verificar que se obtiene la primera anotación
+        
+        // Then: Verificamos que se obtiene la anotación correcta
         XCTAssertEqual(nextAnnotation?.title, annotation2.title)
-
-        // Obtener la siguiente anotación
+        
+        // Cuando se obtiene la siguiente anotación nuevamente
         let nextAnnotationAgain = sut.nextAnnotation()
-
-        // Entonces: Verificar que se obtiene la segunda anotación
+        
+        // Verificamos que vuelve a la primera anotación
         XCTAssertEqual(nextAnnotationAgain?.title, annotation1.title)
-
-        expectation.fulfill() // Marca la expectativa como cumplida
-        wait(for: [expectation], timeout: 1) // Espera a que se cumpla la expectativa
+        
+        expectation.fulfill() // Indicamos que la operación ha terminado
+        wait(for: [expectation], timeout: 1)
     }
-
-    // Test para el contador de anotaciones
+    
+    /// Test que verifica que el contador de anotaciones es correcto
     func test_AnnotationCount_ReturnsCorrectCount() {
-        // Dado unas anotaciones de prueba
+        // Given: Se crean anotaciones de prueba
         let annotation1 = HeroAnnotation(coordinate: CLLocationCoordinate2D(latitude: 35.6895, longitude: 139.6917), title: "Tokyo", subtitle: "Japan")
         let annotation2 = HeroAnnotation(coordinate: CLLocationCoordinate2D(latitude: 34.0522, longitude: -118.2437), title: "Los Angeles", subtitle: "USA")
         
         sut.loadAnnotations([annotation1, annotation2])
-
-        // Entonces: Verificar que el contador de anotaciones es correcto
+        
+        // Then: Verificamos que el contador de anotaciones es el esperado
         XCTAssertEqual(sut.annotationCount, 2)
     }
 }

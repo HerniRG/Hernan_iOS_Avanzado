@@ -8,32 +8,27 @@
 import XCTest
 @testable import Hernan_iOS_Avanzado
 
-
-/// Clase para hacer Testing de Api PRovider
+/// Clase para hacer testing de ApiProvider
 final class ApiProviderTests: XCTestCase {
     
     var sut: ApiProvider!
-
+    
     override func setUpWithError() throws {
-        
-        // Configuramos APi Provider
-        //      .Usamos ephemeral porque no usa disco para anda
-        //      .Le indicamso que lso protocols será nuestro Mock
-        //      .Creamso la session
+        // Configuración de la URLSession con protocolo mock y request builder mock
         let configuration = URLSessionConfiguration.ephemeral
         configuration.protocolClasses = [URLProtocolMock.self]
         let session = URLSession(configuration: configuration)
         
-        // PAra el request Provider usamos nuestro mock para SEcureDataStorage
+        // Uso del mock de SecureDataStorage para el request builder
         let requestProvider = GARequestBuilder(secureStorage: SecureDataStorageMock())
         
-        // creamos ApiProvider
+        // Inicialización del ApiProvider con los mocks configurados
         sut = ApiProvider(session: session, requestBuilder: requestProvider)
         try super.setUpWithError()
     }
-
+    
     override func tearDownWithError() throws {
-        // Hacemso reset de los objetos
+        // Reseteo de objetos para evitar interferencias entre tests
         SecureDataStorageMock().deleteToken()
         URLProtocolMock.handler = nil
         URLProtocolMock.error = nil
@@ -41,49 +36,43 @@ final class ApiProviderTests: XCTestCase {
         try super.tearDownWithError()
     }
     
+    /// Test para validar que se cargan 26 héroes correctamente desde la API
     func test_loadHeros_shouldReturn_26_Heroes() throws {
         // Given
-        
-        //preparamso la info que nos va a hacer falta para el test
-        let expecrtedToken = "Some Token"
+        let expectedToken = "Some Token"
         let expectedHero = try MockData.mockHeroes().first!
         var heroesResponse = [ApiHero]()
+        
+        // Configuración del handler para mockear la respuesta de la API
         URLProtocolMock.handler = { request in
-            
-            // En el Handle, validamos la request, httpmethod, url, headers, lo que consideremos oportuno,
-            // se podría comprobar el body pro ejemplo también. Esrta request es la que crea nuestra app
+            // Validación de la request generada por la app
             let expectedUrl = try XCTUnwrap(URL(string: "https://dragonball.keepcoding.education/api/heros/all"))
-            
             XCTAssertEqual(request.httpMethod, "POST")
             XCTAssertEqual(request.url?.absoluteString, expectedUrl.absoluteString)
-            XCTAssertEqual(request.value(forHTTPHeaderField: "Authorization"), "Bearer \(expecrtedToken)")
+            XCTAssertEqual(request.value(forHTTPHeaderField: "Authorization"), "Bearer \(expectedToken)")
             
-            // Devolvemso Data y response del Handler
+            // Respuesta simulada con datos de héroes mock
             let data = try MockData.loadHeroesData()
             let response = HTTPURLResponse(url: expectedUrl, statusCode: 200, httpVersion: nil, headerFields: nil)!
-            
-           return  (data, response)
+            return (data, response)
         }
         
         // When
-        // Una vez tenemso los datos para código asuncrono creamos expectations
-        // Indicando que ya ha erminado con expectation.fulfill()""
-        // llamamos a nuestro método de la api y validamos que la respuesta es  la resperada
+        // Llamada al método loadHeros de la API y configuración de expectation
         let expectation = expectation(description: "Load Heroes")
-        setToken(expecrtedToken)
+        setToken(expectedToken)
         sut.loadHeros { result in
             switch result {
             case .success(let apiheroes):
                 heroesResponse = apiheroes
                 expectation.fulfill()
-            case .failure( _):
+            case .failure(_):
                 XCTFail("Success expected")
             }
         }
         
-        //Then
-        
-        // Validamso los datos recibidos
+        // Then
+        // Validación de los resultados
         wait(for: [expectation], timeout: 1)
         XCTAssertEqual(heroesResponse.count, 26)
         let heroReceived = heroesResponse.first
@@ -92,42 +81,40 @@ final class ApiProviderTests: XCTestCase {
         XCTAssertEqual(heroReceived?.description, expectedHero.description)
         XCTAssertEqual(heroReceived?.favorite, expectedHero.favorite)
         XCTAssertEqual(heroReceived?.photo, expectedHero.photo)
-        
     }
     
+    /// Test para validar el comportamiento de error cuando la API falla
     func test_loadHerosError_shouldReturn_Error() throws {
         // Given
-        
-        // para datos de error es más sencillo, le asignamos el error testar a URLprotocolMock
-        let expecrtedToken = "Some Token"
+        let expectedToken = "Some Token"
         var error: GAError?
+        
+        // Simulación de un error en la llamada a la API
         URLProtocolMock.error = NSError(domain: "ios.Keepcoding", code: 503)
         
         // When
-        // Una vez tenemso los datos para código asuncrono creamos expectations
-        // Indicando que ya ha erminado con expectation.fulfill()""
-        // llamamos a nuestro método de la api y validamos que la respuesta es  la resperada
+        // Llamada al método loadHeros de la API y configuración de expectation
         let expectation = expectation(description: "Load Heroes Error")
-        setToken(expecrtedToken)
+        setToken(expectedToken)
         sut.loadHeros { result in
             switch result {
-            case .success( _):
+            case .success(_):
                 XCTFail("Error expected")
             case .failure(let receivedError):
                 error = receivedError
                 expectation.fulfill()
             }
         }
-
-        //Then
-        // Validamso que tenemos el error y su mensaje.
+        
+        // Then
+        // Validación de que el error recibido es el esperado
         wait(for: [expectation], timeout: 2)
         let receivedError = try XCTUnwrap(error)
         XCTAssertEqual(receivedError.description, "Received error from server \(503)")
     }
     
+    /// Función de utilidad para configurar el token en el almacenamiento seguro
     func setToken(_ token: String) {
         SecureDataStorageMock().setToken(token)
     }
-
 }
