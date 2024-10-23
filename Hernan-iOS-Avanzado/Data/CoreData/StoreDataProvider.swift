@@ -71,7 +71,7 @@ class StoreDataProvider {
     }
     
     /// Limpia la base de datos
-    func clearBBDD() throws {
+    func clearBBDD() {
         let batchDeleteHeroes = NSBatchDeleteRequest(fetchRequest: MOHero.fetchRequest())
         let batchDeleteTransformations = NSBatchDeleteRequest(fetchRequest: MOTransformation.fetchRequest())
         let batchDeleteLocations = NSBatchDeleteRequest(fetchRequest: MOLocation.fetchRequest())
@@ -83,9 +83,10 @@ class StoreDataProvider {
             try context.execute(batchDeleteLocations)
             context.reset()  // Limpiar el contexto después de cada batch delete
         } catch {
-            throw error  // Si falla algún batch delete, lanzar el error
+            print("Error al limpiar la base de datos: \(error.localizedDescription)")
         }
     }
+    
     
 }
 
@@ -174,10 +175,14 @@ extension StoreDataProvider {
                 
                 if let heroId = transformation.hero?.id {
                     let predicate = NSPredicate(format: "id == %@", heroId)
-                    if let hero = fetchHeroes(filter: predicate).first {
+                    if let hero = fetchHeroes(filter: predicate).first, hero.managedObjectContext != nil {
+                        // El objeto aún es válido, puedes modificarlo
                         newTransformation.hero = hero
                         hero.addToTransformations(newTransformation)
+                    } else {
+                        print("El héroe ha sido eliminado del contexto o es nulo.")
                     }
+                    
                 }
             } else {
                 print("Error: Datos incompletos para la transformación \(transformation)")

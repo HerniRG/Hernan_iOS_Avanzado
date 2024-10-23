@@ -30,12 +30,9 @@ class ClearDatabaseAndTokenUseCase: ClearDatabaseAndTokenUseCaseProtocol {
     /// Implementación para limpiar la base de datos.
     /// - Parameter completion: Closure que devuelve un `Result` con `Void` en caso de éxito, o un `GAError` en caso de fallo.
     func clearDatabaseAndToken(completion: @escaping (Result<Void, GAError>) -> Void) {
-        do {
-            try storeDataProvider.clearBBDD() // Limpiar base de datos
-            secureDataStore.deleteToken() // Eliminar token
-            completion(.success(())) // Devolver éxito
-        } catch {
-            completion(.failure(.coreDataError(error: error))) // Devolver error
-        }
+        storeDataProvider.clearBBDD() // Limpiar base de datos
+        secureDataStore.deleteToken() // Eliminar token
+        completion(.success(())) // Devolver éxito
     }
+    
 }
