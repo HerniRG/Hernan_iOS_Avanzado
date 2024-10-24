@@ -143,14 +143,74 @@ extension MapViewController: MKMapViewDelegate {
     func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView? {
         guard let annotation = annotation as? HeroAnnotation else { return nil }
         
-        // Intenta reutilizar la vista de anotación
-        if let annotationView = mapView.dequeueReusableAnnotationView(withIdentifier: HeroAnnotationView.identifier) as? HeroAnnotationView {
-            annotationView.annotation = annotation
-            return annotationView
+        let annotationView = mapView.dequeueReusableAnnotationView(withIdentifier: HeroAnnotationView.identifier) as? HeroAnnotationView ?? HeroAnnotationView(annotation: annotation, reuseIdentifier: HeroAnnotationView.identifier)
+        
+        // Realizar la solicitud de la escena Look Around antes de configurar el callout
+        let coordinate = annotation.coordinate
+        let sceneRequest = MKLookAroundSceneRequest(coordinate: coordinate)
+        
+        Task {
+            do {
+                // Si hay escena disponible, configuramos el botón de Street View
+                if (try await sceneRequest.scene) != nil {
+                    annotationView.configureButtonAction(target: self, action: #selector(self.streetViewButtonTapped(_:)))
+                } else {
+                    // Si no hay escena, no mostramos el botón
+                    annotationView.rightCalloutAccessoryView = nil
+
+                }
+            } catch {
+                print("Error al verificar la escena de Look Around: \(error.localizedDescription)")
+            }
         }
         
-        // Crear una nueva vista de anotación si no se puede reutilizar
-        let annotationView = HeroAnnotationView(annotation: annotation, reuseIdentifier: HeroAnnotationView.identifier)
         return annotationView
+    }
+    
+    @objc private func streetViewButtonTapped(_ sender: UIButton) {
+        
+        // Buscar la supervista del botón hasta encontrar la MKAnnotationView
+        var view: UIView? = sender
+        while view != nil && !(view is MKAnnotationView) {
+            view = view?.superview
+        }
+        
+        // Verificar si encontramos la vista de anotación
+        guard let annotationView = view as? HeroAnnotationView,
+              let annotation = annotationView.annotation as? HeroAnnotation else {
+            print("No se pudo obtener la anotación.")
+            return
+        }
+        
+        // Obtener la coordenada desde el ViewModel
+        if let coordinate = viewModel.getCoordinate(for: annotation) {
+            // Realizar la solicitud de la escena antes de navegar
+            let sceneRequest = MKLookAroundSceneRequest(coordinate: coordinate)
+            
+            Task {
+                do {
+                    if let scene = try await sceneRequest.scene {
+                        // Solo si hay escena disponible, presentamos el controlador y pasamos la escena
+                        let streetViewVC = StreetViewController()
+                        streetViewVC.scene = scene // Pasar la escena obtenida
+                        streetViewVC.modalPresentationStyle = .fullScreen
+                        
+                        self.present(streetViewVC, animated: true)
+                    } else {
+                        // Si no hay escena, mostrar mensaje de error y no navegar
+                        self.showErrorMessage("Lo sentimos, esta localización no está cubierta por el servicio Look Around de Apple Maps.")
+                    }
+                } catch {
+                    // Manejar el error de la solicitud de la escena
+                    self.showErrorMessage("Error al cargar la escena: \(error.localizedDescription)")
+                }
+            }
+        }
+    }
+    
+    private func showErrorMessage(_ message: String) {
+        let alert = UIAlertController(title: "Error", message: message, preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: "Aceptar", style: .default, handler: nil))
+        present(alert, animated: true, completion: nil)
     }
 }

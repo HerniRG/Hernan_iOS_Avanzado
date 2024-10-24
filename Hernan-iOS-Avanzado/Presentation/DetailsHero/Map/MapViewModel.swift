@@ -73,4 +73,9 @@ class MapViewModel {
     var annotationCount: Int {
         return annotations.count
     }
+    
+    // Método para obtener la coordenada de la anotación dada
+    func getCoordinate(for annotation: HeroAnnotation) -> CLLocationCoordinate2D? {
+        return annotation.coordinate
+    }
 }
