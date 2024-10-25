@@ -55,21 +55,36 @@ class DetailsHeroViewController: UIViewController {
     
     // MARK: - Setup inicial de la UI
     private func setupUI() {
-        heroLabel.alpha = 0
-        heroImage.alpha = 0
-        stackViewTransformations.alpha = 0
-        stackViewTransformations.isHidden = true
-        configureHeroImageAppearance()
-        activityIndicator.startAnimating()
-        configureNavigationBar(title: viewModel.hero.name, backgroundColor: .systemBackground)
+        configureHeroLabel()
+        configureHeroImage()
+        configureStackViewTransformations()
+        configureActivityIndicator()
+        configureNavigationBar()
     }
-    
-    // MARK: - Configurar apariencia de la imagen
-    private func configureHeroImageAppearance() {
+
+    private func configureHeroLabel() {
+        heroLabel.alpha = 0
+    }
+
+    private func configureHeroImage() {
+        heroImage.alpha = 0
         heroImage.layer.cornerRadius = 10
         heroImage.layer.borderWidth = 0.5
         heroImage.layer.borderColor = UIColor.label.cgColor
         heroImage.clipsToBounds = true
+    }
+
+    private func configureStackViewTransformations() {
+        stackViewTransformations.alpha = 0
+        stackViewTransformations.isHidden = true
+    }
+
+    private func configureActivityIndicator() {
+        activityIndicator.startAnimating()
+    }
+
+    private func configureNavigationBar() {
+        configureNavigationBar(title: viewModel.hero.name, backgroundColor: .systemBackground)
     }
     
     // MARK: - Bindings

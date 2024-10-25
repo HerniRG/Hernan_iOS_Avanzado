@@ -19,6 +19,8 @@ class DetailsHeroViewModel {
     private(set) var transformations: [Transformation] = []
     private var heroLocations: [Location] = []
     private var useCase: DetailsHeroUseCaseProtocol
+    private var locationsLoaded = false
+    private var transformationsLoaded = false
     
     var annotations: [HeroAnnotation] = []
     var status: GAObservable<StatusDetailsHero> = GAObservable(.loading)
@@ -42,12 +44,13 @@ class DetailsHeroViewModel {
             case .success(let locations):
                 self?.heroLocations = locations
                 self?.updateAnnotations()
+                self?.locationsLoaded = true
+                self?.checkDataLoadCompletion()
             case .failure(let error):
                 self?.handleError(error)
             }
         }
     }
-    
     // Actualizar las anotaciones del mapa
     private func updateAnnotations() {
         self.annotations = heroLocations.compactMap { location in
@@ -81,18 +84,18 @@ class DetailsHeroViewModel {
         useCase.loadTransformationsForHeroWithId(id: hero.id) { [weak self] result in
             switch result {
             case .success(let transformations):
-                // Eliminar duplicados por nombre y ordenar alfabéticamente
-                let uniqueTransformations = Dictionary(grouping: transformations, by: { $0.name })
-                    .compactMap { $0.value.first } // Mantiene la primera ocurrencia de cada nombre
-                
-                self?.transformations = uniqueTransformations.sorted(by: {
-                    $0.name.localizedStandardCompare($1.name) == .orderedAscending
-                })
-                
-                self?.status.value = .success
+                self?.transformations = transformations
+                self?.transformationsLoaded = true
+                self?.checkDataLoadCompletion()
             case .failure(let error):
                 self?.handleError(error)
             }
+        }
+    }
+    
+    private func checkDataLoadCompletion() {
+        if locationsLoaded && transformationsLoaded {
+            status.value = .success
         }
     }
     

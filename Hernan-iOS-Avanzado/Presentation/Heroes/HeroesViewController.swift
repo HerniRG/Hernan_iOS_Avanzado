@@ -61,6 +61,8 @@ class HeroesViewController: UIViewController {
         navigationController?.setNavigationBarHidden(false, animated: animated)
         configureNavigationBar(title: "Heroes", backgroundColor: .systemBackground)
         searchController.searchBar.text = ""
+        viewModel.sortHeroes()
+        updateCollectionView()
     }
     
     override func viewWillLayoutSubviews() {
@@ -88,10 +90,10 @@ class HeroesViewController: UIViewController {
     }
     
     @objc func sortButtonTapped() {
-        isAscendingOrder.toggle()
-        viewModel.sortHeroes(ascending: isAscendingOrder)
+        viewModel.isAscendingOrder.toggle()
+        viewModel.sortHeroes()
     }
-    
+
     private func configureLogoutButton() {
         let logoutIcon = UIImage(systemName: "power")
         let logoutButton = UIBarButtonItem(image: logoutIcon, style: .plain, target: self, action: #selector(logoutButtonTapped))

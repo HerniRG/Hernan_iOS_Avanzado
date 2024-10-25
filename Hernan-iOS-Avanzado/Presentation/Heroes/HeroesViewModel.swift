@@ -24,6 +24,7 @@ class HeroesViewModel {
     let clearDataUseCase: ClearDatabaseAndTokenUseCaseProtocol
     var statusHero: GAObservable<StatusHero> = GAObservable(StatusHero.none)
     var heroes: [Hero] = []
+    var isAscendingOrder: Bool = true // Propiedad para almacenar el estado del orden
     
     // MARK: - Initializer
     init(useCase: HeroUseCaseProtocol = HeroUseCase(),
@@ -41,7 +42,8 @@ class HeroesViewModel {
             DispatchQueue.main.async {
                 switch result {
                 case .success(let heroes):
-                    self?.heroes = heroes.sorted { $0.name.localizedCompare($1.name) == .orderedAscending }
+                    self?.heroes = heroes
+                    self?.sortHeroes()
                     self?.statusHero.value = .dataUpdated
                 case .failure(let error):
                     self?.statusHero.value = .error(msg: error.description)
@@ -64,8 +66,8 @@ class HeroesViewModel {
     }
     
     // MARK: - Ordenar héroes
-    func sortHeroes(ascending: Bool) {
-        if ascending {
+    func sortHeroes() {
+        if isAscendingOrder {
             self.heroes.sort { $0.name.localizedCompare($1.name) == .orderedAscending }
         } else {
             self.heroes.sort { $0.name.localizedCompare($1.name) == .orderedDescending }

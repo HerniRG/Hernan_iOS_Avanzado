@@ -38,7 +38,7 @@
                             <rect key="frame" x="10" y="0.0" width="353" height="721"/>
                             <subviews>
                                 <stackView opaque="NO" contentMode="scaleAspectFill" axis="vertical" spacing="16" translatesAutoresizingMaskIntoConstraints="NO" id="Rrw-1N-taP">
-                                    <rect key="frame" x="0.0" y="0.0" width="353" height="365.33333333333331"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="353" height="367.66666666666669"/>
                                     <subviews>
                                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="0g0-9C-IgV">
                                             <rect key="frame" x="0.0" y="0.0" width="353" height="66.333333333333329"/>
@@ -65,8 +65,8 @@
                                             </constraints>
                                         </imageView>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalCompressionResistancePriority="749" text="Label" textAlignment="justified" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ztb-wy-UE8" userLabel="description">
-                                            <rect key="frame" x="0.0" y="348.33333333333331" width="353" height="17"/>
-                                            <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                            <rect key="frame" x="0.0" y="348.33333333333331" width="353" height="19.333333333333314"/>
+                                            <fontDescription key="fontDescription" type="system" pointSize="16"/>
                                             <nil key="textColor"/>
                                             <nil key="highlightedColor"/>
                                         </label>

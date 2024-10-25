@@ -66,22 +66,35 @@ class DetailsHeroUseCase: DetailsHeroUseCaseProtocol {
         }
         
         let bdTransformations = hero.transformations ?? []
+        
+        // Si las transformaciones están vacías, hacer la llamada a la API
         if bdTransformations.isEmpty {
             apiProvider.loadTransformations(id: id) { [weak self] result in
                 switch result {
                 case .success(let transformations):
+                    // Guardamos las transformaciones en la base de datos
                     self?.storeDataProvider.add(transformations: transformations)
+                    
+                    // Obtenemos las transformaciones de la BBDD nuevamente después de almacenarlas
                     let bdTransformations = hero.transformations ?? []
-                    let domainTransformations = bdTransformations.map({Transformation(moTransformation: $0)})
+                    
+                    // Convertimos a dominio y las ordenamos por nombre
+                    let domainTransformations = bdTransformations.map({ Transformation(moTransformation: $0) })
+                        .sorted(by: { $0.name.localizedStandardCompare($1.name) == .orderedAscending })
+                    
                     completion(.success(domainTransformations))
                 case .failure(let error):
                     completion(.failure(error))
                 }
             }
         } else {
-            let domainTransformations = bdTransformations.map({Transformation(moTransformation: $0)})
+            // Si las transformaciones ya están en la BBDD, las convertimos y ordenamos
+            let domainTransformations = bdTransformations.map({ Transformation(moTransformation: $0) })
+                .sorted(by: { $0.name.localizedStandardCompare($1.name) == .orderedAscending })
+            
             completion(.success(domainTransformations))
         }
     }
+    
     
 }
