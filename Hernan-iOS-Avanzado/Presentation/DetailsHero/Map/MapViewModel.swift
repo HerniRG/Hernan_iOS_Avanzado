@@ -11,7 +11,7 @@ import MapKit
 enum MapViewStatus: Equatable {
     case loading
     case success
-    case error(msg: String)
+    case error(message: String)
 }
 
 enum MapTypeState {
@@ -34,12 +34,13 @@ enum MapTypeState {
     }
 }
 
-class MapViewModel {
-    
+class MapViewModel: NSObject {
     private(set) var annotations: [HeroAnnotation] = []
     private var currentAnnotationIndex = 0
     private var currentMapType: MapTypeState = .standard
     var status: GAObservable<MapViewStatus> = GAObservable(.loading)
+    var locationManager: CLLocationManager?
+    var onAnnotationsUpdated: (() -> Void)?
     
     var isNextButtonChangeText: Bool {
         return annotations.count <= 1
@@ -59,7 +60,7 @@ class MapViewModel {
     // Cargar las anotaciones
     func loadAnnotations(_ annotations: [HeroAnnotation]) {
         self.annotations = annotations
-        self.status.value = .success
+        status.value = .success
     }
     
     // Obtener la siguiente anotación
@@ -74,8 +75,53 @@ class MapViewModel {
         return annotations.count
     }
     
-    // Método para obtener la coordenada de la anotación dada
+    // Obtener la coordenada de una anotación dada
     func getCoordinate(for annotation: HeroAnnotation) -> CLLocationCoordinate2D? {
         return annotation.coordinate
+    }
+    
+    // MARK: - Manejo de Autorización de Ubicación
+    
+    func checkLocationAuthorization(completion: @escaping (Bool) -> Void) {
+        if locationManager == nil {
+            locationManager = CLLocationManager()
+            locationManager?.delegate = self
+        }
+        
+        guard let locationManager = locationManager else { return }
+        
+        switch locationManager.authorizationStatus {
+        case .notDetermined:
+            locationManager.requestWhenInUseAuthorization()
+        case .authorizedAlways, .authorizedWhenInUse:
+            completion(true)
+        case .denied, .restricted:
+            completion(false)
+        @unknown default:
+            completion(false)
+        }
+    }
+    
+    func enableUserLocation() {
+        locationManager?.startUpdatingLocation()
+    }
+    
+    // Obtener la escena de Look Around para una coordenada
+    func fetchLookAroundScene(for coordinate: CLLocationCoordinate2D, completion: @escaping (MKLookAroundScene?) -> Void) {
+        let sceneRequest = MKLookAroundSceneRequest(coordinate: coordinate)
+        sceneRequest.getSceneWithCompletionHandler { scene, error in
+            if let error = error {
+                print("Error al obtener la escena de Look Around: \(error.localizedDescription)")
+                completion(nil)
+            } else {
+                completion(scene)
+            }
+        }
+    }
+}
+
+extension MapViewModel: CLLocationManagerDelegate {
+    func locationManager(_ manager: CLLocationManager, didChangeAuthorization status: CLAuthorizationStatus) {
+        // Manejar cambios en la autorización si es necesario
     }
 }

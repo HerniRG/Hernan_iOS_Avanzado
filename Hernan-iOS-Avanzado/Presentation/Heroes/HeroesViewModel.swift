@@ -35,18 +35,12 @@ class HeroesViewModel {
     // MARK: - Load Data
     func loadData(filter: String?) {
         statusHero.value = .loading
+        let predicate = createPredicate(filter: filter)
         
-        var predicate: NSPredicate?
-        if let filter {
-            predicate = NSPredicate(format: "name CONTAINS[cd] %@", filter)
-        }
-        
-        // Carga de héroes
         useCase.loadHeros(filter: predicate) { [weak self] result in
             DispatchQueue.main.async {
                 switch result {
                 case .success(let heroes):
-                    // Ordenar héroes por nombre antes de asignarlos
                     self?.heroes = heroes.sorted { $0.name.localizedCompare($1.name) == .orderedAscending }
                     self?.statusHero.value = .dataUpdated
                 case .failure(let error):
@@ -54,6 +48,11 @@ class HeroesViewModel {
                 }
             }
         }
+    }
+    
+    private func createPredicate(filter: String?) -> NSPredicate? {
+        guard let filter = filter else { return nil }
+        return NSPredicate(format: "name CONTAINS[cd] %@", filter)
     }
     
     // MARK: - Access Hero at Index
@@ -83,7 +82,8 @@ class HeroesViewModel {
                     case .success:
                         self?.statusHero.value = .clearDataSuccess
                     case .failure:
-                        self?.statusHero.value = .error(msg: "Error limpiando la base de datos")
+                        self?.statusHero.value = .error(msg: "Error limpiando la base de datos, pero continuando con el logout.")
+                        self?.statusHero.value = .clearDataSuccess
                     }
                 }
             }

@@ -46,13 +46,29 @@ extension DetailsTransformationViewController {
         transformationNameLabel.text = viewModel.getTransformationName()
         transformationDescriptionLabel.text = viewModel.getTransformationDescription()
         
-        // Cargar la imagen utilizando Kingfisher
+        // Cargar la imagen utilizando Kingfisher con manejo de errores
         if let url = viewModel.getTransformationPhotoURL() {
-            transformationImageView.kf.setImage(with: url, placeholder: UIImage(named: "placeholderImage"))
+            transformationImageView.kf.setImage(
+                with: url,
+                placeholder: UIImage(named: "placeholderImage"),
+                options: nil,
+                completionHandler: { [weak self] result in
+                    switch result {
+                    case .success(_):
+                        // La imagen se cargó correctamente, no es necesario hacer nada adicional
+                        break
+                    case .failure(let error):
+                        // Ocurrió un error al cargar la imagen
+                        print("Error al cargar la imagen: \(error)")
+                        DispatchQueue.main.async {
+                            self?.transformationImageView.image = UIImage(named: "placeholderImage")
+                        }
+                    }
+                }
+            )
         } else {
             transformationImageView.image = UIImage(named: "placeholderImage")
         }
-        
         // Añadir esquinas redondeadas y borde a la containerView
         containerView.layer.cornerRadius = 10
         containerView.layer.borderWidth = 0.5

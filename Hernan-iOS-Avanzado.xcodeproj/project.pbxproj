@@ -62,6 +62,7 @@
 		66A1DB9E2CC4E922008D817B /* DetailsTransformationViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66A1DB9D2CC4E910008D817B /* DetailsTransformationViewModel.swift */; };
 		66DE46252CCA3FA100A02039 /* StreetViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66DE46242CCA3F9800A02039 /* StreetViewController.swift */; };
 		66DE46272CCA99E700A02039 /* UIViewController+ShowErrorMessage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66DE46262CCA994D00A02039 /* UIViewController+ShowErrorMessage.swift */; };
+		66E781702CCABEF40001454B /* StreetViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66E7816F2CCABEEF0001454B /* StreetViewModel.swift */; };
 		66F509EA2CC7EC2B003B9AE2 /* StoreProviderTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66F509E82CC7EC2B003B9AE2 /* StoreProviderTests.swift */; };
 		66F509F02CC7EC6F003B9AE2 /* APIProviderMock.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66F509EF2CC7EC64003B9AE2 /* APIProviderMock.swift */; };
 		66F509F22CC7ECA6003B9AE2 /* Heroes.json in Resources */ = {isa = PBXBuildFile; fileRef = 66F509F12CC7EC9E003B9AE2 /* Heroes.json */; };
@@ -156,6 +157,7 @@
 		66D7A7102CB9849500EAD8C8 /* Hernan-iOS-AvanzadoUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Hernan-iOS-AvanzadoUITests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		66DE46242CCA3F9800A02039 /* StreetViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StreetViewController.swift; sourceTree = "<group>"; };
 		66DE46262CCA994D00A02039 /* UIViewController+ShowErrorMessage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIViewController+ShowErrorMessage.swift"; sourceTree = "<group>"; };
+		66E7816F2CCABEEF0001454B /* StreetViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StreetViewModel.swift; sourceTree = "<group>"; };
 		66F509E82CC7EC2B003B9AE2 /* StoreProviderTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoreProviderTests.swift; sourceTree = "<group>"; };
 		66F509EF2CC7EC64003B9AE2 /* APIProviderMock.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIProviderMock.swift; sourceTree = "<group>"; };
 		66F509F12CC7EC9E003B9AE2 /* Heroes.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = Heroes.json; sourceTree = "<group>"; };
@@ -212,9 +214,9 @@
 		663132A52CC2B5FE00F4E48C /* Map */ = {
 			isa = PBXGroup;
 			children = (
+				66E7816F2CCABEEF0001454B /* StreetViewModel.swift */,
 				66DE46242CCA3F9800A02039 /* StreetViewController.swift */,
 				6603D09D2CC3BA9600F7704A /* HeroAnnotationView.swift */,
-				663132A12CC29F1B00F4E48C /* HeroAnnotation.swift */,
 				660798CE2CC4005A00207394 /* MapViewModel.swift */,
 				666B5E722CC3F5E8008A88D1 /* MapViewController.swift */,
 				666B5E732CC3F5E8008A88D1 /* MapViewController.xib */,
@@ -271,6 +273,7 @@
 				6603D0A02CC3C69500F7704A /* Transformation.swift */,
 				6631329F2CC25B7800F4E48C /* Location.swift */,
 				66547E0F2CBEA7110084C792 /* Hero.swift */,
+				663132A12CC29F1B00F4E48C /* HeroAnnotation.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -685,6 +688,7 @@
 				66547E0A2CBEA5150084C792 /* GAEndpoint.swift in Sources */,
 				66547E042CBEA4720084C792 /* APITransformation.swift in Sources */,
 				66547DDD2CBEA00F0084C792 /* SceneDelegate.swift in Sources */,
+				66E781702CCABEF40001454B /* StreetViewModel.swift in Sources */,
 				66DE46272CCA99E700A02039 /* UIViewController+ShowErrorMessage.swift in Sources */,
 				66558B4B2CC953650002365A /* HeroesViewController+Animations.swift in Sources */,
 				66558B3F2CC94DDC0002365A /* LoginViewController+UISetup.swift in Sources */,

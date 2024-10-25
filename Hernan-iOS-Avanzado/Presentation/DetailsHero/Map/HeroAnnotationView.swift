@@ -8,38 +8,35 @@
 import MapKit
 
 class HeroAnnotationView: MKAnnotationView {
-    static var identifier: String {
-        return String(describing: HeroAnnotationView.self)
-    }
+    static let identifier = String(describing: HeroAnnotationView.self)
     
-    private var streetViewButton: UIButton!
+    private let streetViewButton: UIButton = UIButton(type: .infoLight)
     
-    override init(annotation: (any MKAnnotation)?, reuseIdentifier: String?) {
+    override init(annotation: MKAnnotation?, reuseIdentifier: String?) {
         super.init(annotation: annotation, reuseIdentifier: reuseIdentifier)
-        self.frame = CGRect(x: 0, y: 0, width: 40, height: 40)
-        self.centerOffset = CGPoint(x: 0, y: -frame.size.height / 2)
-        self.canShowCallout = true
-        self.setupView()
+        setupView()
     }
     
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     
-    func setupView() {
-        backgroundColor = .clear
-        let view = UIImageView(image: UIImage(resource: .dragonBall))
-        addSubview(view)
-        view.frame = self.bounds
+    
+    private func setupView() {
+        frame = CGRect(x: 0, y: 0, width: 40, height: 40)
+        centerOffset = CGPoint(x: 0, y: -frame.size.height / 2)
+        canShowCallout = true
         
-        // Añadir el botón de street view
-        streetViewButton = UIButton(type: .infoLight)
-        self.rightCalloutAccessoryView = streetViewButton
+        backgroundColor = .clear
+        let imageView = UIImageView(image: UIImage(resource: .dragonBall))
+        imageView.frame = bounds
+        addSubview(imageView)
+        
+        rightCalloutAccessoryView = streetViewButton
     }
     
-    // Método para configurar la acción del botón
+    // Configurar la acción del botón de Street View
     func configureButtonAction(target: AnyObject, action: Selector) {
         streetViewButton.addTarget(target, action: action, for: .touchUpInside)
     }
-
 }

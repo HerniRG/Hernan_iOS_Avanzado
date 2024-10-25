@@ -9,29 +9,35 @@ import XCTest
 @testable import Hernan_iOS_Avanzado
 
 // MARK: - Mock de StoreDataProvider con error simulado
+// MARK: - Mock de StoreDataProvider con error simulado
 class StoreDataProviderMockWithError: StoreDataProvider {
+    var shouldFailClearBBDD = false // Definir la propiedad en esta clase directamente
+
     override func clearBBDD() throws {
-        // Simulación de un error al intentar limpiar la base de datos
-        throw NSError(domain: "DatabaseError", code: 1, userInfo: [NSLocalizedDescriptionKey: "Error cleaning database"])
+        if shouldFailClearBBDD {
+            // Simular un error lanzando una excepción
+            throw GAError.coreDataError(error: NSError(domain: "CoreDataError", code: 1, userInfo: [NSLocalizedDescriptionKey: "Error cleaning database"]))
+        } else {
+            try super.clearBBDD()
+        }
     }
 }
+
 
 final class ClearDatabaseAndTokenUseCaseTests: XCTestCase {
     
     var sut: ClearDatabaseAndTokenUseCase!
-    var storeDataProvider: StoreDataProvider!
+    var storeDataProvider: StoreDataProviderMockWithError!
     var secureDataStore: SecureDataStorageMock!
     
     override func setUpWithError() throws {
-        // Inicialización de StoreDataProvider y SecureDataStorage mocks
         try super.setUpWithError()
-        storeDataProvider = StoreDataProvider(persistency: .inMemory)
+        storeDataProvider = StoreDataProviderMockWithError(persistency: .inMemory)
         secureDataStore = SecureDataStorageMock()
         sut = ClearDatabaseAndTokenUseCase(storeDataProvider: storeDataProvider, secureDataStore: secureDataStore)
     }
     
     override func tearDownWithError() throws {
-        // Limpieza de las instancias creadas durante los tests
         sut = nil
         storeDataProvider = nil
         secureDataStore = nil
@@ -52,11 +58,12 @@ final class ClearDatabaseAndTokenUseCaseTests: XCTestCase {
             switch result {
             case .success:
                 // Then: Validamos que la base de datos esté vacía y el token haya sido eliminado
-                XCTAssertTrue(self.storeDataProvider.fetchHeroes(filter: nil).isEmpty, "La base de datos debería estar vacía")
+                let heroes = self.storeDataProvider.fetchHeroes(filter: nil)
+                XCTAssertTrue(heroes.isEmpty, "La base de datos debería estar vacía")
                 XCTAssertNil(self.secureDataStore.getToken(), "El token debería haber sido eliminado")
                 expectation.fulfill()
-            case .failure:
-                XCTFail("Expected success but got error")
+            case .failure(let error):
+                XCTFail("Se esperaba éxito, pero se recibió error: \(error.description)")
             }
         }
         
@@ -69,22 +76,31 @@ final class ClearDatabaseAndTokenUseCaseTests: XCTestCase {
         // Given: Simulamos un error en el método clearBBDD del StoreDataProvider
         let expectation = expectation(description: "Clear database should fail")
         
-        storeDataProvider = StoreDataProviderMockWithError() // Mock con error al limpiar la base de datos
-        sut = ClearDatabaseAndTokenUseCase(storeDataProvider: storeDataProvider, secureDataStore: secureDataStore)
-        
+        // Configuramos el mock para que falle al limpiar la base de datos
+        storeDataProvider.shouldFailClearBBDD = true
+
+        // Añadimos héroes a la base de datos y establecemos un token
+        let apiHero = ApiHero(id: "hero1", name: "Goku", description: "Fighter", photo: "goku.jpg", favorite: true)
+        storeDataProvider.add(heroes: [apiHero])
+        secureDataStore.setToken("testToken")
+
         // When: Se llama al método clearDatabaseAndToken
         sut.clearDatabaseAndToken { result in
             switch result {
             case .success:
-                XCTFail("Expected error but got success")
-            case .failure(let error):
-                // Then: Validamos que el error devuelto es el esperado
-                XCTAssertEqual(error.description, "Core Data error: Error cleaning database")
+                XCTFail("Se esperaba error, pero se recibió éxito")
+            case .failure:
+                // Verificamos que el token no se haya eliminado
+                XCTAssertNotNil(self.secureDataStore.getToken(), "El token no debería haberse eliminado")
+                // Verificamos que la base de datos no esté vacía
+                let heroes = self.storeDataProvider.fetchHeroes(filter: nil)
+                XCTAssertFalse(heroes.isEmpty, "La base de datos no debería estar vacía")
                 expectation.fulfill()
             }
         }
-        
+
         // Esperamos la ejecución con timeout
         wait(for: [expectation], timeout: 1)
     }
+
 }

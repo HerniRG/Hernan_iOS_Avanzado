@@ -71,12 +71,11 @@ class StoreDataProvider {
     }
     
     /// Limpia la base de datos
-    func clearBBDD() {
+    func clearBBDD() throws {
         let batchDeleteHeroes = NSBatchDeleteRequest(fetchRequest: MOHero.fetchRequest())
         let batchDeleteTransformations = NSBatchDeleteRequest(fetchRequest: MOTransformation.fetchRequest())
         let batchDeleteLocations = NSBatchDeleteRequest(fetchRequest: MOLocation.fetchRequest())
-        
-        // Ejecutar las solicitudes de eliminación
+
         do {
             try context.execute(batchDeleteHeroes)
             try context.execute(batchDeleteTransformations)
@@ -84,10 +83,9 @@ class StoreDataProvider {
             context.reset()  // Limpiar el contexto después de cada batch delete
         } catch {
             print("Error al limpiar la base de datos: \(error.localizedDescription)")
+            throw GAError.coreDataError(error: error) // Lanzar el error para que lo maneje el caso de uso
         }
     }
-    
-    
 }
 
 // MARK: - Data Operations
