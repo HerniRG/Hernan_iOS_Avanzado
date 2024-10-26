@@ -98,8 +98,8 @@ final class DetailsHeroViewModelTests: XCTestCase {
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
             // Then: Validamos que el estado sea success y que los datos se hayan cargado correctamente
             XCTAssertEqual(self.sut.status.value, .success)
-            XCTAssertFalse(self.sut.annotations.isEmpty, "Las anotaciones deberían haberse actualizado.")
-            XCTAssertEqual(self.sut.transformations.count, 1, "Debería haber una transformación cargada.")
+            XCTAssertFalse(self.sut.getAnnotations().isEmpty, "Las anotaciones deberían haberse actualizado.")
+            XCTAssertEqual(self.sut.getTransformations().count, 1, "Debería haber una transformación cargada.")
             expectation.fulfill()
         }
         

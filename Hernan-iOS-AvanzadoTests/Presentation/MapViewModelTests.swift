@@ -29,7 +29,7 @@ final class MapViewModelTests: XCTestCase {
     func test_InitialState() {
         // Verificamos que el estado inicial sea loading y que no haya anotaciones cargadas
         XCTAssertEqual(sut.status.value, .loading)
-        XCTAssertTrue(sut.annotations.isEmpty, "Las anotaciones deberían estar vacías al inicio.")
+        XCTAssertTrue(sut.getAnnotations().isEmpty, "Las anotaciones deberían estar vacías al inicio.")
     }
     
     /// Test que verifica que el estado y las anotaciones se actualizan correctamente

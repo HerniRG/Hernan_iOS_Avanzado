@@ -57,7 +57,7 @@ final class HeroesViewModelTests: XCTestCase {
         sut.statusHero.bind {[weak self] status in
             switch status {
             case .dataUpdated:
-                heroes = self?.sut.heroes
+                heroes = self?.sut.getHeroes()
                 expectation.fulfill()
             case .error(msg: _):
                 XCTFail("Expected success")
