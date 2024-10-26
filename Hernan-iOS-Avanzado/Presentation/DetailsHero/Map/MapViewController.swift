@@ -34,14 +34,14 @@ class MapViewController: UIViewController {
         
         // Verificar autorización de ubicación
         viewModel.checkLocationAuthorization { [weak self] authorized in
-            if authorized {
-                self?.mapView.showsUserLocation = true
-                self?.mapView.showsUserTrackingButton = true
-                self?.viewModel.enableUserLocation()
-            } else {
-                self?.mapView.showsUserLocation = false
-                self?.mapView.showsUserTrackingButton = false
-            }
+            self?.updateLocationTrackingUI(isAuthorized: authorized)
+        }
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        viewModel.checkLocationAuthorization { [weak self] authorized in
+            self?.updateLocationTrackingUI(isAuthorized: authorized)
         }
     }
     
@@ -61,11 +61,14 @@ class MapViewController: UIViewController {
                 break
             case .success:
                 self?.updateMap()
-                let buttonTitle = self?.viewModel.isNextButtonChangeText == true ? "Localización" : "Localizaciones"
-                self?.nextButton.setTitle(buttonTitle, for: .normal)
+                self?.updateNextButtonTitle()
             case .error(let message):
                 self?.showErrorMessage(message)
             }
+        }
+        
+        viewModel.onAnnotationsUpdated = { [weak self] in
+            self?.updateLocationTrackingUI(isAuthorized: true)
         }
     }
     
@@ -103,6 +106,19 @@ class MapViewController: UIViewController {
         configureNavigationBar(title: "Localizaciones", backgroundColor: .systemBackground)
         title = viewModel.annotationCount == 1 ? "Localización" : "Localizaciones"
     }
+    
+    private func updateNextButtonTitle() {
+        let buttonTitle = viewModel.isNextButtonChangeText ? "Localización" : "Localizaciones"
+        nextButton.setTitle(buttonTitle, for: .normal)
+    }
+    
+    private func updateLocationTrackingUI(isAuthorized: Bool) {
+        mapView.showsUserLocation = isAuthorized
+        mapView.showsUserTrackingButton = isAuthorized
+        if isAuthorized {
+            viewModel.enableUserLocation()
+        }
+    }
 }
 
 extension MapViewController: MKMapViewDelegate {
@@ -127,7 +143,7 @@ extension MapViewController: MKMapViewDelegate {
         
         guard let annotationView = view as? MKAnnotationView,
               let heroAnnotation = annotationView.annotation as? HeroAnnotation else {
-            print("No se pudo obtener la anotación.")
+            showErrorMessage("No se pudo obtener la anotación.")
             return
         }
         

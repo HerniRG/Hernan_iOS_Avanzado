@@ -128,6 +128,11 @@ class MapViewModel: NSObject {
 
 extension MapViewModel: CLLocationManagerDelegate {
     func locationManager(_ manager: CLLocationManager, didChangeAuthorization status: CLAuthorizationStatus) {
-        // Manejar cambios en la autorización si es necesario
+        if status == .authorizedAlways || status == .authorizedWhenInUse {
+            locationManager?.startUpdatingLocation()
+            DispatchQueue.main.async { [weak self] in
+                self?.onAnnotationsUpdated?()
+            }
+        }
     }
 }

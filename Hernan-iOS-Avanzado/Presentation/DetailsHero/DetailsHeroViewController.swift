@@ -61,11 +61,11 @@ class DetailsHeroViewController: UIViewController {
         configureActivityIndicator()
         configureNavigationBar()
     }
-
+    
     private func configureHeroLabel() {
         heroLabel.alpha = 0
     }
-
+    
     private func configureHeroImage() {
         heroImage.alpha = 0
         heroImage.layer.cornerRadius = 10
@@ -73,16 +73,16 @@ class DetailsHeroViewController: UIViewController {
         heroImage.layer.borderColor = UIColor.label.cgColor
         heroImage.clipsToBounds = true
     }
-
+    
     private func configureStackViewTransformations() {
         stackViewTransformations.alpha = 0
         stackViewTransformations.isHidden = true
     }
-
+    
     private func configureActivityIndicator() {
         activityIndicator.startAnimating()
     }
-
+    
     private func configureNavigationBar() {
         configureNavigationBar(title: viewModel.getHero().name, backgroundColor: .systemBackground)
     }
@@ -139,6 +139,7 @@ class DetailsHeroViewController: UIViewController {
         updateStackViewTransformations()
         updateMapItemVisibility()
         animateUIElements()
+        updateCollectionView()
     }
     
     // MARK: - Mostrar error
@@ -182,8 +183,12 @@ class DetailsHeroViewController: UIViewController {
             stackViewTransformations.isHidden = true
         } else {
             stackViewTransformations.isHidden = false
+            UIView.animate(withDuration: 0.3) {
+                self.stackViewTransformations.alpha = 1
+            }
         }
     }
+    
     
     // MARK: - Animaciones de la UI
     private func animateUIElements() {

@@ -26,9 +26,12 @@ class HeroUseCaseErrorMock: HeroUseCaseProtocol {
 // Mock para simular el comportamiento exitoso de clearData
 class ClearDataUseCaseSuccessMock: ClearDatabaseAndTokenUseCaseProtocol {
     func clearDatabaseAndToken(completion: @escaping (Result<Void, GAError>) -> Void) {
-        completion(.success(()))
+        DispatchQueue.global().asyncAfter(deadline: .now() + 0.1) {
+            completion(.success(()))
+        }
     }
 }
+
 
 final class HeroesViewModelTests: XCTestCase {
     

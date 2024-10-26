@@ -77,7 +77,6 @@ class DetailsHeroViewModel {
             // Aquí pasamos el dateShow formateado como subtítulo
             return HeroAnnotation(coordinate: coordinate, title: self.hero.name, subtitle: formattedDate)
         }
-        self.status.value = .success
     }
     
     // Función para formatear la fecha
