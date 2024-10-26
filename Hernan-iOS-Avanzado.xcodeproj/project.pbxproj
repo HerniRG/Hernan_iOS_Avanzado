@@ -214,7 +214,6 @@
 		663132A52CC2B5FE00F4E48C /* Map */ = {
 			isa = PBXGroup;
 			children = (
-				667A335D2CCD2847006E5767 /* LookAround */,
 				6603D09D2CC3BA9600F7704A /* HeroAnnotationView.swift */,
 				660798CE2CC4005A00207394 /* MapViewModel.swift */,
 				666B5E722CC3F5E8008A88D1 /* MapViewController.swift */,
@@ -226,6 +225,7 @@
 		663218A22CC187AF0086D097 /* DetailsHero */ = {
 			isa = PBXGroup;
 			children = (
+				667A335D2CCD2847006E5767 /* LookAround */,
 				663132A52CC2B5FE00F4E48C /* Map */,
 				6631329B2CC258D800F4E48C /* DetailsHeroViewModel.swift */,
 				663218A32CC187ED0086D097 /* DetailsHeroViewController.swift */,
