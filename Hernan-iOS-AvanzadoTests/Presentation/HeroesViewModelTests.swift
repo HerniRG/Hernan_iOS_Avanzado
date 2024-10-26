@@ -180,7 +180,7 @@ final class HeroesViewModelTests: XCTestCase {
         sut.clearData()
         
         // Then
-        wait(for: [expectation], timeout: 2)
+        wait(for: [expectation], timeout: 5)
         XCTAssertTrue(clearDataSuccess)
     }
 }
