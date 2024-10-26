@@ -27,11 +27,12 @@ class HeroUseCaseErrorMock: HeroUseCaseProtocol {
 class ClearDataUseCaseSuccessMock: ClearDatabaseAndTokenUseCaseProtocol {
     func clearDatabaseAndToken(completion: @escaping (Result<Void, GAError>) -> Void) {
         DispatchQueue.global().asyncAfter(deadline: .now() + 0.1) {
-            completion(.success(()))
+            DispatchQueue.main.async {
+                completion(.success(()))
+            }
         }
     }
 }
-
 
 final class HeroesViewModelTests: XCTestCase {
     
