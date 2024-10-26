@@ -60,9 +60,9 @@
 		66A1DB9B2CC4E90C008D817B /* DetailsTransformationViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 66A1DB9A2CC4E90C008D817B /* DetailsTransformationViewController.xib */; };
 		66A1DB9C2CC4E90C008D817B /* DetailsTransformationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66A1DB992CC4E90C008D817B /* DetailsTransformationViewController.swift */; };
 		66A1DB9E2CC4E922008D817B /* DetailsTransformationViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66A1DB9D2CC4E910008D817B /* DetailsTransformationViewModel.swift */; };
-		66DE46252CCA3FA100A02039 /* StreetViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66DE46242CCA3F9800A02039 /* StreetViewController.swift */; };
+		66DE46252CCA3FA100A02039 /* LookAroundViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66DE46242CCA3F9800A02039 /* LookAroundViewController.swift */; };
 		66DE46272CCA99E700A02039 /* UIViewController+ShowErrorMessage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66DE46262CCA994D00A02039 /* UIViewController+ShowErrorMessage.swift */; };
-		66E781702CCABEF40001454B /* StreetViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66E7816F2CCABEEF0001454B /* StreetViewModel.swift */; };
+		66E781702CCABEF40001454B /* LookAroundViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66E7816F2CCABEEF0001454B /* LookAroundViewModel.swift */; };
 		66F509EA2CC7EC2B003B9AE2 /* StoreProviderTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66F509E82CC7EC2B003B9AE2 /* StoreProviderTests.swift */; };
 		66F509F02CC7EC6F003B9AE2 /* APIProviderMock.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66F509EF2CC7EC64003B9AE2 /* APIProviderMock.swift */; };
 		66F509F22CC7ECA6003B9AE2 /* Heroes.json in Resources */ = {isa = PBXBuildFile; fileRef = 66F509F12CC7EC9E003B9AE2 /* Heroes.json */; };
@@ -155,9 +155,9 @@
 		66D7A6F02CB9849400EAD8C8 /* Hernan-iOS-Avanzado.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Hernan-iOS-Avanzado.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		66D7A7062CB9849500EAD8C8 /* Hernan-iOS-AvanzadoTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Hernan-iOS-AvanzadoTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		66D7A7102CB9849500EAD8C8 /* Hernan-iOS-AvanzadoUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Hernan-iOS-AvanzadoUITests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
-		66DE46242CCA3F9800A02039 /* StreetViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StreetViewController.swift; sourceTree = "<group>"; };
+		66DE46242CCA3F9800A02039 /* LookAroundViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LookAroundViewController.swift; sourceTree = "<group>"; };
 		66DE46262CCA994D00A02039 /* UIViewController+ShowErrorMessage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIViewController+ShowErrorMessage.swift"; sourceTree = "<group>"; };
-		66E7816F2CCABEEF0001454B /* StreetViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StreetViewModel.swift; sourceTree = "<group>"; };
+		66E7816F2CCABEEF0001454B /* LookAroundViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LookAroundViewModel.swift; sourceTree = "<group>"; };
 		66F509E82CC7EC2B003B9AE2 /* StoreProviderTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoreProviderTests.swift; sourceTree = "<group>"; };
 		66F509EF2CC7EC64003B9AE2 /* APIProviderMock.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIProviderMock.swift; sourceTree = "<group>"; };
 		66F509F12CC7EC9E003B9AE2 /* Heroes.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = Heroes.json; sourceTree = "<group>"; };
@@ -214,8 +214,7 @@
 		663132A52CC2B5FE00F4E48C /* Map */ = {
 			isa = PBXGroup;
 			children = (
-				66E7816F2CCABEEF0001454B /* StreetViewModel.swift */,
-				66DE46242CCA3F9800A02039 /* StreetViewController.swift */,
+				667A335D2CCD2847006E5767 /* LookAround */,
 				6603D09D2CC3BA9600F7704A /* HeroAnnotationView.swift */,
 				660798CE2CC4005A00207394 /* MapViewModel.swift */,
 				666B5E722CC3F5E8008A88D1 /* MapViewController.swift */,
@@ -421,6 +420,15 @@
 				66509D552CBFAF84009134FF /* HeroCollectionViewCell.xib */,
 			);
 			path = Cell;
+			sourceTree = "<group>";
+		};
+		667A335D2CCD2847006E5767 /* LookAround */ = {
+			isa = PBXGroup;
+			children = (
+				66E7816F2CCABEEF0001454B /* LookAroundViewModel.swift */,
+				66DE46242CCA3F9800A02039 /* LookAroundViewController.swift */,
+			);
+			path = LookAround;
 			sourceTree = "<group>";
 		};
 		66A1DB982CC4E6A1008D817B /* DetailsTransformation */ = {
@@ -668,7 +676,7 @@
 				66547DF42CBEA3040084C792 /* MOLocation+CoreDataClass.swift in Sources */,
 				66547E0E2CBEA52E0084C792 /* GARequestBuilder.swift in Sources */,
 				66547DF62CBEA3040084C792 /* MOTransformation+CoreDataClass.swift in Sources */,
-				66DE46252CCA3FA100A02039 /* StreetViewController.swift in Sources */,
+				66DE46252CCA3FA100A02039 /* LookAroundViewController.swift in Sources */,
 				66558B3D2CC94D8F0002365A /* LoginViewController+Keyboard.swift in Sources */,
 				6631329E2CC25A6500F4E48C /* DetailsHeroUseCase.swift in Sources */,
 				6603D09E2CC3BA9D00F7704A /* HeroAnnotationView.swift in Sources */,
@@ -688,7 +696,7 @@
 				66547E0A2CBEA5150084C792 /* GAEndpoint.swift in Sources */,
 				66547E042CBEA4720084C792 /* APITransformation.swift in Sources */,
 				66547DDD2CBEA00F0084C792 /* SceneDelegate.swift in Sources */,
-				66E781702CCABEF40001454B /* StreetViewModel.swift in Sources */,
+				66E781702CCABEF40001454B /* LookAroundViewModel.swift in Sources */,
 				66DE46272CCA99E700A02039 /* UIViewController+ShowErrorMessage.swift in Sources */,
 				66558B4B2CC953650002365A /* HeroesViewController+Animations.swift in Sources */,
 				66558B3F2CC94DDC0002365A /* LoginViewController+UISetup.swift in Sources */,

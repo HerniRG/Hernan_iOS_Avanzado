@@ -8,13 +8,17 @@
 import UIKit
 
 extension UIViewController {
-    func showErrorMessage(_ message: String, shouldDismiss: Bool = false) {
+    func showErrorMessage(_ message: String, shouldDismiss: Bool = false, completion: (() -> Void)? = nil) {
         let alert = UIAlertController(title: "Error", message: message, preferredStyle: .alert)
-        alert.addAction(UIAlertAction(title: "Aceptar", style: .default) { _ in
+        let okAction = UIAlertAction(title: "Aceptar", style: .default) { _ in
             if shouldDismiss {
                 self.dismiss(animated: true, completion: nil)
             }
-        })
+            completion?() // Se ejecuta solo cuando el usuario presiona "Aceptar"
+        }
+        okAction.setValue(UIColor.label, forKey: "titleTextColor")
+        alert.addAction(okAction)
+        
         present(alert, animated: true, completion: nil)
     }
 }

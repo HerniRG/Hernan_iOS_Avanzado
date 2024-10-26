@@ -52,7 +52,7 @@ extension DetailsTransformationViewController {
                 with: url,
                 placeholder: UIImage(named: "placeholderImage"),
                 options: nil,
-                completionHandler: { [weak self] result in
+                completionHandler: { result in
                     switch result {
                     case .success(_):
                         // La imagen se cargó correctamente, no es necesario hacer nada adicional
@@ -60,14 +60,9 @@ extension DetailsTransformationViewController {
                     case .failure(let error):
                         // Ocurrió un error al cargar la imagen
                         print("Error al cargar la imagen: \(error)")
-                        DispatchQueue.main.async {
-                            self?.transformationImageView.image = UIImage(named: "placeholderImage")
-                        }
                     }
                 }
             )
-        } else {
-            transformationImageView.image = UIImage(named: "placeholderImage")
         }
         // Añadir esquinas redondeadas y borde a la containerView
         containerView.layer.cornerRadius = 10

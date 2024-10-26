@@ -1,5 +1,5 @@
 //
-//  StreetViewController.swift
+//  LookAroundViewController.swift
 //  Hernan-iOS-Avanzado
 //
 //  Created by Hernán Rodríguez on 24/10/24.
@@ -8,11 +8,11 @@
 import UIKit
 import MapKit
 
-class StreetViewController: UIViewController {
+class LookAroundViewController: UIViewController {
     
-    private let viewModel: StreetViewModel
+    private let viewModel: LookAroundViewModel
     
-    init(viewModel: StreetViewModel) {
+    init(viewModel: LookAroundViewModel) {
         self.viewModel = viewModel
         super.init(nibName: nil, bundle: nil)
     }
@@ -38,7 +38,7 @@ class StreetViewController: UIViewController {
     }
 }
 
-extension StreetViewController: MKLookAroundViewControllerDelegate {
+extension LookAroundViewController: MKLookAroundViewControllerDelegate {
     func lookAroundViewControllerWillDismissFullScreen(_ viewController: MKLookAroundViewController) {
         dismiss(animated: true, completion: nil)
     }

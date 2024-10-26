@@ -103,12 +103,6 @@ class MapViewController: UIViewController {
         configureNavigationBar(title: "Localizaciones", backgroundColor: .systemBackground)
         title = viewModel.annotationCount == 1 ? "Localización" : "Localizaciones"
     }
-    
-    private func showErrorMessage(_ message: String) {
-        let alert = UIAlertController(title: "Error", message: message, preferredStyle: .alert)
-        alert.addAction(UIAlertAction(title: "Aceptar", style: .default, handler: nil))
-        present(alert, animated: true)
-    }
 }
 
 extension MapViewController: MKMapViewDelegate {
@@ -141,7 +135,7 @@ extension MapViewController: MKMapViewDelegate {
         viewModel.fetchLookAroundScene(for: heroAnnotation.coordinate) { [weak self] scene in
             DispatchQueue.main.async {
                 if let scene = scene {
-                    let streetViewVC = StreetViewController(viewModel: StreetViewModel(scene: scene))
+                    let streetViewVC = LookAroundViewController(viewModel: LookAroundViewModel(scene: scene))
                     streetViewVC.modalPresentationStyle = .fullScreen
                     self?.present(streetViewVC, animated: true)
                 } else {

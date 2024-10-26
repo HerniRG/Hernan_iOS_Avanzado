@@ -39,7 +39,7 @@ class LoginViewController: UIViewController {
                 
             case .error(let msg):
                 self.hideLoginContainer()
-                self.showAlert(title: "Error", message: msg) {
+                self.showErrorMessage(msg) {
                     self.hideActivityIndicator()
                     self.viewModel.statusLogin.value = .none
                 }
@@ -66,17 +66,5 @@ class LoginViewController: UIViewController {
             return
         }
         viewModel.login(username: username, password: password)
-    }
-    
-    // MARK: - Alerts
-    private func showAlert(title: String, message: String, completion: @escaping () -> Void) {
-        let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
-        let okAction = UIAlertAction(title: "OK", style: .cancel) { _ in
-            completion()
-        }
-        okAction.setValue(UIColor.label, forKey: "titleTextColor")
-        alert.addAction(okAction)
-        
-        self.present(alert, animated: true, completion: nil)
     }
 }
