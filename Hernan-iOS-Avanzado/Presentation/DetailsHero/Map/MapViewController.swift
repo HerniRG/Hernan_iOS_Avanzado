@@ -72,7 +72,7 @@ class MapViewController: UIViewController {
     // MARK: - Actualización del Mapa
     private func updateMap() {
         mapView.removeAnnotations(mapView.annotations)
-        mapView.addAnnotations(viewModel.annotations)
+        mapView.addAnnotations(viewModel.getAnnotations())
         
         if let firstAnnotation = viewModel.firstAnnotation {
             let region = MKCoordinateRegion(center: firstAnnotation.coordinate, latitudinalMeters: 100000, longitudinalMeters: 100000)

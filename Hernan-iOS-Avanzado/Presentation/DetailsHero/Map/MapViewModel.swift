@@ -35,7 +35,8 @@ enum MapTypeState {
 }
 
 class MapViewModel: NSObject {
-    private(set) var annotations: [HeroAnnotation] = []
+    
+    private var annotations: [HeroAnnotation] = []
     private var currentAnnotationIndex = 0
     private var currentMapType: MapTypeState = .standard
     var status: GAObservable<MapViewStatus> = GAObservable(.loading)
@@ -44,6 +45,11 @@ class MapViewModel: NSObject {
     
     var isNextButtonChangeText: Bool {
         return annotations.count <= 1
+    }
+    
+    // Función para acceder a 'annotations'
+    func getAnnotations() -> [HeroAnnotation] {
+        return annotations
     }
     
     // Propiedad calculada para obtener la primera anotación

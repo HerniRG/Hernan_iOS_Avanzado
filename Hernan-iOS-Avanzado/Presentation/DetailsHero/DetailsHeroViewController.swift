@@ -84,7 +84,7 @@ class DetailsHeroViewController: UIViewController {
     }
 
     private func configureNavigationBar() {
-        configureNavigationBar(title: viewModel.hero.name, backgroundColor: .systemBackground)
+        configureNavigationBar(title: viewModel.getHero().name, backgroundColor: .systemBackground)
     }
     
     // MARK: - Bindings
@@ -104,7 +104,7 @@ class DetailsHeroViewController: UIViewController {
     
     // MARK: - Actualizar visibilidad del ítem del mapa
     private func updateMapItemVisibility() {
-        if viewModel.annotations.isEmpty {
+        if viewModel.getAnnotations().isEmpty {
             navigationItem.rightBarButtonItem = nil
         } else {
             let mapIcon = UIImage(systemName: "map")
@@ -119,7 +119,7 @@ class DetailsHeroViewController: UIViewController {
         if mapViewController == nil {
             mapViewController = MapViewController()
         }
-        mapViewController?.configure(with: viewModel.annotations)
+        mapViewController?.configure(with: viewModel.getAnnotations())
         if let mapVC = mapViewController {
             navigationController?.pushViewController(mapVC, animated: true)
         }
@@ -153,7 +153,7 @@ class DetailsHeroViewController: UIViewController {
     private func updateCollectionView() {
         var snapshot = NSDiffableDataSourceSnapshot<SectionsTransformations, Transformation>()
         snapshot.appendSections([.main])
-        snapshot.appendItems(viewModel.transformations, toSection: .main)
+        snapshot.appendItems(viewModel.getTransformations(), toSection: .main)
         dataSource?.apply(snapshot, animatingDifferences: false)
     }
     
@@ -167,8 +167,8 @@ class DetailsHeroViewController: UIViewController {
     
     // MARK: - Actualizar información del héroe
     private func updateHeroInfo() {
-        heroLabel.text = viewModel.hero.info
-        if let imageUrl = URL(string: viewModel.hero.photo) {
+        heroLabel.text = viewModel.getHero().info
+        if let imageUrl = URL(string: viewModel.getHero().photo) {
             DispatchQueue.main.async { [weak self] in
                 guard let self = self else { return }
                 self.heroImage.kf.setImage(with: imageUrl, placeholder: UIImage(named: "placeholder"))
@@ -178,7 +178,7 @@ class DetailsHeroViewController: UIViewController {
     
     // MARK: - Actualizar StackView de transformaciones
     private func updateStackViewTransformations() {
-        if viewModel.transformations.isEmpty {
+        if viewModel.getTransformations().isEmpty {
             stackViewTransformations.isHidden = true
         } else {
             stackViewTransformations.isHidden = false

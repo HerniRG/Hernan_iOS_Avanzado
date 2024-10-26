@@ -129,9 +129,9 @@ class HeroesViewController: UIViewController {
     private func updateCollectionView() {
         var snapshot = NSDiffableDataSourceSnapshot<SectionsHeroes, Hero>()
         snapshot.appendSections([.main])
-        snapshot.appendItems(viewModel.heroes, toSection: .main)
+        snapshot.appendItems(viewModel.getHeroes(), toSection: .main)
         dataSource?.apply(snapshot, animatingDifferences: true)
-        let noResults = viewModel.heroes.isEmpty
+        let noResults = viewModel.getHeroes().isEmpty
         
         if noResults {
             animateNoHeroesLabel(show: true)

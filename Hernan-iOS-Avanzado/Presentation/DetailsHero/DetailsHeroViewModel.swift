@@ -15,19 +15,34 @@ enum StatusDetailsHero: Equatable {
 
 class DetailsHeroViewModel {
     
-    private(set) var hero: Hero
-    private(set) var transformations: [Transformation] = []
+    private var hero: Hero
+    private var transformations: [Transformation] = []
     private var heroLocations: [Location] = []
+    private var annotations: [HeroAnnotation] = []
     private var useCase: DetailsHeroUseCaseProtocol
     private var locationsLoaded = false
     private var transformationsLoaded = false
     
-    var annotations: [HeroAnnotation] = []
     var status: GAObservable<StatusDetailsHero> = GAObservable(.loading)
     
     init(hero: Hero, useCase: DetailsHeroUseCaseProtocol = DetailsHeroUseCase()) {
         self.hero = hero
         self.useCase = useCase
+    }
+    
+    // Función para acceder a 'hero'
+    func getHero() -> Hero {
+        return hero
+    }
+    
+    // Función para acceder a 'transformations'
+    func getTransformations() -> [Transformation] {
+        return transformations
+    }
+    
+    // Función para acceder a 'annotations'
+    func getAnnotations() -> [HeroAnnotation] {
+        return annotations
     }
     
     // Cargar tanto las localizaciones como las transformaciones del héroe

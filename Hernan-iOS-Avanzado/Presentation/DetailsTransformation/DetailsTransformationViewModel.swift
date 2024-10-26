@@ -10,14 +10,14 @@ import Foundation
 class DetailsTransformationViewModel {
     
     // MARK: - Properties
-    private(set) var transformation: Transformation
+    private var transformation: Transformation
     
     // MARK: - Initializer
     init(transformation: Transformation) {
         self.transformation = transformation
     }
     
-    // MARK: - Accessor para obtener los datos de la transformación
+    // MARK: - Obtener los datos de la transformación
     func getTransformationName() -> String {
         return transformation.name
     }

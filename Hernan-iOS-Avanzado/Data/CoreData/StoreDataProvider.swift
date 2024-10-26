@@ -75,7 +75,7 @@ class StoreDataProvider {
         let batchDeleteHeroes = NSBatchDeleteRequest(fetchRequest: MOHero.fetchRequest())
         let batchDeleteTransformations = NSBatchDeleteRequest(fetchRequest: MOTransformation.fetchRequest())
         let batchDeleteLocations = NSBatchDeleteRequest(fetchRequest: MOLocation.fetchRequest())
-
+        
         do {
             try context.execute(batchDeleteHeroes)
             try context.execute(batchDeleteTransformations)
@@ -167,11 +167,11 @@ extension StoreDataProvider {
                 
                 if let heroId = transformation.hero?.id {
                     let predicate = NSPredicate(format: "id == %@", heroId)
-                    if let hero = fetchHeroes(filter: predicate).first, hero.managedObjectContext != nil {
-                        // El objeto aún es válido, puedes modificarlo
+                    if let hero = fetchHeroes(filter: predicate).first, hero.managedObjectContext == context {
                         newTransformation.hero = hero
                         hero.addToTransformations(newTransformation)
-                    } else {
+                    }
+                    else {
                         print("El héroe ha sido eliminado del contexto o es nulo.")
                     }
                     

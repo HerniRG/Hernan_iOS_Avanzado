@@ -102,33 +102,40 @@ final class HeroesViewModelTests: XCTestCase {
     func test_HeroATIndex() {
         // Given
         var hero: Hero?
-        
+        var didFulfillExpectation = false  // Flag to prevent multiple fulfill calls
+
         // When
         let expectation = expectation(description: "Load hero at index")
         sut.statusHero.bind { status in
             switch status {
             case .dataUpdated:
-                expectation.fulfill()
+                if !didFulfillExpectation {  // Verifica si ya se cumplió
+                    didFulfillExpectation = true
+                    expectation.fulfill()
+                }
             case .error(msg: _):
-                XCTFail("Expected success")
+                if !didFulfillExpectation {
+                    XCTFail("Expected success")
+                    didFulfillExpectation = true
+                }
             case .none, .clearDataSuccess, .loading:
                 break
             }
         }
         sut.loadData(filter: nil)
-        
+
         // Then
         wait(for: [expectation], timeout: 2)
-        
+
         hero = sut.heroAt(index: 0)
         XCTAssertNotNil(hero)
         XCTAssertEqual(hero?.name, "Androide 17")
-        
+
         // Verificación del caso fuera de límites
         hero = sut.heroAt(index: 30)
         XCTAssertNil(hero)
     }
-    
+
     /// Test que verifica el estado de loading
     func testLoad_Should_SetStatusLoading() {
         // Given
