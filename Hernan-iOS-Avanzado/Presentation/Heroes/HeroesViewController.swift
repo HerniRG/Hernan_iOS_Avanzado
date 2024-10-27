@@ -165,7 +165,7 @@ class HeroesViewController: UIViewController {
                     case .success(_):
                         self.animateCellImage(cell: cell)
                     case .failure(let error):
-                        print("Error al cargar la imagen: \(error)")
+                        debugPrint("Error al cargar la imagen: \(error)")
                     }
                 }
             }

@@ -117,7 +117,7 @@ class MapViewModel: NSObject {
         let sceneRequest = MKLookAroundSceneRequest(coordinate: coordinate)
         sceneRequest.getSceneWithCompletionHandler { scene, error in
             if let error = error {
-                print("Error al obtener la escena de Look Around: \(error.localizedDescription)")
+                debugPrint("Error al obtener la escena de Look Around: \(error.localizedDescription)")
                 completion(nil)
             } else {
                 completion(scene)

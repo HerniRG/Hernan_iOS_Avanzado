@@ -82,7 +82,7 @@ class StoreDataProvider {
             try context.execute(batchDeleteLocations)
             context.reset()  // Limpiar el contexto después de cada batch delete
         } catch {
-            print("Error al limpiar la base de datos: \(error.localizedDescription)")
+            debugPrint("Error al limpiar la base de datos: \(error.localizedDescription)")
             throw GAError.coreDataError(error: error) // Lanzar el error para que lo maneje el caso de uso
         }
     }
@@ -94,20 +94,19 @@ extension StoreDataProvider {
     /// Inserta MOHero a partir de un array de ApiHero
     func add(heroes: [ApiHero]) {
         for hero in heroes {
-            // Verificar que id y name no sean nil antes de agregar
-            if let id = hero.id, let name = hero.name {
-                let newHero = MOHero(context: context)
-                newHero.id = id
-                newHero.name = name
-                newHero.info = hero.description
-                newHero.favorite = hero.favorite ?? false
-                newHero.photo = hero.photo
-            } else {
-                print("Error: Datos incompletos para el héroe \(hero)")
+            guard let id = hero.id, let name = hero.name else {
+                debugPrint("Error: Datos incompletos para el héroe \(hero)")
+                continue  // Saltar al siguiente héroe si faltan datos
             }
+            
+            let newHero = MOHero(context: context)
+            newHero.id = id
+            newHero.name = name
+            newHero.info = hero.description
+            newHero.favorite = hero.favorite ?? false
+            newHero.photo = hero.photo
         }
-        // Guardar después de insertar todos los héroes
-        save()
+        save()  // Guardar después de insertar todos los héroes
     }
     
     /// Obtiene los héroes, filtrando según el NSPredicate
@@ -128,57 +127,96 @@ extension StoreDataProvider {
         }
     }
     
-    
     /// Inserta MOLocation a partir de un array de ApiLocation
+    // MARK: - Evitar duplicación de Localizaciones con una búsqueda en Core Data
     func add(locations: [ApiLocation]) {
         for location in locations {
-            // Verificar que id, latitude, y longitude no sean nil antes de agregar
-            if let id = location.id, let latitude = location.latitude, let longitude = location.longitude {
-                let newLocation = MOLocation(context: context)
-                newLocation.id = id
-                newLocation.latitude = latitude
-                newLocation.longitude = longitude
-                newLocation.date = location.date
-                
-                if let heroId = location.hero?.id {
-                    let predicate = NSPredicate(format: "id == %@", heroId)
-                    if let hero = fetchHeroes(filter: predicate).first {
-                        newLocation.hero = hero
-                        hero.addToLocations(newLocation)
-                    }
-                }
-            } else {
-                print("Error: Datos incompletos para la localización \(location)")
+            guard let id = location.id, let latitude = location.latitude, let longitude = location.longitude else {
+                debugPrint("Error: Datos incompletos para la localización \(location)")
+                continue  // Saltar al siguiente si faltan datos
             }
+            
+            // Verificar si la localización ya existe en Core Data
+            let fetchRequest: NSFetchRequest<MOLocation> = MOLocation.fetchRequest()
+            fetchRequest.predicate = NSPredicate(format: "id == %@", id)
+            
+            do {
+                let existingLocations = try context.fetch(fetchRequest)
+                
+                // Si ya existe, no la insertamos
+                if !existingLocations.isEmpty {
+                    debugPrint("Localización ya existente para el héroe")
+                    continue
+                }
+                
+            } catch {
+                debugPrint("Error al verificar la existencia de la localización: \(error.localizedDescription)")
+                continue
+            }
+            
+            let newLocation = MOLocation(context: context)
+            newLocation.id = id
+            newLocation.latitude = latitude
+            newLocation.longitude = longitude
+            newLocation.date = location.date
+            
+            guard let heroId = location.hero?.id else { continue }
+            
+            let predicate = NSPredicate(format: "id == %@", heroId)
+            guard let hero = fetchHeroes(filter: predicate).first else { continue }
+            
+            debugPrint("Contexto del héroe: \(String(describing: hero.managedObjectContext))")
+            debugPrint("Contexto de la localización: \(String(describing: newLocation.managedObjectContext))")
+            
+            newLocation.hero = hero
+            hero.addToLocations(newLocation)
         }
         save()  // Guardar después de insertar cada localización
     }
     
     /// Inserta MOTransformation a partir de un array de ApiTransformation
+    // MARK: - Evitar duplicación de Transformaciones con una búsqueda en Core Data
     func add(transformations: [ApiTransformation]) {
         for transformation in transformations {
-            // Verificar que id y name no sean nil antes de agregar
-            if let id = transformation.id, let name = transformation.name {
-                let newTransformation = MOTransformation(context: context)
-                newTransformation.id = id
-                newTransformation.name = name
-                newTransformation.info = transformation.description
-                newTransformation.photo = transformation.photo
-                
-                if let heroId = transformation.hero?.id {
-                    let predicate = NSPredicate(format: "id == %@", heroId)
-                    if let hero = fetchHeroes(filter: predicate).first, hero.managedObjectContext == context {
-                        newTransformation.hero = hero
-                        hero.addToTransformations(newTransformation)
-                    }
-                    else {
-                        print("El héroe ha sido eliminado del contexto o es nulo.")
-                    }
-                    
-                }
-            } else {
-                print("Error: Datos incompletos para la transformación \(transformation)")
+            guard let id = transformation.id, let name = transformation.name else {
+                debugPrint("Error: Datos incompletos para la transformación \(transformation)")
+                continue  // Saltar al siguiente si faltan datos
             }
+            
+            // Verificar si la transformación ya existe en Core Data
+            let fetchRequest: NSFetchRequest<MOTransformation> = MOTransformation.fetchRequest()
+            fetchRequest.predicate = NSPredicate(format: "id == %@", id)
+            
+            do {
+                let existingTransformations = try context.fetch(fetchRequest)
+                
+                // Si ya existe, no la insertamos
+                if !existingTransformations.isEmpty {
+                    debugPrint("Transformación ya existente para el héroe \(String(describing: transformation.name))")
+                    continue
+                }
+                
+            } catch {
+                debugPrint("Error al verificar la existencia de la transformación: \(error.localizedDescription)")
+                continue
+            }
+            
+            let newTransformation = MOTransformation(context: context)
+            newTransformation.id = id
+            newTransformation.name = name
+            newTransformation.info = transformation.description
+            newTransformation.photo = transformation.photo
+            
+            guard let heroId = transformation.hero?.id else { continue }
+            
+            let predicate = NSPredicate(format: "id == %@", heroId)
+            guard let hero = fetchHeroes(filter: predicate).first, hero.managedObjectContext == context else {
+                debugPrint("El héroe ha sido eliminado del contexto o es nulo.")
+                continue
+            }
+            
+            newTransformation.hero = hero
+            hero.addToTransformations(newTransformation)
         }
         save()  // Guardar después de insertar cada transformación
     }

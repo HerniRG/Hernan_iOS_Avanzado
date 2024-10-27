@@ -59,7 +59,7 @@ extension DetailsTransformationViewController {
                         break
                     case .failure(let error):
                         // Ocurrió un error al cargar la imagen
-                        print("Error al cargar la imagen: \(error)")
+                        debugPrint("Error al cargar la imagen: \(error)")
                     }
                 }
             )
