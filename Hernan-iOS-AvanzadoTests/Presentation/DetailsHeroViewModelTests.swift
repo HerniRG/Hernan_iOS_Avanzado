@@ -89,23 +89,33 @@ final class DetailsHeroViewModelTests: XCTestCase {
     
     /// Test que valida que los datos se cargan correctamente cuando no hay errores
     func test_LoadData_ShouldSucceed_WhenDataIsLoaded() {
-        // When: Se llama a loadData en el ViewModel
+        // Given
         let expectation = self.expectation(description: "Load data")
         
-        sut.loadData()
-        
-        // Simulamos un pequeño retraso para permitir la carga asíncrona
-        DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
-            // Then: Validamos que el estado sea success y que los datos se hayan cargado correctamente
-            XCTAssertEqual(self.sut.status.value, .success)
-            XCTAssertFalse(self.sut.getAnnotations().isEmpty, "Las anotaciones deberían haberse actualizado.")
-            XCTAssertEqual(self.sut.getTransformations().count, 1, "Debería haber una transformación cargada.")
-            expectation.fulfill()
+        // Observamos los cambios en el estado del ViewModel
+        sut.status.bind { [weak self] status in
+            switch status {
+            case .success:
+                // Then: Validamos que el estado sea success y que los datos se hayan cargado correctamente
+                XCTAssertEqual(self?.sut.status.value, .success)
+                XCTAssertFalse(self?.sut.getAnnotations().isEmpty ?? true, "Las anotaciones deberían haberse actualizado.")
+                XCTAssertEqual(self?.sut.getTransformations().count, 1, "Debería haber una transformación cargada.")
+                expectation.fulfill()
+            case .error(let message):
+                XCTFail("Se esperaba éxito, pero se recibió error: \(message)")
+                expectation.fulfill()
+            default:
+                break
+            }
         }
         
+        // When
+        sut.loadData()
+        
         // Esperamos a que se cumpla la expectativa
-        wait(for: [expectation], timeout: 1)
+        wait(for: [expectation], timeout: 5)
     }
+    
     
     /// Test que valida que el estado es error cuando la carga de ubicaciones falla
     func test_LoadData_ShouldFail_WhenLoadingLocationsFails() {
