@@ -172,8 +172,23 @@ class DetailsHeroViewController: UIViewController {
         if let imageUrl = URL(string: viewModel.getHero().photo) {
             DispatchQueue.main.async { [weak self] in
                 guard let self = self else { return }
-                self.heroImage.kf.setImage(with: imageUrl, placeholder: UIImage(named: "placeholder"))
+                self.heroImage.kf.setImage(with: imageUrl, placeholder: UIImage(named: "placeholder"), options: [.transition(.fade(0.2)), .cacheOriginalImage]) { result in
+                    switch result {
+                    case .success:
+                        self.animateHeroImage()  // Animación para la imagen del héroe
+                    case .failure(let error):
+                        debugPrint("Error al cargar la imagen: \(error)")
+                    }
+                }
             }
+        }
+    }
+
+    // Animación para la imagen del héroe
+    private func animateHeroImage() {
+        heroImage.transform = CGAffineTransform(scaleX: 0.8, y: 0.8)  // Escala inicial pequeña
+        UIView.animate(withDuration: 0.3) {
+            self.heroImage.transform = CGAffineTransform.identity  // Regresa a su tamaño original
         }
     }
     
