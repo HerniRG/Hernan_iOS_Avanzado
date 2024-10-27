@@ -93,7 +93,7 @@ class HeroesViewController: UIViewController {
         viewModel.isAscendingOrder.toggle()
         viewModel.sortHeroes()
     }
-
+    
     private func configureLogoutButton() {
         let logoutIcon = UIImage(systemName: "power")
         let logoutButton = UIBarButtonItem(image: logoutIcon, style: .plain, target: self, action: #selector(logoutButtonTapped))
@@ -160,15 +160,22 @@ class HeroesViewController: UIViewController {
             
             cell.heroNameLabel.text = hero.name
             if let url = URL(string: hero.photo) {
-                cell.heroImage.kf.setImage(with: url, placeholder: UIImage(named: "placeholderImage"), options: [.cacheOriginalImage]) { result in
-                    switch result {
-                    case .success(_):
-                        self.animateCellImage(cell: cell)
-                    case .failure(let error):
-                        debugPrint("Error al cargar la imagen: \(error)")
+                cell.heroImage.kf.setImage(
+                    with: url,
+                    placeholder: UIImage(named: "placeholderImage"), // Asegúrate de que el placeholder tenga el tamaño correcto
+                    options: [.transition(.fade(0.2)), .cacheOriginalImage]) { result in
+                        switch result {
+                        case .success:
+                            self.animateCellImage(cell: cell)
+                        case .failure(let error):
+                            debugPrint("Error al cargar la imagen: \(error)")
+                        }
                     }
-                }
+            } else {
+                // Si no hay una URL válida, mostrar siempre el placeholder con tamaño fijo
+                cell.heroImage.image = UIImage(named: "placeholderImage")
             }
+            
         }
         
         dataSource = UICollectionViewDiffableDataSource<SectionsHeroes, Hero>(collectionView: collectionView, cellProvider: { collectionView, indexPath, hero in
@@ -200,8 +207,10 @@ extension HeroesViewController: UICollectionViewDelegateFlowLayout {
         // Calcula el ancho que tendrá cada celda dividiendo el ancho disponible por el número de elementos por fila
         let widthPerItem = availableWidth / itemsPerRow
         
-        // Devuelve el tamaño de la celda, con el ancho calculado y una altura fija de 200
-        return CGSize(width: widthPerItem, height: 200)
+        // Asigna una altura fija para mantener la consistencia de las celdas
+        let heightPerItem: CGFloat = 250  // Ajusta este valor según lo que necesites
+        
+        return CGSize(width: widthPerItem, height: heightPerItem)
     }
     
     // Este método define el espacio mínimo entre las líneas de las celdas en la colección.
